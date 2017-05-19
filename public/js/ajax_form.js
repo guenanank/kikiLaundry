@@ -71,7 +71,6 @@
                 data: { _method: 'DELETE' },
                 statusCode: {
                     200: function () {
-                        
                         swal({
                             type: 'success',
                             html: '<strong class="f-20">Deleted</strong><br />Your file has been deleted.',
@@ -82,7 +81,6 @@
                 }
             });
 
-            $('.data_table').DataTable().destroy();
             swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -93,9 +91,8 @@
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger'
             }).then(function () {
-                $('.data_table').ajax.reload(null, false);
-                $('.data_table').DataTable();
                 $.ajax();
+                window.location.reload(true); 
             }, function (dismiss) {
                 if (dismiss === 'cancel') {
                     swal({

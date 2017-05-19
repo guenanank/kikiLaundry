@@ -12,4 +12,11 @@ class Barang extends Model
     protected $table = 'barang';
     protected $fillable = ['nama'];
     protected $dates = ['deleted_at'];
+
+    public static function rules($rules = [])
+    {
+    	return array_merge($rules, [
+    		'nama' => 'required|string|max:127'
+		]);
+    }
 }

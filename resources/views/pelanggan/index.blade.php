@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Karyawan')
+@section('title', 'Pelanggan')
 
 @push('styles')
 	{{ Html::style('css/jquery.dataTables.min.css') }}
@@ -8,8 +8,8 @@
 @section('content')
     <div class="card">
 	    <div class="card-header">
-	        <h2>Karyawan <small>Master data karyawan.</small></h2>
-	        <a href="{{ action('KaryawanController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Tambah Karyawan Baru">
+	        <h2>Pelanggan <small>Master data pelanggan.</small></h2>
+	        <a href="{{ action('PelangganController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Tambah Pelanggan Baru">
 	            <i class="add-new-item zmdi zmdi-plus"></i>
 	        </a>
 	    </div>
@@ -19,33 +19,33 @@
 	            <thead>
 	                <tr>
 	                    <th class="text-center">Nama</th>
-	                    <th class="text-center">Kontak</th>
-	                    <th class="text-center">Bagian</th>
-	                    <th class="text-center">Mulai Bekerja</th>
+	                    <th class="text-center">Telepon</th>
+	                    <th class="text-center">Alamat</th>
 	                    <th class="text-center">Kontrol</th>
 	                </tr>
 	            </thead>
 	            <tfoot>
 	                <tr>
 	                    <th class="text-center">Nama</th>
-	                    <th class="text-center">Kontak</th>
-	                    <th class="text-center">Bagian</th>
-	                    <th class="text-center">Mulai Bekerja</th>
+	                    <th class="text-center">Telepon</th>
+	                    <th class="text-center">Alamat</th>
 	                    <th class="text-center">Kontrol</th>
 	                </tr>
 	            </tfoot>
 	            <tbody>
-	            	@foreach($karyawan as $kry)
+	            	@foreach($pelanggan as $plg)
 	            		<tr>
-		                    <td>{{ $kry->nama }}</td>
-		                    <td>{{ $kry->kontak }}</td>
-		                    <td class="text-center">{{ $bagian[$kry->bagian] }}</td>
-		                    <td class="text-center">{{ $kry->mulai_kerja }}</td>
+		                    <td>{{ $plg->nama }}</td>
+		                    <td>{{ $plg->telepon }}</td>
+		                    <td>{{ $plg->alamat }}</td>
 		                    <td class="text-center">
-		                    	<a href="{{ url('karyawan/' . $kry->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $kry->nama }}" data-toggle="tooltip">
+		                    	<a href="#" class="btn btn-icon bgm-orange" title="" data-toggle="tooltip">
+		                    		<span class="zmdi zmdi-shopping-cart"></span>
+	                    		</a>&nbsp;
+		                    	<a href="{{ url('pelanggan/' . $plg->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $plg->nama }}" data-toggle="tooltip">
 		                    		<span class="zmdi zmdi-edit"></span>
 	                    		</a>&nbsp;
-	                    		<a href="{{ url('karyawan/' . $kry->id) }}" class="btn btn-icon bgm-red delete" title="Hapus {{ $kry->nama }}" data-toggle="tooltip">
+	                    		<a href="{{ url('pelanggan/' . $plg->id) }}" class="btn btn-icon bgm-red delete" title="Hapus {{ $plg->nama }}" data-toggle="tooltip">
 	                    			<span class="zmdi zmdi-delete"></span>
 	                    		</a>
 		                    </td>

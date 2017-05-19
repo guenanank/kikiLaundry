@@ -9,13 +9,6 @@ use Illuminate\Http\Request;
 class KaryawanController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     Validator::extend('currency', function($attribute, $value, $parameters) {
-    //        return preg_match("/^[\d.,]+$/", $value);
-    //     });
-    // }
-
     public function index()
     {
         $karyawan = Karyawan::all();

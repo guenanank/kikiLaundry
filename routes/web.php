@@ -12,11 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('beranda');
 });
 
 
 Route::resource('karyawan', 'KaryawanController');
+Route::resource('pelanggan', 'PelangganController');
+Route::resource('barang', 'BarangController');
+Route::resource('jasa', 'JasaController');
+
+Route::resource('pemasukan', 'PemasukanController');
+Route::resource('pengeluaran', 'PengeluaranController');
 
 Route::group(['prefix' => 'tes'], function() {
 

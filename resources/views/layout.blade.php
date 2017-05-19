@@ -88,9 +88,9 @@
                         <a href="#" data-ma-action="submenu-toggle"><i class="zmdi zmdi-layers"></i> Master</a>
                         <ul>
                             <li>{{ link_to('karyawan', 'Karyawan') }}</li>
-                            <li>{{ link_to('#', 'Pelanggan') }}</li>
-                            <li>{{ link_to('#', 'Barang') }}</li>
-                            <li>{{ link_to('#', 'Jasa') }}</li>
+                            <li>{{ link_to('pelanggan', 'Pelanggan') }}</li>
+                            <li>{{ link_to('barang', 'Barang') }}</li>
+                            <li>{{ link_to('jasa', 'Jasa') }}</li>
                         </ul>
                     </li>
                     <li class="active">
@@ -99,8 +99,8 @@
                     <li class="sub-menu">
                         <a href="#" data-ma-action="submenu-toggle"><i class="zmdi zmdi-balance-wallet"></i> Administrasi</a>
                         <ul>
-                            <li>{{ link_to('#', 'Pemasukan') }}</li>
-                            <li>{{ link_to('#', 'Pengeluaran') }}</li>
+                            <li>{{ link_to('pemasukan', 'Pemasukan') }}</li>
+                            <li>{{ link_to('pengeluaran', 'Pengeluaran') }}</li>
                             <li>{{ link_to('#', 'Gaji') }}</li>
                         </ul>
                     </li>
@@ -182,6 +182,7 @@
         {{ Html::script('js/bootstrap-growl.min.js') }}
         {{ Html::script('js/sweetalert2.min.js') }}
         {{ Html::script('js/jquery.mCustomScrollbar.concat.min.js') }}
+        {{ Html::script('js/autosize.min.js') }}
 
         {{ Html::script('js/bootstrap-select.js') }}
         {{ Html::script('js/nouislider.min.js') }}
@@ -199,6 +200,10 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                         _token: $('meta[name="csrf-token"]').attr('content')
                     }
+                });
+
+                $(document).ready(function() {
+                    $('.data_table').DataTable();
                 });
             });
         </script>
@@ -228,8 +233,6 @@
                     });
                 }
 
-                $('[data-toggle="tooltip"]').tooltip();
-
             })(jQuery);
 
         </script>
@@ -238,9 +241,7 @@
 
         <script type="text/javascript">
 
-            $(document).ready(function() {
-                $('.data_table').DataTable();
-            });
+            
 
             console.info('Document length: ' + $('*').length);
         </script>

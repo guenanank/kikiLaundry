@@ -13,6 +13,14 @@ class Pelanggan extends Model
     protected $fillable = ['nama', 'alamat', 'telepon'];
     protected $dates = ['deleted_at'];
 
+    public static function rules($rules = [])
+    {
+    	return array_merge($rules, [
+    		'nama' => 'required|string|max:127',
+    		'alamat' => 'string|nullable',
+    		'telepon' => 'numeric|nullable'
+		]);
+    }
 
     public function pembayaran()
     {

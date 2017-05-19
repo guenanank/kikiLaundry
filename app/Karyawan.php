@@ -31,11 +31,11 @@ class Karyawan extends Model
     {
     	return array_merge($rules, [
     		'nama' => 'required|string|max:127',
-    		'kontak' => 'numeric',
+    		'kontak' => 'numeric|nullable',
     		'bagian' => 'required|string',
     		'mulai_kerja' => 'required|date_format:Y-m-d',
-    		'gaji_harian' => 'required|numeric',
-    		'gaji_bulanan' => 'numeric'
+    		'gaji_harian' => 'required|numeric|max:15',
+    		'gaji_bulanan' => 'numeric|max:15|nullable'
 		]);
     }
 }
