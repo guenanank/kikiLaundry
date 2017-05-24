@@ -3,35 +3,29 @@
 namespace kikiLaundry\Http\Controllers;
 
 use Validator;
-use DB;
 use kikiLaundry\Pengeluaran;
 use Illuminate\Http\Request;
 
 class PengeluaranController extends Controller
 {
     private $jenis;
-    private $pengeluaran_bulanan;
 
     public function __construct()
     {
         $this->jenis = Pengeluaran::jenis();
-        $this->pengeluaran_bulanan = Pengeluaran::pengeluaran_bulanan();
     }
 
     public function index() 
     {
         $pengeluaran = Pengeluaran::all();
         $jenis = $this->jenis;
-        $pb = $this->pengeluaran_bulanan;
-        return view('pengeluaran.index', compact('pengeluaran', 'jenis', 'pb'));
+        return view('pengeluaran.index', compact('pengeluaran', 'jenis'));
     }
 
     public function create()
     {
-        $nomer = Pengeluaran::nomer_urut();
         $jenis = $this->jenis;
-        $pb = $this->pengeluaran_bulanan;
-        return view('pengeluaran.create', compact('nomer', 'jenis', 'pb'));
+        return view('pengeluaran.create', compact('jenis'));
     }
 
     public function store(Request $request)
@@ -54,8 +48,7 @@ class PengeluaranController extends Controller
     {
         $pengeluaran->jumlah = number_format($pengeluaran->jumlah);
         $jenis = $this->jenis;
-        $pb = $this->pengeluaran_bulanan;
-        return view('pengeluaran.edit', compact('pengeluaran', 'jenis', 'pb'));
+        return view('pengeluaran.edit', compact('pengeluaran', 'jenis'));
     }
 
     public function update(Request $request, Pengeluaran $pengeluaran)

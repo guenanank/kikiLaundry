@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title', 'Barang')
+@section('title', 'Jasa')
 
 @push('styles')
 	{{ Html::style('css/jquery.dataTables.min.css') }}
@@ -8,18 +8,22 @@
 @section('content')
     <div class="card">
 	    <div class="card-header">
-	        <div class="row">
+		    <div class="row">
 		    	<div class="col-sm-6">
-		    		<h2>Barang <small>Master data barang.</small></h2>
+		    		<h2>Jasa <small>Master data jasa.</small></h2>
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-				        <a href="{{ action('BarangController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Tambah Barang Baru">
+				        <a href="{{ action('CuciController@index') }}" class="btn btn-icon bgm-teal" data-toggle="tooltip" data-placement="top" title="Cucian">
+				            <i class="add-new-item zmdi zmdi-washing-machine"></i>
+				        </a>
+				        &nbsp;
+				        <a href="{{ action('JasaController@create') }}" class="btn btn-icon bgm-green" data-toggle="tooltip" data-placement="bottom" title="Tambah Jasa Baru">
 				            <i class="add-new-item zmdi zmdi-plus"></i>
 				        </a>
 		    		</div>
 		    	</div>
-		    </div>
+		    </div>      
 	    </div>
 
 	    <div class="card-body card-padding">
@@ -38,14 +42,14 @@
 		                </tr>
 		            </tfoot>
 		            <tbody>
-		            	@foreach($barang as $brg)
+		            	@foreach($jasa as $js)
 		            		<tr>
-			                    <td>{{ $brg->nama }}</td>
+			                    <td>{{ $js->nama }}</td>
 			                    <td class="text-center">
-			                    	<a href="{{ url('barang/' . $brg->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $brg->nama }}" data-toggle="tooltip">
+			                    	<a href="{{ url('jasa/' . $js->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $js->nama }}" data-toggle="tooltip">
 			                    		<span class="zmdi zmdi-edit"></span>
 		                    		</a>&nbsp;
-		                    		<a href="{{ url('barang/' . $brg->id) }}" class="btn btn-icon bgm-red delete" title="Hapus {{ $brg->nama }}" data-toggle="tooltip">
+		                    		<a href="{{ url('jasa/' . $js->id) }}" class="btn btn-icon bgm-red delete" title="Hapus {{ $js->nama }}" data-toggle="tooltip">
 		                    			<span class="zmdi zmdi-delete"></span>
 		                    		</a>
 			                    </td>

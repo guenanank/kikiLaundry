@@ -3,6 +3,7 @@
 namespace kikiLaundry\Http\Controllers;
 
 use Validator;
+use Illuminate\Validation\Rule;
 use kikiLaundry\Pemasukan;
 use kikiLaundry\Pelanggan;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class PemasukanController extends Controller
     {
         $this->jenis = Pemasukan::jenis();
         $this->cara_bayar = Pemasukan::cara_bayar();
-        $this->pelanggan = Pelanggan::pluck('nama', 'id')->all();
+        $this->pelanggan = Pelanggan::pluck('nama')->all();
     }
 
     public function index()
@@ -34,8 +35,10 @@ class PemasukanController extends Controller
         $jenis = $this->jenis;
         $bayar = $this->cara_bayar;
         array_pop($jenis);
+        array_shift($bayar);
         $pelanggan = $this->pelanggan;
-        return view('pemasukan.create', compact('jenis', 'bayar', 'pelanggan'));
+        $nomer = Pemasukan::nomer();
+        return view('pemasukan.create', compact('jenis', 'bayar', 'pelanggan', 'nomer'));
     }
 
     public function store(Request $request)
@@ -60,6 +63,7 @@ class PemasukanController extends Controller
         $jenis = $this->jenis;
         $bayar = $this->cara_bayar;
         array_pop($jenis);
+        array_shift($bayar);
         $pelanggan = $this->pelanggan;
         return view('pemasukan.edit', compact('pemasukan', 'jenis', 'bayar', 'pelanggan'));
     }
@@ -70,7 +74,14 @@ class PemasukanController extends Controller
             'jumlah' => str_replace(',', null, $request->jumlah)
         ]);
 
-        $validator = Validator::make($request->all(), Pemasukan::rules());
+        $validator = Validator::make($request->all(), Pemasukan::rules([
+            'nomer' => [
+                'required',
+                'string',
+                'max:31',
+                Rule::unique('pemasukan')->ignore($pemasukan->id)
+            ]
+        ]));
 
         if($validator->fails()) :
             return response()->json($validator->errors(), 422);

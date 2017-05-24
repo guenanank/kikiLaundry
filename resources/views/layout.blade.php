@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta name="author" content="nanank" />
         <title>Kiki Laundry :: @yield('title') </title>
@@ -17,12 +18,18 @@
         {{ Html::style('css/nouislider.min.css') }}
         {{ Html::style('css/bootstrap-datetimepicker.min.css') }}
 
+        {{ Html::style('css/fullcalendar.min.css') }}
+
         @stack('styles')
 
         {{ Html::style('css/app_1.min.css') }}
         {{ Html::style('css/app_2.min.css') }}
-        
-        
+
+        <style type="text/css">
+            .table tbody > tr > th, .table tbody > tr > td {
+                vertical-align: middle;
+            }
+        </style>
 	</head>
 	<body>
 		<header id="header" class="clearfix" data-ma-theme="blue">
@@ -81,7 +88,7 @@
                 </div>
 
                 <ul class="main-menu">
-                    <li class="active">
+                    <li>
                         <a href="{{ url('/') }}"><i class="zmdi zmdi-home"></i> Beranda</a>
                     </li>
                     <li class="sub-menu">
@@ -93,8 +100,8 @@
                             <li>{{ link_to('jasa', 'Jasa') }}</li>
                         </ul>
                     </li>
-                    <li class="active">
-                        <a href="{{ url('#') }}"><i class="zmdi zmdi-washing-machine"></i> Order</a>
+                    <li>
+                        <a href="{{ url('order') }}"><i class="zmdi zmdi-collection-text"></i> Order</a>
                     </li>
                     <li class="sub-menu">
                         <a href="#" data-ma-action="submenu-toggle"><i class="zmdi zmdi-balance-wallet"></i> Administrasi</a>
@@ -191,6 +198,8 @@
         {{ Html::script('js/jquery.mask.min.js') }}
         {{ Html::script('js/jquery.maskmoney.min.js') }}
 
+        {{ Html::script('js/fullcalendar.min.js') }}
+
         {{ Html::script('js/app.min.js') }}
 
         <script type="text/javascript">
@@ -201,17 +210,13 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-
-                $(document).ready(function() {
-                    $('.data_table').DataTable();
-                });
             });
         </script>
 
         {{ Html::script('js/ajax_form.js') }}
 
         <script type="text/javascript">
-            var baseUrl = $('base').attr('href');            
+            var base_url = $('base').attr('href');            
 
             (function ($) {
                 $('form.ajax_form').submit(function (e) {
@@ -231,8 +236,11 @@
                         affixesStay: false,
                         precision: 0
                     });
-                }
+                };
 
+                $('input.money').on('blur', function() {
+                    console.log('kaga balik');
+                })
             })(jQuery);
 
         </script>
@@ -240,11 +248,7 @@
         @stack('scripts')
 
         <script type="text/javascript">
-
-            
-
             console.info('Document length: ' + $('*').length);
         </script>
-
 	</body>
 </html>

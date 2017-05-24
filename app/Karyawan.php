@@ -29,13 +29,13 @@ class Karyawan extends Model
 
     public static function rules($rules = [])
     {
-    	return array_merge($rules, [
+    	return array_merge([
     		'nama' => 'required|string|max:127',
     		'kontak' => 'numeric|nullable',
     		'bagian' => 'required|string',
     		'mulai_kerja' => 'required|date_format:Y-m-d',
-    		'gaji_harian' => 'required|numeric|max:15',
-    		'gaji_bulanan' => 'numeric|max:15|nullable'
-		]);
+    		'gaji_harian' => 'required|numeric',
+    		'gaji_bulanan' => 'numeric|nullable'
+		], $rules);
     }
 }

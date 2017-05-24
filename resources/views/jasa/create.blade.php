@@ -1,31 +1,31 @@
 @extends('layout')
-@section('title', 'Barang - Ubah')
+@section('title', 'Jasa - Tambah Baru')
 
 @section('content')
-    <div class="card">
+	<div class="card">
 	    <div class="card-header">
-	    	<div class="row">
+	        <div class="row">
 		    	<div class="col-sm-6">
-		    		<h2>Ubah Barang <small>Master data barang.</small></h2>
+		    		<h2>Tambah Jasa Baru <small>Master data jasa.</small></h2>
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-				        <a href="{{ action('BarangController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Kembali">
+				        <a href="{{ action('JasaController@index') }}" class="btn btn-icon pull-right bgm-orange" data-toggle="tooltip" data-placement="left" title="Kembali">
 				            <i class="zmdi zmdi-arrow-left"></i>
 				        </a>
 		    		</div>
 		    	</div>
-		    </div>
+		    </div>   
 	    </div>
 	    <br />
 	    <div class="card-body card-padding">
-	        {{ Form::model($barang, ['route' => ['barang.update', $barang->id], 'method' =>'patch', 'class' => 'ajax_form']) }}
+	        {{ Form::open(['route' => 'jasa.store', 'class' => 'ajax_form'])}}
 		        <div class="row">
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
 		                        {{ Form::text('nama', null, ['class' => 'form-control fg-input']) }}
-		                        {{ Form::label('nama', 'Nama Barang', ['class' => 'fg-label']) }}
+		                        {{ Form::label('nama', 'Nama Jasa', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="nama" class="help-block"></small>
 		                </div>
@@ -46,3 +46,4 @@
 	    </div>
 	</div>
 @endsection
+

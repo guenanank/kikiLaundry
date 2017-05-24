@@ -21,7 +21,9 @@
                 if (create) {
                     $t.find(':input').val(null).trigger('blur');
                     $('.selectpicker').selectpicker('refresh');
-                    $(':input').not('input[type="hidden"]').val(null);
+                    $('input:not([type="hidden"])').val(null);
+                    $('.modal').modal('hide');
+                    window.location.reload(true); 
                 }
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
@@ -32,7 +34,6 @@
                 url: (setting.url) ? setting.url : $t.attr('action'),
                 data: (typeof setting.data === 'undefined') ? setting.data : $t.serialize(),
                 beforeSend: function () {
-                    $('.page-loader').fadeIn();
                     $clear(false);
                 },
                 statusCode: {
@@ -43,7 +44,7 @@
                             showConfirmButton: false,
                             timer: 2000
                         });
-                        $clear(data.create);
+                        $clear(data.create); 
                     },
                     422: function (response) {
                         $.each(response.responseJSON, function (k, v) {
@@ -53,7 +54,6 @@
                     }
                 }
             }).always(function() {
-                $('.page-loader').fadeOut();
                 $('.selectpicker').selectpicker('deselectAll');
             });
         });
@@ -77,6 +77,7 @@
                             showConfirmButton: false,
                             timer: 2000
                         });
+                        window.location.reload(true); 
                     }
                 }
             });
@@ -92,7 +93,7 @@
                 cancelButtonClass: 'btn btn-danger'
             }).then(function () {
                 $.ajax();
-                window.location.reload(true); 
+                
             }, function (dismiss) {
                 if (dismiss === 'cancel') {
                     swal({

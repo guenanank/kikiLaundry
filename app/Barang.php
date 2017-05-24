@@ -15,8 +15,8 @@ class Barang extends Model
 
     public static function rules($rules = [])
     {
-    	return array_merge($rules, [
-    		'nama' => 'required|string|max:127'
-		]);
+    	return array_merge([
+    		'nama' => 'required|string|max:127|unique:barang,nama'
+		], $rules);
     }
 }
