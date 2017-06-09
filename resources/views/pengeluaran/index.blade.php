@@ -48,7 +48,7 @@
 		            		<tr>
 			                    <td class="text-center">{{ $png->tanggal }}</td>
 			                    <td class="text-center">{{ $jenis[$png->jenis] }}</td>
-			                    <td class="text-right">Rp. {{ number_format($png->jumlah) }}</td>
+			                    <td class="text-right">Rp. {{ $png->jumlah }}</td>
 			                    <td>{{ $png->keterangan }}</td>
 			                    <td class="text-center">
 			                    	<a href="{{ url('pengeluaran/' . $png->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $png->nomer }}" data-toggle="tooltip">

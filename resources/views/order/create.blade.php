@@ -38,7 +38,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('tanggal', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-00-00']) }}
+		                        {{ Form::text('tanggal', null, ['class' => 'form-control fg-input date-picker']) }}
 		                        {{ Form::label('tanggal', 'Tanggal Order', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="tanggal" class="help-block"></small>
@@ -67,8 +67,15 @@
 		            </div>
 		        </div>
 
+		        <div class="clearfix">&nbsp;</div>
+		        <div class="clearfix">&nbsp;</div>
+		        <div class="row barang">
+		        	<div class="col-sm-offset-1 col-sm-10"><hr /></div>
+		        </div>
+		        <div class="clearfix">&nbsp;</div>
+
 		        <div class="row">
-        			<div class="col-sm-offset-1 col-sm-10">
+        			<div class="col-sm-offset-2 col-sm-9">
             			<div class="row">
 	                        <div class="col-sm-3">
 	                        	<div class="form-group">

@@ -12,10 +12,6 @@ class Pelanggan extends Model
     protected $table = 'pelanggan';
     protected $fillable = ['nama', 'alamat', 'telepon'];
     protected $dates = ['deleted_at'];
-    protected $nullable = [
-        'alamat',
-        'telepon'
-    ];
 
     public static function rules($rules = [])
     {

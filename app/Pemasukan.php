@@ -13,11 +13,11 @@ class Pemasukan extends Model
     protected $table = 'pemasukan';
     protected $fillable = ['nomer', 'jenis', 'id_pelanggan','tanggal', 'jumlah', 'cara_bayar', 'catatan'];
     protected $dates = ['deleted_at'];
-    protected $nullable = [
-        'id_pelanggan',
-        'cara_bayar',
-        'catatan'
-    ];
+
+    public function getJumlahAttribute($value)
+    {
+        return number_format($value);
+    }
 
     public static function jenis($jenis = null)
     {

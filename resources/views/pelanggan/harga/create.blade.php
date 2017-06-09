@@ -34,8 +34,8 @@
 		        <div class="row">
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group">
-		                    {{ Form::select('id_jasa', $jasa, null, ['class' => 'form-control selectpicker', 'title' => 'Pilih jasa', 'data-live-search' => 'true']) }}
-		                    <small id="id_jasa" class="help-block"></small>
+		                    {{ Form::select('id_cuci', $cuci, null, ['class' => 'form-control selectpicker', 'title' => 'Pilih cuci', 'data-live-search' => 'true']) }}
+		                    <small id="id_cuci" class="help-block"></small>
 		                </div>
 		            </div>
 		        </div>

@@ -13,6 +13,16 @@ class Karyawan extends Model
     protected $fillable = ['nama', 'kontak', 'bagian', 'mulai_kerja', 'gaji_harian', 'gaji_bulanan'];
     protected $dates = ['deleted_at'];
 
+    public function getGajiHarianAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getGajiBulananAttribute($value)
+    {
+        return number_format($value);
+    }
+
     public static function bagian($bagian = null)
     {
     	$bag = [

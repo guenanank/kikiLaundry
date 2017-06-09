@@ -97,7 +97,7 @@
                             <li>{{ link_to('karyawan', 'Karyawan') }}</li>
                             <li>{{ link_to('pelanggan', 'Pelanggan') }}</li>
                             <li>{{ link_to('barang', 'Barang') }}</li>
-                            <li>{{ link_to('jasa', 'Jasa') }}</li>
+                            <li>{{ link_to('cuci', 'Cucian') }}</li>
                         </ul>
                     </li>
                     <li>
@@ -203,6 +203,7 @@
         {{ Html::script('js/app.min.js') }}
 
         <script type="text/javascript">
+            var base_url = $('base').attr('href');
             $(document).ready(function() {
                 $.ajaxSetup({
                     headers: {
@@ -216,8 +217,6 @@
         {{ Html::script('js/ajax_form.js') }}
 
         <script type="text/javascript">
-            var base_url = $('base').attr('href');            
-
             (function ($) {
                 $('form.ajax_form').submit(function (e) {
                     e.preventDefault();
@@ -231,18 +230,18 @@
                     $(this).ajax_delete();
                 });
 
-                if($('.money')[0]) {
-                    $('.money').maskMoney({
+                $('input.money').on('focus', function() {
+                    $(this).maskMoney({
                         affixesStay: false,
                         precision: 0
                     });
-                };
+                });
 
                 $('input.money').on('blur', function() {
-                    console.log('kaga balik');
-                })
-            })(jQuery);
+                    $(this).maskMoney('destroy');
+                });
 
+            })(jQuery);
         </script>
 
         @stack('scripts')

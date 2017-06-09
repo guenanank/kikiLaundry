@@ -14,8 +14,8 @@
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-				        <a href="{{ action('CuciController@index') }}" class="btn btn-icon bgm-teal" data-toggle="tooltip" data-placement="top" title="Cucian">
-				            <i class="add-new-item zmdi zmdi-washing-machine"></i>
+		    			<a href="{{ action('CuciController@index') }}" class="btn btn-icon bgm-orange" data-toggle="tooltip" data-placement="top" title="Kembali">
+				            <i class="add-new-item zmdi zmdi-arrow-left"></i>
 				        </a>
 				        &nbsp;
 				        <a href="{{ action('JasaController@create') }}" class="btn btn-icon bgm-green" data-toggle="tooltip" data-placement="bottom" title="Tambah Jasa Baru">

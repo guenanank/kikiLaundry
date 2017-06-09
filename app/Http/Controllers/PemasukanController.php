@@ -59,7 +59,6 @@ class PemasukanController extends Controller
 
     public function edit(Pemasukan $pemasukan)
     {
-        $pemasukan->jumlah = number_format($pemasukan->jumlah);
         $jenis = $this->jenis;
         $bayar = $this->cara_bayar;
         array_pop($jenis);

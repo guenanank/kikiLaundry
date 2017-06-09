@@ -40,8 +40,6 @@ class KaryawanController extends Controller
 
     public function edit(Karyawan $karyawan)
     {
-        $karyawan->gaji_harian = number_format($karyawan->gaji_harian);
-        $karyawan->gaji_bulanan = number_format($karyawan->gaji_bulanan);
         $bagian = Karyawan::bagian();
         return view('karyawan.edit', compact('karyawan', 'bagian'));
     }

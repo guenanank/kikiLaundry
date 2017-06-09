@@ -46,7 +46,6 @@ class PengeluaranController extends Controller
 
     public function edit(Pengeluaran $pengeluaran)
     {
-        $pengeluaran->jumlah = number_format($pengeluaran->jumlah);
         $jenis = $this->jenis;
         return view('pengeluaran.edit', compact('pengeluaran', 'jenis'));
     }

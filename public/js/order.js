@@ -67,7 +67,7 @@
 			$('select[name="jasa_"]').empty().selectpicker('refresh');
 			id_barang = $('select[name="barang_"] option:selected').val();
 			nama_barang = $('select[name="barang_"] option:selected').text();
-			$.each(data.jasa[id_barang], function(index, row) {
+			$.each(data.cuci[id_barang], function(index, row) {
 				$('select[name="jasa_"]').append('<option data-tunai="' + row.tunai + '" data-cicil="' + row.cicil + '" value="' + index + '">' + row.nama + '</option>');	
 				$('select[name="jasa_"]').selectpicker('refresh');
 			});
@@ -107,10 +107,6 @@
 		var subtotal_cicil = '<td class="text-right">' + price_format(jumlah_harga_cicil) + '<input type="hidden" name="order_lengkap[' + index + '][jumlah_harga_cicil]" value="' + jumlah_harga_cicil + '" /></td>';
 		var control = '<td class="text-center">' + hapus + '</td>';
 
-		$('<tr>' + barang + jasa + quantity + tunai + cicil  + subtotal_tunai + subtotal_cicil + control + '</tr>').show(function() {
-			$('table#daftar tbody').append($(this));
-		});
-
 		jumlah_tunai = total(order_tunai);
 		jumlah_cicil = total(order_cicil);
 
@@ -121,6 +117,10 @@
 
 		$('select[name="barang_"], select[name="jasa_"]').selectpicker('val', null);
 		$('input[name="banyaknya_"]').val(null).blur();
+
+		$('<tr>' + barang + jasa + quantity + tunai + cicil  + subtotal_tunai + subtotal_cicil + control + '</tr>').show(function() {
+			$('table#daftar tbody').append($(this));
+		});
 	});
 
 	$('table#daftar').on('click', '.hapus', function() {

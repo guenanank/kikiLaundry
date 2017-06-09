@@ -14,10 +14,10 @@
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-				        <a href="{{ action('JasaController@index') }}" class="btn btn-icon bgm-orange" data-toggle="tooltip" data-placement="top" title="Kembali">
-				            <i class="add-new-item zmdi zmdi-arrow-left"></i>
+		    			<a href="{{ action('JasaController@index') }}" class="btn btn-icon bgm-bluegray" data-toggle="tooltip" data-placement="top" title="Jasa">
+				            <i class="add-new-item zmdi zmdi-washing-machine"></i>
 				        </a>
-				        &nbsp;
+		    			&nbsp;
 				        <a href="{{ action('CuciController@create') }}" class="btn btn-icon bgm-green" data-toggle="tooltip" data-placement="bottom" title="Tambah Cuci Baru">
 				            <i class="add-new-item zmdi zmdi-plus"></i>
 				        </a>
@@ -46,9 +46,6 @@
 		            		<tr>
 			                    <td>{{ $c->nama }}</td>
 			                    <td class="text-center">
-			                    	<a href="#" class="btn btn-icon bgm-bluegray" title="Barang {{ $c->nama }}" data-toggle="tooltip">
-			                    		<span class="zmdi zmdi-labels"></span>
-		                    		</a>&nbsp;
 			                    	<a href="{{ url('cuci/' . $c->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $c->nama }}" data-toggle="tooltip">
 			                    		<span class="zmdi zmdi-edit"></span>
 		                    		</a>&nbsp;

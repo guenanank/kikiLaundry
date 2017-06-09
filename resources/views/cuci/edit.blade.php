@@ -31,6 +31,21 @@
 		                </div>
 		            </div>
 		        </div>
+
+		        <div class="row">
+		            <div class="col-sm-offset-1 col-sm-10">
+		                <p class="m-b-20 c-gray">Jenis Jasa</p>
+		                @foreach($jasa as $k => $v)
+							<div class="checkbox m-b-15">
+								<label>
+									{{ Form::checkbox('jasa[]', $k, in_array($k, $cuci->cuci_jasa->pluck('id_jasa')->all()) ? true : false) }}
+									<i class="input-helper"></i>{{ $v }}
+								</label>
+							</div>		                
+		                @endforeach
+		            </div>
+		        </div>
+
 				<div class="clearfix">&nbsp;</div>
     			<hr />
 		        <div class="form-group">

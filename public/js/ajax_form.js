@@ -23,7 +23,7 @@
                     $('.selectpicker').selectpicker('refresh');
                     $('input:not([type="hidden"])').val(null);
                     $('.modal').modal('hide');
-                    window.location.reload(true); 
+                    
                 }
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
@@ -43,8 +43,11 @@
                             html: '<strong class="f-20">Success</strong><br />Data Saved.',
                             showConfirmButton: false,
                             timer: 2000
+                        }).then(function() {
+                            $clear(data.create); 
+                        }, function() {
+                            window.location.reload(true); 
                         });
-                        $clear(data.create); 
                     },
                     422: function (response) {
                         $.each(response.responseJSON, function (k, v) {
@@ -76,8 +79,9 @@
                             html: '<strong class="f-20">Deleted</strong><br />Your file has been deleted.',
                             showConfirmButton: false,
                             timer: 2000
+                        // }, function() {
                         });
-                        window.location.reload(true); 
+                            window.location.reload(true); 
                     }
                 }
             });
@@ -92,8 +96,7 @@
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger'
             }).then(function () {
-                $.ajax();
-                
+                $.ajax();                
             }, function (dismiss) {
                 if (dismiss === 'cancel') {
                     swal({

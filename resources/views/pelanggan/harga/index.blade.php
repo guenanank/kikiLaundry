@@ -32,7 +32,7 @@
 		            <thead>
 		                <tr>
 		                    <th class="text-center">Barang</th>
-		                    <th class="text-center">Jasa</th>
+		                    <th class="text-center">Cuci</th>
 		                    <th class="text-center">Tunai</th>
 		                    <th class="text-center">Cicil</th>
 		                    <th class="text-center">Kontrol</th>
@@ -41,7 +41,7 @@
 		            <tfoot>
 		                <tr>
 		                    <th class="text-center">Barang</th>
-		                    <th class="text-center">Jasa</th>
+		                    <th class="text-center">Cuci</th>
 		                    <th class="text-center">Tunai</th>
 		                    <th class="text-center">Cicil</th>
 		                    <th class="text-center">Kontrol</th>
@@ -51,14 +51,14 @@
 		            	@foreach($harga as $hrg)
 		            		<tr>
 			                    <td>{{ $hrg->barang->nama }}</td>
-			                    <td>{{ $hrg->jasa->nama }}</td>
-			                    <td class="text-right">Rp. {{ number_format($hrg->tunai) }}</td>
-			                    <td class="text-right">Rp. {{ number_format($hrg->cicil) }}</td>
+			                    <td>{{ $hrg->cuci->nama }}</td>
+			                    <td class="text-right">Rp. {{ $hrg->tunai }}</td>
+			                    <td class="text-right">Rp. {{ $hrg->cicil }}</td>
 			                    <td class="text-center">
-			                    	<a href="{{ url('harga/' . $hrg->id_pelanggan . '/' . $hrg->barang->id . '/' . $hrg->jasa->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $hrg->nama }}" data-toggle="tooltip">
+			                    	<a href="{{ url('harga/' . $hrg->id_pelanggan . '/' . $hrg->barang->id . '/' . $hrg->cuci->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $hrg->nama }}" data-toggle="tooltip">
 			                    		<span class="zmdi zmdi-edit"></span>
 		                    		</a>&nbsp;
-		                    		<a href="{{ url('harga/' . $hrg->id_pelanggan . '/' . $hrg->barang->id . '/' . $hrg->jasa->id) }}" class="btn btn-icon bgm-red delete" title="Hapus {{ $hrg->nama }}" data-toggle="tooltip">
+		                    		<a href="{{ url('harga/' . $hrg->id_pelanggan . '/' . $hrg->barang->id . '/' . $hrg->cuci->id) }}" class="btn btn-icon bgm-red delete" title="Hapus {{ $hrg->nama }}" data-toggle="tooltip">
 		                    			<span class="zmdi zmdi-delete"></span>
 		                    		</a>
 			                    </td>

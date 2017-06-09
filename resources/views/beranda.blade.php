@@ -6,161 +6,157 @@
 @endpush
 
 @section('content')
-	<section id="content">
-        <div class="container container-alt">
-            <div class="block-header block-header-calendar">
-                <h2>
-                    <span></span>
-                    <small>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</small>
-                </h2>
+    <div class="block-header block-header-calendar">
+        <h2>
+            <span></span>
+            <small>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</small>
+        </h2>
 
-                <ul class="actions actions-calendar">
-                    <li><a class="calendar-next" href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
-                    <li><a class="calendar-prev" href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
+        <ul class="actions actions-calendar">
+            <li><a class="calendar-next" href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>
+            <li><a class="calendar-prev" href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>
 
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
-                        <ul class="dropdown-menu dm-icon pull-right">
-                            <li><a href="#" data-calendar-view="month"><i class="zmdi zmdi-view-comfy active"></i> Month View</a></li>
-                            <li><a href="#" data-calendar-view="basicWeek"><i class="zmdi zmdi-view-week"></i> Week View</a></li>
-                            <li><a href="#" data-calendar-view="basicDay"><i class="zmdi zmdi-view-day"></i> Day View</a></li>
-                        </ul>
-                    </li>
+            <li class="dropdown">
+                <a href="#" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
+                <ul class="dropdown-menu dm-icon pull-right">
+                    <li><a href="#" data-calendar-view="month"><i class="zmdi zmdi-view-comfy active"></i> Month View</a></li>
+                    <li><a href="#" data-calendar-view="basicWeek"><i class="zmdi zmdi-view-week"></i> Week View</a></li>
+                    <li><a href="#" data-calendar-view="basicDay"><i class="zmdi zmdi-view-day"></i> Day View</a></li>
                 </ul>
-            </div>
+            </li>
+        </ul>
+    </div>
 
-            <div id="calendar" class="card"></div>
+    <div id="calendar" class="card"></div>
 
-            <!-- Add event -->
-            <div class="modal fade" id="modal-new-event" data-backdrop="static" data-keyboard="false">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Add an Event</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form class="form-event" role="form">
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <input type="text" class="input-sm form-control" id="new-event-title" placeholder="Event Name">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="event-tag">
-                                        <span class="bgm-blue">
-                                            <input type="radio" value="bgm-blue" name="event-tag" checked="">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-teal">
-                                            <input type="radio" value="bgm-teal" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-red">
-                                            <input type="radio" value="bgm-red" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-green">
-                                            <input type="radio" value="bgm-green" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-cyan">
-                                            <input type="radio" value="bgm-cyan" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-amber">
-                                            <input type="radio" value="bgm-amber" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-purple">
-                                            <input type="radio" value="bgm-purple" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" id="new-event-start"/>
-                                <input type="hidden" id="new-event-end"/>
-                            </form>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-link" id="btn-add-event">Add Event</button>
-                            <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+    <!-- Add event -->
+    <div class="modal fade" id="modal-new-event" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add an Event</h4>
                 </div>
-            </div>
-
-            <!-- Edit event -->
-            <div class="modal fade" id="modal-edit-event" data-backdrop="static" data-keyboard="false">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Event</h4>
+                <div class="modal-body">
+                    <form class="form-event" role="form">
+                        <div class="form-group">
+                            <div class="fg-line">
+                                <input type="text" class="input-sm form-control" id="new-event-title" placeholder="Event Name">
+                            </div>
                         </div>
 
-                        <div class="modal-body">
-                            <form class="edit-event__form">
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <input type="text" class="form-control edit-event-title" placeholder="Event Title">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="event-tag event-tag-edit">
-                                        <span class="bgm-blue">
-                                            <input type="radio" value="bgm-blue" name="event-tag" checked="">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-teal">
-                                            <input type="radio" value="bgm-teal" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-red">
-                                            <input type="radio" value="bgm-red" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-green">
-                                            <input type="radio" value="bgm-green" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-cyan">
-                                            <input type="radio" value="bgm-cyan" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-amber">
-                                            <input type="radio" value="bgm-amber" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                        <span class="bgm-purple">
-                                            <input type="radio" value="bgm-purple" name="event-tag">
-                                            <i></i>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <textarea class="form-control edit-event-description auto-size" placeholder="Event Desctiption"></textarea>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" class="edit-event-id">
-                            </form>
+                        <div class="form-group">
+                            <div class="event-tag">
+                                <span class="bgm-blue">
+                                    <input type="radio" value="bgm-blue" name="event-tag" checked="">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-teal">
+                                    <input type="radio" value="bgm-teal" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-red">
+                                    <input type="radio" value="bgm-red" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-green">
+                                    <input type="radio" value="bgm-green" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-cyan">
+                                    <input type="radio" value="bgm-cyan" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-amber">
+                                    <input type="radio" value="bgm-amber" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-purple">
+                                    <input type="radio" value="bgm-purple" name="event-tag">
+                                    <i></i>
+                                </span>
+                            </div>
                         </div>
 
-                        <div class="modal-footer">
-                            <button class="btn btn-link" data-calendar="update">Update</button>
-                            <button class="btn btn-link" data-calendar="delete">Delete</button>
-                            <button class="btn btn-link" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+                        <input type="hidden" id="new-event-start"/>
+                        <input type="hidden" id="new-event-end"/>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-link" id="btn-add-event">Add Event</button>
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Edit event -->
+    <div class="modal fade" id="modal-edit-event" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Event</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="edit-event__form">
+                        <div class="form-group">
+                            <div class="fg-line">
+                                <input type="text" class="form-control edit-event-title" placeholder="Event Title">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="event-tag event-tag-edit">
+                                <span class="bgm-blue">
+                                    <input type="radio" value="bgm-blue" name="event-tag" checked="">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-teal">
+                                    <input type="radio" value="bgm-teal" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-red">
+                                    <input type="radio" value="bgm-red" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-green">
+                                    <input type="radio" value="bgm-green" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-cyan">
+                                    <input type="radio" value="bgm-cyan" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-amber">
+                                    <input type="radio" value="bgm-amber" name="event-tag">
+                                    <i></i>
+                                </span>
+                                <span class="bgm-purple">
+                                    <input type="radio" value="bgm-purple" name="event-tag">
+                                    <i></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="fg-line">
+                                <textarea class="form-control edit-event-description auto-size" placeholder="Event Desctiption"></textarea>
+                            </div>
+                        </div>
+
+                        <input type="hidden" class="edit-event-id">
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-link" data-calendar="update">Update</button>
+                    <button class="btn btn-link" data-calendar="delete">Delete</button>
+                    <button class="btn btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

@@ -13,6 +13,26 @@ class Order_lengkap extends Model
     protected $fillable = ['id_order', 'id_barang', 'id_jasa', 'banyaknya', 'harga_tunai', 'harga_cicil', 'jumlah_harga_tunai', 'jumlah_harga_cicil'];
     protected $dates = ['deleted_at'];
 
+    public function getHargaTunaiAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getHargaCicilAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getJumlahHargaTunaiAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getJumlahHargaCicilAttribute($value)
+    {
+        return number_format($value);
+    }
+
     public function rules($rules = [])
     {
     	return array_merge([

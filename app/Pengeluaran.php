@@ -13,6 +13,11 @@ class Pengeluaran extends Model
     protected $fillable = ['tanggal', 'jenis', 'jumlah', 'keterangan'];
     protected $dates = ['deleted_at'];
 
+    public function getJumlahAttribute($value)
+    {
+        return number_format($value);
+    }
+
     public static function jenis($jenis = null)
     {
     	$jns = [

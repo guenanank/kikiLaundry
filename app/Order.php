@@ -25,17 +25,17 @@ class Order extends Model
 	    'dikirim'
     ];
 
-    protected $casts = [
-    	'dicetak' => 'boolean'
-	];
-
-    protected $nullable = [
-        'catatan',
-        'keterangan',
-        'dikirim'
-    ];
-
     protected $dates = ['deleted_at'];
+
+    public function getJumlahTunaiAttribute($value)
+    {
+        return number_format($value);
+    }
+
+    public function getJumlahCicilAttribute($value)
+    {
+        return number_format($value);
+    }
 
     public static function rules($rules = [])
     {
