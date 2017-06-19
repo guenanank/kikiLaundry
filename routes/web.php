@@ -33,12 +33,14 @@ Route::group(['prefix' => 'harga'], function() {
 });
 
 Route::resource('order', 'OrderController');
+Route::match(['PUT', 'PATCH'], 'print_po/{id}', ['uses' => 'OrderController@print_po', 'as' => 'order.print_po']);
 Route::post('order/bill', ['uses' => 'OrderController@bill', 'as' => 'order.bill']);
-Route::get('order/{id}/paid', ['uses' => 'OrderController@paid', 'as' => 'order.paid']);
+Route::get('order/{id}/payment', ['uses' => 'OrderController@payment', 'as' => 'order.payment']);
+Route::match(['PUT', 'PATCH'], 'paid/{id}',['uses' => 'OrderController@paid', 'as' => 'order.paid']);
 
 Route::resource('pemasukan', 'PemasukanController');
 Route::resource('pengeluaran', 'PengeluaranController');
 
 Route::group(['prefix' => 'cetak'], function() {
-
+	Route::get('pemasukan/{id}', ['uses' => 'PemasukanController@cetak', 'as' => 'pemasukan.cetak']);
 });

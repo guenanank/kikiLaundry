@@ -24,15 +24,15 @@ class Harga extends Model
 		], $rules);
     }
 
-    public function getTunaiAttribute($value)
-    {
-        return number_format($value);
-    }
+    // public function getTunaiAttribute($value)
+    // {
+    //     return number_format($value);
+    // }
 
-    public function getCicilAttribute($value)
-    {
-        return number_format($value);
-    }
+    // public function getCicilAttribute($value)
+    // {
+    //     return number_format($value);
+    // }
 
     public function pelanggan()
     {

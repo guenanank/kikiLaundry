@@ -1,12 +1,12 @@
 @extends('layout')
-@section('title', 'Order - Tambah Baru')
+@section('title', 'Order - Ubah')
 
 @section('content')
 	<div class="card">
 	    <div class="card-header">
 	        <div class="row">
 		    	<div class="col-sm-6">
-		    		<h2>Tambah Order Baru <small>Form transaksi order.</small></h2>
+		    		<h2>Ubah Order <small>Form transaksi order.</small></h2>
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
@@ -17,44 +17,47 @@
 		    	</div>
 		    </div>
 	    </div>
-	    <div class="clearfix">&nbsp;</div>
+		<div class="clearfix">&nbsp;</div>
 	    <div class="card-body card-padding">
-	        {{ Form::open(['route' => 'order.store', 'class' => 'ajax_form'])}}
+	    	{{ Form::model($order, ['route' => ['order.update', $order->id], 'method' =>'patch', 'class' => 'ajax_form']) }}
 
 		        <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="form-group has-success">
                             <div class="fg-line">
                                 {{ Form::label('nomer', 'Nomer Order', ['class' => 'control-label']) }}
-                                {{ Form::text('_nomer', $nomer, ['class' => 'form-control', 'disabled']) }}
-                                {{ Form::hidden('nomer', $nomer) }}
+                                {{ Form::text('_nomer', $order->nomer, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('nomer', null) }}
                             </div>
                         </div>
                     </div>
                 </div>
 
 		        <div class="row">
-		            <div class="col-sm-offset-1 col-sm-10">
-		                <div class="form-group fg-float">
-		                    <div class="fg-line">
-		                        {{ Form::text('tanggal', null, ['class' => 'form-control fg-input date-picker']) }}
-		                        {{ Form::label('tanggal', 'Tanggal Order', ['class' => 'fg-label']) }}
-		                    </div>
-		                    <small id="tanggal" class="help-block"></small>
-		                </div>
-		            </div>
-		        </div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="form-group has-success">
+                            <div class="fg-line">
+                                {{ Form::label('tanggal', 'Tanggal Order', ['class' => 'control-label']) }}
+                                {{ Form::text('_tanggal', $order->tanggal, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('tanggal', null) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 		        <div class="row">
-		            <div class="col-sm-offset-1 col-sm-10">
-		                <div class="form-group">
-		                    {{ Form::select('id_pelanggan', $pelanggan, null, ['class' => 'form-control selectpicker', 'title' => 'Pilih pelanggan', 'data-live-search' => 'true']) }}
-		                    <small id="pelanggan" class="help-block"></small>
-		                </div>
-		            </div>
-		        </div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="form-group has-success">
+                            <div class="fg-line">
+                                {{ Form::label('id_pelanggan', 'Nama pelanggan', ['class' => 'control-label']) }}
+                                {{ Form::text('_pelanggan', $order->pelanggan->nama, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('id_pelanggan', null) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-		        <div class="row">
+                <div class="row">
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
@@ -120,23 +123,53 @@
 				                    <tr>
 				                    	<td colspan="3" class="text-right"><strong class="text-primary">Total</strong></td>
 				                    	<td class="text-right">
-				                    		<strong class="text-primary"><span class="jumlah_tunai"></span></strong>
-				                    		<input type="hidden" name="jumlah_tunai" />
+				                    		<strong class="text-primary"><span class="jumlah_tunai">Rp. {{ number_format($order->jumlah_tunai) }}</span></strong>
+				                    		<input type="hidden" name="jumlah_tunai" value="{{ $order->jumlah_tunai }}" />
 			                    		</td>
 				                    	<td class="text-right">
-				                    		<strong class="text-primary"><span class="jumlah_cicil"></span></strong>
-				                    		<input type="hidden" name="jumlah_cicil" />
+				                    		<strong class="text-primary"><span class="jumlah_cicil">Rp. {{ number_format($order->jumlah_cicil) }}</span></strong>
+				                    		<input type="hidden" name="jumlah_cicil" value="{{ $order->jumlah_cicil }}" />
 			                    		</td>
 			                    		<td>&nbsp;</td>
 				                    </tr>
 			                    </tfoot>
-			                    <tbody></tbody>
+			                    <tbody>
+			                    	@foreach($order->detil as $i => $dtl)
+			                    		<tr>
+			                    			<td>
+			                    				{{ $barang[$dtl->id_barang] }}
+			                    				<input type="hidden" name="order_lengkap[{{ $i + 1 }}][id_barang]" value="{{ $dtl->id_barang }}" />
+		                    				</td>
+			                    			<td>
+			                    				{{ $cuci[$dtl->id_cuci] }}
+			                    				<input type="hidden" name="order_lengkap[{{ $i + 1 }}][id_cuci]" value="{{ $dtl->id_cuci }}" />
+		                    				</td>
+			                    			<td class="text-center">
+			                    				{{ $dtl->banyaknya }}
+			                    				<input type="hidden" name="order_lengkap[{{ $i + 1 }}][banyaknya]" value="{{ $dtl->banyaknya }}" />
+		                    				</td>
+			                    			<td class="text-right">
+			                    				Rp. {{ number_format($dtl->banyaknya * $dtl->harga_tunai) }}
+			                    				<input type="hidden" name="order_lengkap[{{ $i + 1 }}][harga_tunai]" value="{{ $dtl->harga_tunai }}" />
+		                    				</td>
+			                    			<td class="text-right">
+			                    				Rp. {{ number_format($dtl->banyaknya * $dtl->harga_cicil) }}
+			                    				<input type="hidden" name="order_lengkap[{{ $i + 1 }}][harga_cicil]" value="{{ $dtl->harga_cicil }}" />
+		                    				</td>
+			                    			<td>
+			                    				<button type="button" class="btn btn-sm bgm-red btn-icon hapus" data-tunai="{{ $dtl->banyaknya * $dtl->harga_tunai }}" data-cicil="{{ $dtl->banyaknya * $dtl->harga_cicil }}">
+													<i class="zmdi zmdi-close"></i>
+												</button>
+			                    			</td>
+			                    		</tr>
+			                    	@endforeach
+			                    </tbody>
 			                </table>
 			            </div>
 		            </div>
 	            </div>
 
-			    <div class="clearfix">&nbsp;</div>
+	            <div class="clearfix">&nbsp;</div>
 			    <hr />
 			    <div class="clearfix">&nbsp;</div>
 
@@ -148,10 +181,9 @@
 		            </div>
 		        </div>
 		        <div class="clearfix">&nbsp;</div>
-	        {{ Form::close() }}
+	    	{{ Form::close() }}
 	    </div>
 	</div>
-
 @endsection
 
 @push('scripts')

@@ -18,7 +18,7 @@
         {{ Html::style('css/nouislider.min.css') }}
         {{ Html::style('css/bootstrap-datetimepicker.min.css') }}
 
-        {{ Html::style('css/fullcalendar.min.css') }}
+        
 
         @stack('styles')
 
@@ -198,8 +198,6 @@
         {{ Html::script('js/jquery.mask.min.js') }}
         {{ Html::script('js/jquery.maskmoney.min.js') }}
 
-        {{ Html::script('js/fullcalendar.min.js') }}
-
         {{ Html::script('js/app.min.js') }}
 
         <script type="text/javascript">
@@ -211,6 +209,8 @@
                         _token: $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+
+
             });
         </script>
 
@@ -240,8 +240,12 @@
                 $('input.money').on('blur', function() {
                     $(this).maskMoney('destroy');
                 });
-
             })(jQuery);
+
+            var price_format = function(number) {
+                var regex = parseFloat(number, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                return 'Rp. ' + regex.slice(0, -3);
+            };
         </script>
 
         @stack('scripts')

@@ -2,7 +2,7 @@
 @section('title', 'Beranda')
 
 @push('styles')
-	
+	{{ Html::style('css/fullcalendar.min.css') }}
 @endpush
 
 @section('content')
@@ -160,7 +160,7 @@
 @endsection
 
 @push('scripts')
-	
+	{{ Html::script('js/fullcalendar.min.js') }}
 	<!-- Calendar Script -->
         <script type="text/javascript">
             $(document).ready(function() {

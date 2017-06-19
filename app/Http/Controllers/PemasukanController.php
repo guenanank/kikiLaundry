@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use kikiLaundry\Pemasukan;
 use kikiLaundry\Pelanggan;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\PDF;
 
 class PemasukanController extends Controller
 {
@@ -94,5 +95,11 @@ class PemasukanController extends Controller
     {
         $delete = $pemasukan->delete();
         return response()->json($delete, 200);
+    }
+
+    public function cetak($id)
+    {
+        $pdf = PDF::loadView('pdf.invoice', $data);
+        return $pdf->stream();
     }
 }

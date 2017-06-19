@@ -58,7 +58,7 @@
 			                    <td class="text-right">Rp. {{ $pmk->jumlah }}</td>
 			                    <td class="text-center">
 			                    	@if($pmk->jenis == 'cicilanPelanggan')
-			                    	<a href="#" class="btn btn-icon btn-sm bgm-bluegray" title="Cetak Pemasukan" data-toggle="tooltip">
+			                    	<a href="{{ url('cetak/pemasukan/' . $pmk->id) }}" class="btn btn-icon btn-sm bgm-bluegray" title="Cetak Pemasukan" data-toggle="tooltip">
 			                    		<span class="zmdi zmdi-print"></span>
 		                    		</a>&nbsp;
 		                    		@endif

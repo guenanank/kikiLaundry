@@ -1,12 +1,11 @@
 <div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog">
-        {{ Form::model($order, ['route' => ['order.update', $order->id], 'method' =>'patch', 'class' => 'ajax_form_modal']) }}
+        {{ Form::model($order, ['route' => ['order.paid', $order->id], 'method' =>'patch', 'class' => 'ajax_form']) }}
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Order <strong class="text-primary">{{ $order->nomer }}</strong></h4>
                 </div>
                 <div class="modal-body">
-                    {{ Form::hidden('id_pelanggan', $order->id_pelanggan) }}
                     {{ Form::hidden('jumlah_tunai', $order->jumlah_tunai) }}
                     <br />
                     <div class="row">

@@ -10,7 +10,7 @@ class Jasa extends Model
     use SoftDeletes;
 
     protected $table = 'jasa';
-    protected $fillable = ['nama', 'nama_kunci', 'tergantung_barang','ongkos', 'klaim'];
+    protected $fillable = ['nama', 'nama_kunci', 'tergantung_barang','ongkos', 'klaim', 'open'];
     protected $dates = ['deleted_at'];
 
     public static function rules($rules = [])
@@ -23,14 +23,18 @@ class Jasa extends Model
 
     public function getOngkosAttribute($value)
     {
-        return number_format($value);
+        return ($value == 0) ? null : number_format($value);
     }
 
     public function getKlaimAttribute($value)
     {
-        return number_format($value);
+        return ($value == 0) ? null : number_format($value);
     }
     
+    public function getOpenAttribute($value)
+    {
+        return ($value == 0) ? null : number_format($value);
+    }
 
     public function jasa_barang()
     {

@@ -51,7 +51,7 @@
 		            </tfoot>
 		            <tbody>
 		            	@foreach($order as $ord)
-		            		<tr>
+		            		<tr class="{{ is_null($ord->dikirim) ? null : 'info' }}">
 			                    <td class="text-center"><strong class="c-blue">{{ $ord->nomer }}</strong></td>
 			                    <td class="text-center">{{ $ord->tanggal }}</td>
 			                    <td>{{ $ord->pelanggan->nama }}</td>
@@ -62,7 +62,7 @@
 			                    		<span class="zmdi zmdi-search"></span>
 		                    		</a>&nbsp;
 		                    		@if(is_null($ord->pembayaran))
-			                    	<a href="{{ url('order/' . $ord->id . '/paid') }}" class="btn btn-icon bgm-teal" title="Lunas order nomer {{ $ord->nomer }}" data-toggle="tooltip" data-placement="bottom" id="lunas">
+			                    	<a href="{{ url('order/' . $ord->id . '/payment') }}" class="btn btn-icon bgm-teal" title="Lunas order nomer {{ $ord->nomer }}" data-toggle="tooltip" data-placement="bottom" id="lunas">
 			                    		<span class="zmdi zmdi-check"></span>
 		                    		</a>&nbsp;
 		                    		@endif
@@ -139,32 +139,31 @@
 		$('.data_table').DataTable();
 
 		(function($) {
-
-			var modal = $('body').find('div.modal');
-
 			$('a#lunas, a#detil').on('click', function(e) {
 				e.preventDefault();
 				$.get($(this).attr('href'), function(data) {
 					$(data).modal().on('shown.bs.modal', function(e) {
 						$('select.selectpicker').selectpicker();
-						$('.input-mask').mask('0000-00-00');
+						$('.date-picker').datetimepicker({format:"YYYY-MM-DD"});
+						$(".date-picker").on('dp.hide', function() {
+							$(this).closest(".dtp-container").removeClass("fg-toggled");
+							$(this).blur();
+						});
+						autosize($('.auto-size'));
 						$('.data_table').DataTable();
 
-						ajax_form_modal();
+						$('form.ajax_form').submit(function (e) {
+		                    e.preventDefault();
+		                    e.stopImmediatePropagation();
+		                    $(this).ajax_form();
+		                });
+
 					}).on('hidden.bs.modal', function() {
 						$(this).remove();
 					});
 
 				});
 			});
-
-			var ajax_form_modal = function () {
-				$('body').on('submit', 'form.ajax_form_modal', function(e) {
-					e.preventDefault();
-					$(this).ajax_form();
-				});
-			}
-
 
 		})(jQuery);
 	</script>

@@ -46,7 +46,7 @@
                         }).then(function() {
                             $clear(data.create); 
                         }, function() {
-                            window.location.reload(true); 
+                            // window.location.reload(true); 
                         });
                     },
                     422: function (response) {
@@ -65,9 +65,7 @@
     $.fn.ajax_delete = function (obj) {
 
         var $t = $(this);
-
         return this.each(function () {
-
             $.ajaxSetup({
                 type: 'POST',
                 url: $t.attr('href'),
@@ -79,9 +77,8 @@
                             html: '<strong class="f-20">Deleted</strong><br />Your file has been deleted.',
                             showConfirmButton: false,
                             timer: 2000
-                        // }, function() {
                         });
-                            window.location.reload(true); 
+                        window.location.reload(true); 
                     }
                 }
             });

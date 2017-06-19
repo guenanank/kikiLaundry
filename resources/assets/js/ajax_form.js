@@ -46,7 +46,7 @@
                         }).then(function() {
                             $clear(data.create); 
                         }, function() {
-                            window.location.reload(true); 
+                            // window.location.reload(true); 
                         });
                     },
                     422: function (response) {

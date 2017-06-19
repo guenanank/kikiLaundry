@@ -27,16 +27,6 @@ class Order extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function getJumlahTunaiAttribute($value)
-    {
-        return number_format($value);
-    }
-
-    public function getJumlahCicilAttribute($value)
-    {
-        return number_format($value);
-    }
-
     public static function rules($rules = [])
     {
     	return array_merge([
