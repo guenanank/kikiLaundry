@@ -29,8 +29,8 @@
 		                <tr>
 		                    <th class="text-center">Tanggal</th>
 		                    <th class="text-center">Jenis</th>
-		                    <th class="text-center">Jumlah</th>
 		                    <th class="text-center">Keterangan</th>
+		                    <th class="text-center">Jumlah</th>
 		                    <th class="text-center">Kontrol</th>
 		                </tr>
 		            </thead>
@@ -38,8 +38,8 @@
 		                <tr>
 		                    <th class="text-center">Tanggal</th>
 		                    <th class="text-center">Jenis</th>
-		                    <th class="text-center">Jumlah</th>
 		                    <th class="text-center">Keterangan</th>
+		                    <th class="text-center">Jumlah</th>
 		                    <th class="text-center">Kontrol</th>
 		                </tr>
 		            </tfoot>
@@ -47,9 +47,9 @@
 		            	@foreach($pengeluaran as $png)
 		            		<tr>
 			                    <td class="text-center">{{ $png->tanggal }}</td>
-			                    <td class="text-center">{{ $jenis[$png->jenis] }}</td>
-			                    <td class="text-right">Rp. {{ $png->jumlah }}</td>
+			                    <td class="text-center">{{ $png->jenis }}</td>
 			                    <td>{{ $png->keterangan }}</td>
+			                    <td class="text-right">Rp. {{ number_format($png->jumlah) }}</td>
 			                    <td class="text-center">
 			                    	<a href="{{ url('pengeluaran/' . $png->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $png->nomer }}" data-toggle="tooltip">
 			                    		<span class="zmdi zmdi-edit"></span>

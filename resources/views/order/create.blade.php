@@ -19,7 +19,7 @@
 	    </div>
 	    <div class="clearfix">&nbsp;</div>
 	    <div class="card-body card-padding">
-	        {{ Form::open(['route' => 'order.store', 'class' => 'ajax_form'])}}
+	        {{ Form::open(['route' => 'order.store', 'class' => 'ajax_form']) }}
 
 		        <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">

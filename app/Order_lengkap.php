@@ -10,12 +10,12 @@ class Order_lengkap extends Model
     use SoftDeletes;
 
     protected $table = 'order_lengkap';
-    protected $fillable = ['id_order', 'id_barang', 'id_cuci', 'banyaknya', 'harga_tunai', 'harga_cicil', 'jumlah_harga_tunai', 'jumlah_harga_cicil'];
+    protected $fillable = ['id_order', 'id_barang', 'id_cuci', 'banyaknya', 'harga_tunai', 'harga_cicil'];
     protected $dates = ['deleted_at'];
 
     public function rules($rules = [])
     {
-    	return array_merge([
+    	return collect([
     		'id_order' => 'required|int|exists:order,id',
     		'id_barang' => 'required|int|exists:barang,id',
     		'id_cuci' => 'required|int|exists:cuci,id',
@@ -24,7 +24,7 @@ class Order_lengkap extends Model
     		'harga_cicil' => 'required|numeric',
     		'jumlah_harga_tunai' => 'required|numeric',
     		'jumlah_harga_cicil' => 'required|numeric'
-		], $rules);
+		])->merge($rules);
     }
 
     public function barang()

@@ -9,6 +9,14 @@ $('input[name="tergantung_barang"]').change(function() {
     }
 });
 
+if($('input[name="tergantung_barang"]').prop('checked')) {
+	$('div.ongkos, div.klaim, div.open').fadeOut();
+	$('div.barang').fadeIn();
+} else {
+	$('div.ongkos, div.klaim, div.open').fadeIn();
+    $('div.barang').fadeOut();
+}
+
 var data, i = $('table#daftar tbody').find('tr').length;
 $('div.barang').on('click', 'button#tambah', function() {
 	var obj = {};
@@ -26,7 +34,7 @@ $('div.barang').on('click', 'button#tambah', function() {
     });
 
     if($.isEmptyObject(obj) == false) 
-    	data = $.makeArray(obj); // data.push(obj);
+    	data = $.makeArray(obj);
 
     if(data.length !== 0) {
     	$('div.form-group').removeClass('has-warning');
@@ -52,9 +60,9 @@ var tbody = function(data) {
 		i += 1;
 		tbody += '<tr>';
 		tbody += '<td><input type="hidden" name="barang[' + i + '][id_barang]" value="' + v.id_barang + '" />' + v.barang + '</td>';
-		tbody += '<td class="text-right">' + price_format(v.ongkos) + '<input type="hidden" name="barang[' + i + '][ongkos]" value="' + v.ongkos + '" /></td>';
-		tbody += '<td class="text-right">' + price_format(v.klaim) + '<input type="hidden" name="barang[' + i + '][klaim]" value="' + v.klaim + '" /></td>';
-		tbody += '<td class="text-right">' + price_format(v.open) + '<input type="hidden" name="barang[' + i + '][open]" value="' + v.open + '" /></td>';
+		tbody += '<td class="text-right">' + price_format(v._ongkos) + '<input type="hidden" name="barang[' + i + '][ongkos]" value="' + v._ongkos + '" /></td>';
+		tbody += '<td class="text-right">' + price_format(v._klaim) + '<input type="hidden" name="barang[' + i + '][klaim]" value="' + v._klaim + '" /></td>';
+		tbody += '<td class="text-right">' + price_format(v._open) + '<input type="hidden" name="barang[' + i + '][open]" value="' + v._open + '" /></td>';
 		tbody += '<td class="text-right">' + hapus + '</td>';
 		tbody += '</tr>';
 		$('table#daftar tbody').append(tbody);

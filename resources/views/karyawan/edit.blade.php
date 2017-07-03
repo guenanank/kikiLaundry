@@ -47,7 +47,7 @@
 		        <div class="row">
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group">
-		                    {{ Form::select('bagian', $bagian, null, ['class' => 'form-control selectpicker', 'title' => 'Bagian karyawan', 'data-live-search' => true]) }}
+		                    {{ Form::select('bagian', $bagian, camel_case($karyawan->bagian), ['class' => 'form-control selectpicker', 'title' => 'Bagian karyawan', 'data-live-search' => true]) }}
 		                    <small id="bagian" class="help-block"></small>
 		                </div>
 		            </div>
@@ -69,7 +69,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('gaji_harian', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('gaji_harian', number_format($karyawan->gaji_harian), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('gaji_harian', 'Gaji Harian Karyawan', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="gaji_harian" class="help-block"></small>
@@ -81,7 +81,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('gaji_bulanan', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('gaji_bulanan', number_format($karyawan->gaji_bulanan), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('gaji_bulanan', 'Gaji Bulanan Karyawan', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="gaji_bulanan" class="help-block"></small>

@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
+    private $validator;
+
+    public function __construct(Request $request) 
+    {
+        $this->validator = Validator::make($request->all(), Barang::rules()->toArray());
+    }
+
     public function index()
     {
         $barang = Barang::all();
@@ -21,9 +28,8 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), Barang::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Barang::create($request->all());
@@ -37,9 +43,8 @@ class BarangController extends Controller
 
     public function update(Request $request, Barang $barang)
     {
-        $validator = Validator::make($request->all(), Barang::rules());
-        if ($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if ($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $update = $barang->update($request->all());

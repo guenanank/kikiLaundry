@@ -1,0 +1,8 @@
+@media only print
+	{
+	    body * { display: none !important; }
+	    body:after { content: "Don't waste paper!"; }
+
+	    table { margin-left: 30% }
+
+	}

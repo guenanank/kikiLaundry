@@ -33,10 +33,10 @@
                         <div class="col-sm-offset-1 col-sm-10">
                             <div class="form-group fg-float">
                                 <div class="fg-line">
-                                    {{ Form::textarea('keterangan', null, ['class' => 'form-control fg-input auto-size', 'cols' => '', 'rows' => '']) }}
-                                    {{ Form::label('keterangan', 'Keterangan pembayaran', ['class' => 'fg-label']) }}
+                                    {{ Form::textarea('catatan_pembayaran', null, ['class' => 'form-control fg-input auto-size', 'cols' => '', 'rows' => '']) }}
+                                    {{ Form::label('catatan_pembayaran', 'Catatan pembayaran', ['class' => 'fg-label']) }}
                                 </div>
-                                <small id="keterangan" class="help-block"></small>
+                                <small id="catatan_pembayaran" class="help-block"></small>
                             </div>
                         </div>
                     </div>

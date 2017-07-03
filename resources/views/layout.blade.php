@@ -8,7 +8,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta name="author" content="nanank" />
         <title>Kiki Laundry :: @yield('title') </title>
-        
+
         {{ Html::style('css/fullcalendar.min.css') }}
         {{ Html::style('css/animate.min.css') }}
         {{ Html::style('css/sweetalert2.min.css') }}
@@ -17,8 +17,6 @@
         {{ Html::style('css/bootstrap-select.css') }}
         {{ Html::style('css/nouislider.min.css') }}
         {{ Html::style('css/bootstrap-datetimepicker.min.css') }}
-
-        
 
         @stack('styles')
 
@@ -108,7 +106,7 @@
                         <ul>
                             <li>{{ link_to('pemasukan', 'Pemasukan') }}</li>
                             <li>{{ link_to('pengeluaran', 'Pengeluaran') }}</li>
-                            <li>{{ link_to('#', 'Gaji') }}</li>
+                            <li>{{ link_to('gaji', 'Gaji') }}</li>
                         </ul>
                     </li>
                 </ul>
@@ -121,9 +119,16 @@
             </section>
         </section>
 
-		
+
 		<footer id="footer">
             Copyright &copy; {{ date('Y') }} Kiki Laundry
+            <ul class="f-menu">
+                <li>{{ link_to('/', 'Beranda') }}</li>
+                <li>{{ link_to('pelanggan', 'Pelanggan') }}</li>
+                <li>{{ link_to('order', 'Order') }}</li>
+                <li>{{ link_to('pemasukan', 'Pemasukan') }}</li>
+                <li>{{ link_to('pengeluaran', 'Pengeluaran') }}</li>
+            </ul>
         </footer>
 
         <!-- Page Loader -->

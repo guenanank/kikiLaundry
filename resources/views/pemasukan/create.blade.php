@@ -21,16 +21,26 @@
 	    <div class="card-body card-padding">
 	        {{ Form::open(['route' => 'pemasukan.store', 'class' => 'ajax_form'])}}
 
-	        	<div class="row">
+                <div class="row">
                     <div class="col-sm-offset-1 col-sm-10">
                         <div class="form-group has-success">
                             <div class="fg-line">
                                 {{ Form::label('nomer', 'No Pemasukan', ['class' => 'control-label']) }}
-                                {{ Form::text('nomer', $nomer, ['class' => 'form-control', 'readonly']) }}
+                                {{ Form::text('nomer_', $nomer, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('nomer', $nomer) }}
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+		            <div class="col-sm-offset-1 col-sm-10">
+		                <div class="form-group">
+		                    {{ Form::select('jenis', $jenis, null, ['class' => 'form-control selectpicker', 'title' => 'Jenis pemasukan']) }}
+		                    <small id="jenis" class="help-block"></small>
+		                </div>
+		            </div>
+		        </div>
 
 		        <div class="row">
 		            <div class="col-sm-offset-1 col-sm-10">
@@ -42,16 +52,7 @@
 		                    <small id="tanggal" class="help-block"></small>
 		                </div>
 		            </div>
-		        </div>
-
-		        <div class="row">
-		            <div class="col-sm-offset-1 col-sm-10">
-		                <div class="form-group">
-		                    {{ Form::select('jenis', $jenis, null, ['class' => 'form-control selectpicker', 'title' => 'Jenis pemasukan']) }}
-		                    <small id="jenis" class="help-block"></small>
-		                </div>
-		            </div>
-		        </div>
+		        </div>        
 
 		        <div class="row pelanggan">
 		            <div class="col-sm-offset-1 col-sm-10">
@@ -115,9 +116,9 @@
 
 		$('select[name="jenis"').on('change', function() {
 			if($(this).val() == 'penambahanBiaya') {
-                $('div.pelanggan, div.cara_bayar').fadeOut();
+                $('div.pelanggan').fadeOut();
             } else {
-                $('div.pelanggan, div.cara_bayar').fadeIn();
+                $('div.pelanggan').fadeIn();
             }
 		});
 

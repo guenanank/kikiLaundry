@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 
 class CuciController extends Controller
 {
+    private $jasa;
+    private $validator;
+
+    public function __construct(Request $request) 
+    {
+        $this->jasa = Jasa::pluck('nama', 'id')->all();
+        $this->validator = Validator::make($request->all(), Cuci::rules()->toArray());
+    }
 
     public function index()
     {
@@ -19,15 +27,14 @@ class CuciController extends Controller
 
     public function create()
     {
-        $jasa = Jasa::pluck('nama', 'id')->all();
+        $jasa = $this->jasa;
         return view('cuci.create', compact('jasa'));
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), Cuci::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Cuci::create($request->all());
@@ -49,15 +56,14 @@ class CuciController extends Controller
     public function edit(Cuci $cuci)
     {
         $cuci = $cuci->with('cuci_jasa')->findOrFail($cuci->id);
-        $jasa = Jasa::pluck('nama', 'id')->all();
+        $jasa = $this->jasa;
         return view('cuci.edit', compact('cuci', 'jasa'));
     }
 
     public function update(Request $request, Cuci $cuci)
     {
-        $validator = Validator::make($request->all(), Cuci::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $update = $cuci->update($request->all());
@@ -77,7 +83,7 @@ class CuciController extends Controller
 
     public function destroy(Cuci $cuci)
     {
-        Cuci_jasa::where('id_cuci', $cuci->id);
+        Cuci_jasa::where('id_cuci', $cuci->id)->delete();
         $delete = $cuci->delete();
         return response()->json($delete, 200);
     }

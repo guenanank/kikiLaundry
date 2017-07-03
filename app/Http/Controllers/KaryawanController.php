@@ -9,29 +9,31 @@ use Illuminate\Http\Request;
 class KaryawanController extends Controller
 {
 
+    private $validator;
+    private $bagian;
+
+    public function __construct(Request $request)
+    {
+        $this->bagian = Karyawan::bagian();
+        $this->validator = Validator::make($request->all(), Karyawan::rules()->toArray());
+    }
+
     public function index()
     {
         $karyawan = Karyawan::all();
-        $bagian = Karyawan::bagian();
-        return view('karyawan.index', compact('karyawan', 'bagian'));
+        return view('karyawan.index', compact('karyawan'));
     }
 
     public function create()
     {
-        $bagian = Karyawan::bagian();
+        $bagian = $this->bagian;
         return view('karyawan.create', compact('bagian'));
     }
 
     public function store(Request $request)
     {
-        $request->merge([
-            'gaji_harian' => str_replace(',', null, $request->gaji_harian),
-            'gaji_bulanan' => str_replace(',', null, $request->gaji_bulanan)
-        ]);
-
-        $validator = Validator::make($request->all(), Karyawan::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Karyawan::create($request->all());
@@ -40,20 +42,14 @@ class KaryawanController extends Controller
 
     public function edit(Karyawan $karyawan)
     {
-        $bagian = Karyawan::bagian();
+        $bagian = $this->bagian;
         return view('karyawan.edit', compact('karyawan', 'bagian'));
     }
 
     public function update(Request $request, Karyawan $karyawan)
     {
-        $request->merge([
-            'gaji_harian' => str_replace(',', null, $request->gaji_harian),
-            'gaji_bulanan' => str_replace(',', null, $request->gaji_bulanan)
-        ]);
-
-        $validator = Validator::make($request->all(), Karyawan::rules());
-        if ($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $update = $karyawan->update($request->all());

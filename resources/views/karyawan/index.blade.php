@@ -14,8 +14,12 @@
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-				        <a href="{{ action('KaryawanController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Tambah Karyawan Baru">
-				            <i class="add-new-item zmdi zmdi-plus"></i>
+								<a href="#" class="btn btn-icon bgm-bluegray" data-toggle="modal" data-target="#absensi" data-placement="top" title="Absensi">
+				            <i class="zmdi zmdi-assignment"></i>
+				        </a>
+		    			&nbsp;
+				        <a href="{{ action('KaryawanController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="bottom" title="Tambah Karyawan Baru">
+				            <i class="zmdi zmdi-plus"></i>
 				        </a>
 		    		</div>
 		    	</div>
@@ -48,7 +52,7 @@
 		            		<tr>
 			                    <td>{{ $kry->nama }}</td>
 			                    <td>{{ $kry->kontak }}</td>
-			                    <td class="text-center">{{ $bagian[$kry->bagian] }}</td>
+			                    <td class="text-center">{{ $kry->bagian }}</td>
 			                    <td class="text-center">{{ $kry->mulai_kerja }}</td>
 			                    <td class="text-center">
 			                    	<a href="{{ url('karyawan/' . $kry->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $kry->nama }}" data-toggle="tooltip">
@@ -63,6 +67,39 @@
 		            </tbody>
 		        </table>
 		    </div>
+	    </div>
+	</div>
+
+	<div class="modal fade" id="absensi" tabindex="-1" role="dialog" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	        	{{ Form::open(['route' => 'absen.find']) }}
+	            <div class="modal-header">
+	                <h4 class="modal-title">Absensi Karyawan</h4>
+	            </div>
+	            <div class="modal-body">
+								<div class="clearfix">&nbsp;</div>
+			        	<div class="row">
+			            <div class="col-sm-offset-1 col-sm-10">
+			                <div class="form-group fg-float">
+			                    <div class="fg-line">
+			                        {{ Form::text('tanggal', null, ['class' => 'form-control fg-input date-picker']) }}
+			                        {{ Form::label('tanggal', 'Tanggal absensi', ['class' => 'fg-label']) }}
+			                    </div>
+			                    <small id="tanggal" class="help-block"></small>
+			                </div>
+			            </div>
+			        	</div>
+
+	            </div>
+	            <div class="modal-footer">
+	                <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-search-for"></i>&nbsp;Cari</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    	<i class="zmdi zmdi-close"></i>&nbsp;Tutup</button>
+	                </button>
+	            </div>
+	            {{ Form::close() }}
+	        </div>
 	    </div>
 	</div>
 @endsection

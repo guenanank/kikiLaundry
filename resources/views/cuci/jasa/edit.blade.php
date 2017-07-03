@@ -50,7 +50,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('ongkos', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('ongkos', number_format($jasa->ongkos), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('ongkos', 'Ongkos Jasa', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="ongkos" class="help-block"></small>
@@ -62,7 +62,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('klaim', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('klaim', number_format($jasa->klaim), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('klaim', 'Klaim Jasa', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="klaim" class="help-block"></small>
@@ -74,7 +74,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('open', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('open', number_format($jasa->open), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('open', 'Open Jasa', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="open" class="help-block"></small>
@@ -153,15 +153,15 @@
 				                    				<input type="hidden" name="barang[{{ $i + 1 }}][id_barang]" value="{{ $jb->id_barang }}" />
 			                    				</td>
 				                    			<td class="text-right">
-				                    				Rp. {{ $jb->ongkos or 0 }}
+				                    				Rp. {{ number_format($jb->ongkos) }}
 				                    				<input type="hidden" name="barang[{{ $i + 1 }}][ongkos]" value="{{ $jb->ongkos }}" />
 			                    				</td>
 				                    			<td class="text-right">
-				                    				Rp. {{ $jb->klaim or 0 }}
+				                    				Rp. {{ number_format($jb->klaim) }}
 				                    				<input type="hidden" name="barang[{{ $i + 1 }}][klaim]" value="{{ $jb->klaim }}" />
 			                    				</td>
 				                    			<td class="text-right">
-				                    				Rp. {{ $jb->open or 0 }}
+				                    				Rp. {{ number_format($jb->open) }}
 				                    				<input type="hidden" name="barang[{{ $i + 1 }}][open]" value="{{ $jb->open }}" />
 			                    				</td>
 				                    			<td class="text-right">
@@ -195,5 +195,5 @@
 @endsection
 
 @push('scripts')
-	{{ Html::script('js/order.js') }}
+	{{ Html::script('js/jasa.js') }}
 @endpush

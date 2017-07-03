@@ -99,7 +99,7 @@
 		                    <div class="col-sm-2">
 		                        <div class="form-group fg-float">
 				                    <div class="fg-line">
-				                        {{ Form::text('ongkos', null, ['class' => 'form-control fg-input money']) }}
+				                        {{ Form::text('_ongkos', null, ['class' => 'form-control fg-input money']) }}
 				                        {{ Form::label('ongkos', 'Ongkos Jasa', ['class' => 'fg-label']) }}
 				                    </div>
 				                    <small id="ongkos" class="help-block"></small>
@@ -109,7 +109,7 @@
 		                    <div class="col-sm-2">
 		                        <div class="form-group fg-float">
 				                    <div class="fg-line">
-				                        {{ Form::text('klaim', null, ['class' => 'form-control fg-input money']) }}
+				                        {{ Form::text('_klaim', null, ['class' => 'form-control fg-input money']) }}
 				                        {{ Form::label('klaim', 'Klaim Jasa', ['class' => 'fg-label']) }}
 				                    </div>
 				                    <small id="klaim" class="help-block"></small>
@@ -119,7 +119,7 @@
 		                    <div class="col-sm-2">
 		                        <div class="form-group fg-float">
 				                    <div class="fg-line">
-				                        {{ Form::text('open', null, ['class' => 'form-control fg-input money']) }}
+				                        {{ Form::text('_open', null, ['class' => 'form-control fg-input money']) }}
 				                        {{ Form::label('open', 'Open Jasa', ['class' => 'fg-label']) }}
 				                    </div>
 				                    <small id="open" class="help-block"></small>
@@ -169,5 +169,5 @@
 @endsection
 
 @push('scripts')
-	{{ Html::script('js/order.js') }}
+	{{ Html::script('js/jasa.js') }}
 @endpush

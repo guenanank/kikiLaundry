@@ -14,36 +14,27 @@ class Pemasukan extends Model
     protected $fillable = ['nomer', 'jenis', 'id_pelanggan','tanggal', 'jumlah', 'cara_bayar', 'catatan'];
     protected $dates = ['deleted_at'];
 
-    public function getJumlahAttribute($value)
-    {
-        return number_format($value);
-    }
-
     public static function jenis($jenis = null)
     {
-    	$jns = [
-    		'penambahanBiaya' => 'Penambahan Biaya',
-    		'cicilanPelanggan' => 'Cicilan Pelanggan',
-    		'pembayaranPelanggan' => 'Pembayaran Pelanggan'
-    	];
-    	return is_null($jenis) ? $jns : $jns[$jenis];
+    	$collection = collect(['Penambahan Biaya', 'Cicilan Pelanggan', 'Pembayaran Pelanggan']);
+        $lists = $collection->combine($collection->map(function($item) {
+            return camel_case($item);
+        }))->flip();
+        return is_null($jenis) ? $lists : $lists->get($jenis);
     }
 
-    public static function cara_bayar($bayar = null)
+    public static function cara_bayar($cara_bayar = null)
     {
-    	$cara_bayar = [
-    		null => null,
-    		'tunai' => 'Tunai',
-    		'giro' => 'Giro',
-    		'cek' => 'Cek',
-    		'transfer' => 'Transfer Bank'
-    	];
-    	return is_null($bayar) ? $cara_bayar : $cara_bayar[$bayar];
+    	$collection = collect(['Tunai', 'Giro', 'Cek', 'Transfer']);
+        $lists = $collection->combine($collection->map(function($item) {
+            return camel_case($item);
+        }))->flip();
+        return is_null($cara_bayar) ? $lists : $lists->get($cara_bayar);
     }
 
     public static function rules($rules = [])
     {
-    	return array_merge([
+    	return collect([
             'nomer' => 'required|string|max:31|unique:pemasukan,nomer',
     		'jenis' => 'required|string|max:31',
     		'id_pelanggan' => 'nullable|exists:pelanggan,id',
@@ -51,7 +42,7 @@ class Pemasukan extends Model
     		'jumlah' => 'required|numeric',
     		'cara_bayar' => 'string|max:15|nullable',
     		'catatan' => 'string|nullable'
-		], $rules);
+		])->merge($rules);
     }
 
     public static function nomer()
@@ -63,6 +54,16 @@ class Pemasukan extends Model
 
         $nomer = is_null($terakhir) ? 0 : substr($terakhir->nomer, 13);
         return sprintf('KL-%s/%s-PM%03d', date('Y'), date('m'), $nomer + 1);
+    }
+
+    public function getJenisAttribute($value)
+    {
+        return self::jenis($value);
+    }
+
+    public function getCaraBayarAttribute($value) 
+    {
+        return self::cara_bayar($value);
     }
 
     public function pelanggan()

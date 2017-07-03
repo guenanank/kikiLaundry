@@ -11,6 +11,24 @@ use Illuminate\Http\Request;
 
 class JasaController extends Controller
 {
+    private $validator;
+    protected $barang;
+
+    public function __construct(Request $request)
+    {
+        $this->barang = Barang::pluck('nama', 'id')->all();
+
+        if($request->has('ongkos') || $request->has('klaim') || $request->has('open')) :
+            $request->merge([
+                'ongkos' => is_null($request->ongkos) ? 0 : str_replace(',', null, $request->ongkos),
+                'klaim' => is_null($request->klaim) ? 0 : str_replace(',', null, $request->klaim),
+                'open' => is_null($request->open) ? 0 : str_replace(',', null, $request->open)
+            ]);
+        endif;
+
+        $this->validator = Validator::make($request->all(), Jasa::rules()->toArray());
+    }
+
     public function index()
     {
         $jasa = Jasa::all();
@@ -19,22 +37,14 @@ class JasaController extends Controller
 
     public function create()
     {
-        $barang = Barang::pluck('nama', 'id')->all();
+        $barang = $this->barang;
         return view('cuci.jasa.create', compact('barang'));
     }
 
     public function store(Request $request)
     {
-        $request->merge([
-            'nama_kunci' => kebab_case($request->nama),
-            'ongkos' => is_null($request->ongkos) ? 0 : str_replace(',', null, $request->ongkos),
-            'klaim' => is_null($request->klaim) ? 0 : str_replace(',', null, $request->klaim),
-            'open' => is_null($request->open) ? 0 : str_replace(',', null, $request->open)
-        ]);
-
-        $validator = Validator::make($request->all(), Jasa::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Jasa::create($request->all());
@@ -46,31 +56,24 @@ class JasaController extends Controller
 
     public function edit(Jasa $jasa)
     {
-        $barang = Barang::pluck('nama', 'id')->all();
+        $barang = $this->barang;
         $jasa = Jasa::with('jasa_barang')->findOrFail($jasa->id);
         return view('cuci.jasa.edit', compact('jasa', 'barang'));
     }
 
     public function update(Request $request, Jasa $jasa)
     {
-        $request->merge([
-            'nama_kunci' => kebab_case($request->nama),
-            'ongkos' => is_null($request->ongkos) ? 0 : str_replace(',', null, $request->ongkos),
-            'klaim' => is_null($request->klaim) ? 0 : str_replace(',', null, $request->klaim),
-            'open' => is_null($request->open) ? 0 : str_replace(',', null, $request->open)
-        ]);
-
-        $validator = Validator::make($request->all(), Jasa::rules([
+        $this->validator = Validator::make($request->all(), Jasa::rules([
             'nama' => [
                 'required',
                 'string',
                 'max:127',
                 Rule::unique('jasa')->ignore($jasa->id)
             ]
-        ]));        
+        ])->toArray());
 
-        if ($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if ($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $update = $jasa->update($request->all());
@@ -90,9 +93,12 @@ class JasaController extends Controller
 
     private function store_jasa_barang($barang, $id_jasa)
     {
-        foreach ($barang as $brg) :
-            $brg['id_jasa'] = $id_jasa;
-            Jb::create($brg);
-        endforeach;
+        $barang = collect($barang)->map(function($item, $key) use($id_jasa) {
+            $item['id_jasa'] = $id_jasa;
+            $item['created_at'] = date('Y-m-d H:i:s');
+            $item['updated_at'] = date('Y-m-d H:i:s');
+            return $item;
+        });
+        Jb::insert($barang->toArray());
     }
 }

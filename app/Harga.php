@@ -15,24 +15,14 @@ class Harga extends Model
 
     public static function rules($rules = [])
     {
-    	return array_merge([
+    	return collect([
     		'id_pelanggan' => 'required|int|max:999|exists:pelanggan,id',
     		'id_barang' => 'required|int|max:999|exists:barang,id',
     		'id_cuci' => 'required|int|max:999|exists:cuci,id',
-            'tunai' => 'numeric|nullable',
-            'cicil' => 'numeric|nullable'
-		], $rules);
+            'tunai' => 'nullable',
+            'cicil' => 'nullable'
+		])->merge($rules);
     }
-
-    // public function getTunaiAttribute($value)
-    // {
-    //     return number_format($value);
-    // }
-
-    // public function getCicilAttribute($value)
-    // {
-    //     return number_format($value);
-    // }
 
     public function pelanggan()
     {
@@ -47,6 +37,16 @@ class Harga extends Model
     public function cuci()
     {
         return $this->hasOne('kikiLaundry\Cuci', 'id', 'id_cuci');
+    }
+
+    public function setTunaiAttribute($value)
+    {
+        $this->attributes['tunai'] = str_replace(',', null, $value);
+    }
+
+    public function setCicilAttribute($value)
+    {
+        $this->attributes['cicil'] = str_replace(',', null, $value);
     }
 
 }

@@ -11,16 +11,25 @@ use Illuminate\Http\Request;
 
 class HargaController extends Controller
 {
-
+	private $validator;
 	protected $pelanggan;
 	protected $barang;
 	protected $cuci;
 
-	public function __construct(Pelanggan $pelanggan, Barang $barang, Cuci $cuci)
+	public function __construct(Request $request, Pelanggan $pelanggan, Barang $barang, Cuci $cuci)
 	{
 		$this->pelanggan = $pelanggan;
 		$this->barang = $barang;
 		$this->cuci = $cuci;
+
+		if($request->has('tunai') || $request->has('cicil')) :
+            $request->merge([
+	            'tunai' => is_null($request->tunai) ? 0 : str_replace(',', null, $request->tunai),
+	            'cicil' => is_null($request->cicil) ? 0 : str_replace(',', null, $request->cicil)
+	        ]);
+        endif;
+
+        $this->validator = Validator::make($request->all(), Harga::rules()->toArray());
 	}
 
 	public function index($id_pelanggan)
@@ -40,14 +49,8 @@ class HargaController extends Controller
 
 	public function store(Request $request)
 	{
-		$request->merge([
-            'tunai' => is_null($request->tunai) ? 0 : str_replace(',', null, $request->tunai),
-            'cicil' => is_null($request->cicil) ? 0 : str_replace(',', null, $request->cicil)
-        ]);
-
-        $validator = Validator::make($request->all(), Harga::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Harga::create($request->all());
@@ -70,14 +73,8 @@ class HargaController extends Controller
 
 	public function update(Request $request)
 	{
-		$request->merge([
-            'tunai' => is_null($request->tunai) ? 0 : str_replace(',', null, $request->tunai),
-            'cicil' => is_null($request->cicil) ? 0 : str_replace(',', null, $request->cicil)
-        ]);
-
-        $validator = Validator::make($request->all(), Harga::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         Harga::where([

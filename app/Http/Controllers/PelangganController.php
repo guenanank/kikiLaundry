@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class PelangganController extends Controller
 {
+    private $validator;
+
+    public function __construct(Request $request) 
+    {
+        $this->validator = Validator::make($request->all(), Pelanggan::rules()->toArray());
+    }
+
     public function index()
     {
         $pelanggan = Pelanggan::all();
@@ -21,9 +28,8 @@ class PelangganController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), Pelanggan::rules());
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Pelanggan::create($request->all());
@@ -37,9 +43,8 @@ class PelangganController extends Controller
 
     public function update(Request $request, Pelanggan $pelanggan)
     {
-        $validator = Validator::make($request->all(), Pelanggan::rules());
-        if ($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $update = $pelanggan->update($request->all());

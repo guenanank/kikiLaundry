@@ -9,17 +9,25 @@ use Illuminate\Http\Request;
 class PengeluaranController extends Controller
 {
     private $jenis;
+    private $validator;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->jenis = Pengeluaran::jenis();
+        $this->jenis = Pengeluaran::jenis()->toArray();
+
+        if($request->has('jumlah')) :
+            $request->merge([
+                'jumlah' => str_replace(',', null, $request->jumlah)
+            ]);
+        endif;
+
+        $this->validator = Validator::make($request->all(), Pengeluaran::rules()->toArray());
     }
 
     public function index() 
     {
         $pengeluaran = Pengeluaran::all();
-        $jenis = $this->jenis;
-        return view('pengeluaran.index', compact('pengeluaran', 'jenis'));
+        return view('pengeluaran.index', compact('pengeluaran'));
     }
 
     public function create()
@@ -30,14 +38,8 @@ class PengeluaranController extends Controller
 
     public function store(Request $request)
     {
-        $request->merge([
-            'jumlah' => str_replace(',', null, $request->jumlah)
-        ]);
-
-        $validator = Validator::make($request->all(), Pengeluaran::rules());
-
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Pengeluaran::create($request->all());
@@ -52,16 +54,10 @@ class PengeluaranController extends Controller
 
     public function update(Request $request, Pengeluaran $pengeluaran)
     {
-        $request->merge([
-            'jumlah' => str_replace(',', null, $request->jumlah)
-        ]);
-
-        $validator = Validator::make($request->all(), Pengeluaran::rules());
-
-        if($validator->fails()) :
-            return response()->json($validator->errors(), 422);
+        if($this->validator->fails()) :
+            return response()->json($this->validator->errors(), 422);
         endif;
-
+        
         $update = $pengeluaran->update($request->all());
         return response()->json(['update' => $update], 200);
     }

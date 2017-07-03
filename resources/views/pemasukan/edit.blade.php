@@ -26,20 +26,8 @@
                         <div class="form-group has-success">
                             <div class="fg-line">
                                 {{ Form::label('nomer', 'No Pemasukan', ['class' => 'control-label']) }}
-                                {{ Form::text('nomer_', $pemasukan->nomer, ['class' => 'form-control', 'disabled']) }}
-                                {{ Form::hidden('nomer', $pemasukan->nomer) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-	        	<div class="row">
-                    <div class="col-sm-offset-1 col-sm-10">
-                        <div class="form-group has-success">
-                            <div class="fg-line">
-                            	{{ Form::label('tanggal', 'Tanggal pemasukan', ['class' => 'control-label']) }}
-                                {{ Form::text('tanggal_', $pemasukan->tanggal, ['class' => 'form-control', 'disabled']) }}
-                                {{ Form::hidden('tanggal', $pemasukan->tanggal) }}
+                                {{ Form::text('_nomer', $pemasukan->nomer, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('nomer') }}
                             </div>
                         </div>
                     </div>
@@ -50,20 +38,33 @@
                         <div class="form-group has-success">
                             <div class="fg-line">
                             	{{ Form::label('jenis', 'Jenis pemasukan', ['class' => 'control-label']) }}
-                                {{ Form::text('jenis_', $jenis[$pemasukan->jenis], ['class' => 'form-control', 'disabled']) }}
-                                {{ Form::hidden('jenis', $pemasukan->jenis) }}
+                                {{ Form::text('_jenis', $pemasukan->jenis, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('jenis', camel_case($pemasukan->jenis)) }}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @if($pemasukan->jenis != 'penambahanBiaya')
+	        	<div class="row">
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="form-group has-success">
+                            <div class="fg-line">
+                            	{{ Form::label('tanggal', 'Tanggal pemasukan', ['class' => 'control-label']) }}
+                                {{ Form::text('_tanggal', $pemasukan->tanggal, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('tanggal') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if($pemasukan->jenis != 'Penambahan Biaya')
                 	<div class="row">
 	                    <div class="col-sm-offset-1 col-sm-10">
 	                        <div class="form-group has-success">
 	                            <div class="fg-line">
 	                            	{{ Form::label('id_pelanggan', 'Nama pelanggan', ['class' => 'control-label']) }}
-	                                {{ Form::text('id_pelanggan', $pemasukan->pelanggan->nama, ['class' => 'form-control', 'disabled']) }}
+	                                {{ Form::text('_id_pelanggan', $pemasukan->pelanggan->nama, ['class' => 'form-control', 'disabled']) }}
+	                                {{ Form::hidden('id_pelanggan') }}
 	                            </div>
 	                        </div>
 	                    </div>
@@ -75,7 +76,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('jumlah', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('jumlah', number_format($pemasukan->jumlah), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('jumlah', 'Jumlah pemasukan', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="jumlah" class="help-block"></small>
@@ -83,16 +84,14 @@
 		            </div>
 		        </div>
 
-		        @if($pemasukan->jenis != 'penambahanBiaya')
-			        <div class="row bayar">
-			            <div class="col-sm-offset-1 col-sm-10">
-			                <div class="form-group">
-			                    {{ Form::select('cara_bayar', $bayar, null, ['class' => 'form-control selectpicker', 'title' => 'Cara pembayaran']) }}
-			                    <small id="cara_bayar" class="help-block"></small>
-			                </div>
-			            </div>
-			        </div>
-		        @endif
+		        <div class="row bayar">
+		            <div class="col-sm-offset-1 col-sm-10">
+		                <div class="form-group">
+		                    {{ Form::select('cara_bayar', $bayar, camel_case($pemasukan->cara_bayar), ['class' => 'form-control selectpicker', 'title' => 'Cara pembayaran']) }}
+		                    <small id="cara_bayar" class="help-block"></small>
+		                </div>
+		            </div>
+		        </div>
 
 		        <br />
 		        <div class="row">

@@ -12,7 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('beranda');
+	$nomer = kikiLaundry\Order::nomer_urut();
+	$pelanggan = kikiLaundry\Pelanggan::pluck('nama', 'id')->all();
+    return view('beranda', compact('nomer', 'pelanggan'));
 });
 
 
@@ -32,15 +34,26 @@ Route::group(['prefix' => 'harga'], function() {
 	Route::get('/{id_pelanggan}/check', ['uses' => 'HargaController@check_price', 'as' => 'harga.check']);
 });
 
+Route::group(['prefix' => 'absen'], function() {
+	Route::post('find', ['uses' => 'AbsensiController@find', 'as' => 'absen.find']);
+	Route::post('submit', ['uses' => 'AbsensiController@submit', 'as' => 'absen.submit']);
+});
+
 Route::resource('order', 'OrderController');
-Route::match(['PUT', 'PATCH'], 'print_po/{id}', ['uses' => 'OrderController@print_po', 'as' => 'order.print_po']);
-Route::post('order/bill', ['uses' => 'OrderController@bill', 'as' => 'order.bill']);
 Route::get('order/{id}/payment', ['uses' => 'OrderController@payment', 'as' => 'order.payment']);
-Route::match(['PUT', 'PATCH'], 'paid/{id}',['uses' => 'OrderController@paid', 'as' => 'order.paid']);
+Route::match(['PUT', 'PATCH'], 'paid/{id}', ['uses' => 'OrderController@paid', 'as' => 'order.paid']);
 
 Route::resource('pemasukan', 'PemasukanController');
 Route::resource('pengeluaran', 'PengeluaranController');
 
 Route::group(['prefix' => 'cetak'], function() {
-	Route::get('pemasukan/{id}', ['uses' => 'PemasukanController@cetak', 'as' => 'pemasukan.cetak']);
+	Route::get('pemasukan/{id}', ['uses' => 'CetakController@pemasukan', 'as' => 'cetak.pemasukan']);
+	Route::match(['PUT', 'PATCH'], 'po', ['uses' => 'CetakController@po', 'as' => 'cetak.po']);
+	Route::post('tagihan', ['uses' => 'CetakController@tagihan', 'as' => 'cetak.tagihan']);
+});
+
+Route::group(['prefix' => 'gaji'], function() {
+
+	Route::get('/', ['uses' => 'GajiController@index', 'as' => 'gaji.index']);
+	Route::post('show', ['uses' => 'GajiController@show', 'as' => 'gaji.show']);
 });

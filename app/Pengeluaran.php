@@ -13,30 +13,27 @@ class Pengeluaran extends Model
     protected $fillable = ['tanggal', 'jenis', 'jumlah', 'keterangan'];
     protected $dates = ['deleted_at'];
 
-    public function getJumlahAttribute($value)
-    {
-        return number_format($value);
-    }
-
     public static function jenis($jenis = null)
     {
-    	$jns = [
-    		'hari' => 'Harian', 
-    		'minggu' => 'Mingguan', 
-    		'bulan' => 'Bulanan'
-    	];
-
-    	return is_null($jenis) ? $jns : $jns[$jenis];
+        $collection = collect(['Harian', 'Mingguan', 'Bulanan']);
+        $lists = $collection->combine($collection->map(function($item) {
+            return camel_case($item);
+        }))->flip();
+        return is_null($jenis) ? $lists : $lists->get($jenis);
     }
 
     public static function rules($rules = [])
     {
-    	return array_merge([
+    	return collect([
     		'tanggal' => 'required|date:Y-m-d',
     		'jenis' => 'required|string|max:7',
     		'jumlah' => 'required|numeric',
     		'keterangan' => 'string|nullable'
-		], $rules);
-    }
+		])->merge($rules);
+    }  
 
+    public function getJenisAttribute($value)
+    {
+        return self::jenis($value);
+    }
 }

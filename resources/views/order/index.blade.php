@@ -14,7 +14,7 @@
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-		    			<a href="#" class="btn btn-icon bgm-pink" data-toggle="modal" data-target="#tagihan" data-placement="top" title="Tagihan">
+		    				<a href="#" class="btn btn-icon bgm-pink" data-toggle="modal" data-target="#tagihan" data-placement="top" title="Tagihan">
 				            <i class="add-new-item zmdi zmdi-money"></i>
 				        </a>
 				        &nbsp;
@@ -35,7 +35,7 @@
 		                    <th class="text-center">Tanggal</th>
 		                    <th class="text-center">Pelanggan</th>
 		                    <th class="text-center">Tunai</th>
-		                    <th class="text-center">Cicilan</th>
+		                    <th class="text-center">Cicil</th>
 		                    <th class="text-center">Kontrol</th>
 		                </tr>
 		            </thead>
@@ -45,7 +45,7 @@
 		                    <th class="text-center">Tanggal</th>
 		                    <th class="text-center">Pelanggan</th>
 		                    <th class="text-center">Tunai</th>
-		                    <th class="text-center">Cicilan</th>
+		                    <th class="text-center">Cicil</th>
 		                    <th class="text-center">Kontrol</th>
 		                </tr>
 		            </tfoot>
@@ -61,14 +61,19 @@
 			                    	<a href="{{ url('order/' . $ord->id) }}" class="btn btn-icon bgm-gray" title="Detil order nomer {{ $ord->nomer }}" data-toggle="tooltip" id="detil">
 			                    		<span class="zmdi zmdi-search"></span>
 		                    		</a>&nbsp;
+
 		                    		@if(is_null($ord->pembayaran))
 			                    	<a href="{{ url('order/' . $ord->id . '/payment') }}" class="btn btn-icon bgm-teal" title="Lunas order nomer {{ $ord->nomer }}" data-toggle="tooltip" data-placement="bottom" id="lunas">
 			                    		<span class="zmdi zmdi-check"></span>
 		                    		</a>&nbsp;
 		                    		@endif
+
+		                    		@if($ord->dicetak == false AND is_null($ord->pembayaran))
 		                    		<a href="{{ url('order/' . $ord->id) }}" class="btn btn-icon bgm-red delete" title="Hapus order nomer {{ $ord->nomer }}" data-toggle="tooltip">
 		                    			<span class="zmdi zmdi-delete"></span>
 		                    		</a>
+		                    		@endif
+
 			                    </td>
 			                </tr>
 		            	@endforeach
@@ -81,7 +86,7 @@
 	<div class="modal fade" id="tagihan" tabindex="-1" role="dialog" aria-hidden="true">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
-	        	{{ Form::open(['route' => 'order.bill', 'target' => '_blank']) }}
+	        	{{ Form::open(['route' => 'cetak.tagihan']) }}
 	            <div class="modal-header">
 	                <h4 class="modal-title">Tagihan Pelanggan</h4>
 	            </div>
@@ -100,7 +105,7 @@
 			            <div class="col-sm-offset-1 col-sm-10">
 			                <div class="form-group fg-float">
 			                    <div class="fg-line">
-			                        {{ Form::text('awal', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-00-00']) }}
+			                        {{ Form::text('awal', null, ['class' => 'form-control fg-input date-picker']) }}
 			                        {{ Form::label('awal', 'Tanggal awal', ['class' => 'fg-label']) }}
 			                    </div>
 			                    <small id="tanggal" class="help-block"></small>
@@ -112,7 +117,7 @@
 			            <div class="col-sm-offset-1 col-sm-10">
 			                <div class="form-group fg-float">
 			                    <div class="fg-line">
-			                        {{ Form::text('akhir', null, ['class' => 'form-control fg-input input-mask', 'data-mask' => '0000-00-00']) }}
+			                        {{ Form::text('akhir', null, ['class' => 'form-control fg-input date-picker']) }}
 			                        {{ Form::label('akhir', 'Tanggal akhir', ['class' => 'fg-label']) }}
 			                    </div>
 			                    <small id="tanggal" class="help-block"></small>
@@ -149,6 +154,7 @@
 							$(this).closest(".dtp-container").removeClass("fg-toggled");
 							$(this).blur();
 						});
+
 						autosize($('.auto-size'));
 						$('.data_table').DataTable();
 

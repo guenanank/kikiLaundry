@@ -52,8 +52,8 @@
 		            		<tr>
 			                    <td>{{ $hrg->barang->nama }}</td>
 			                    <td>{{ $hrg->cuci->nama }}</td>
-			                    <td class="text-right">Rp. {{ $hrg->tunai }}</td>
-			                    <td class="text-right">Rp. {{ $hrg->cicil }}</td>
+			                    <td class="text-right">Rp. {{ number_format($hrg->tunai) }}</td>
+			                    <td class="text-right">Rp. {{ number_format($hrg->cicil) }}</td>
 			                    <td class="text-center">
 			                    	<a href="{{ url('harga/' . $hrg->id_pelanggan . '/' . $hrg->barang->id . '/' . $hrg->cuci->id . '/edit') }}" class="btn btn-icon bgm-blue" title="Ubah {{ $hrg->nama }}" data-toggle="tooltip">
 			                    		<span class="zmdi zmdi-edit"></span>

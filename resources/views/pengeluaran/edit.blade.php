@@ -26,8 +26,8 @@
 		                <div class="form-group has-success">
 		                    <div class="fg-line">
 		                        {{ Form::label('tanggal', 'Tanggal Pengeluaran', ['class' => 'control-label']) }}
-		                        {{ Form::text('tanggal_', $pengeluaran->tanggal, ['class' => 'form-control', 'disabled']) }}
-		                        {{ Form::hidden('tanggal', $pengeluaran->tanggal) }}
+		                        {{ Form::text('_tanggal', $pengeluaran->tanggal, ['class' => 'form-control', 'disabled']) }}
+		                        {{ Form::hidden('tanggal') }}
 		                    </div>
 		                    <small id="tanggal" class="help-block"></small>
 		                </div>
@@ -39,8 +39,8 @@
                         <div class="form-group has-success">
                             <div class="fg-line">
                             	{{ Form::label('jenis', 'Jenis pengeluaran', ['class' => 'control-label']) }}
-                                {{ Form::text('jenis_', $jenis[$pengeluaran->jenis], ['class' => 'form-control', 'disabled']) }}
-                                {{ Form::hidden('jenis', $pengeluaran->jenis) }}
+                                {{ Form::text('_jenis', $pengeluaran->jenis, ['class' => 'form-control', 'disabled']) }}
+                                {{ Form::hidden('jenis', camel_case($pengeluaran->jenis)) }}
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('jumlah', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('jumlah', number_format($pengeluaran->jumlah), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('jumlah', 'Jumlah pengeluaran', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="jumlah" class="help-block"></small>

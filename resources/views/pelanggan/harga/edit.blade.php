@@ -43,7 +43,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('tunai', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('tunai', number_format($harga->tunai), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('tunai', 'Harga tunai', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="tunai" class="help-block"></small>
@@ -55,7 +55,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group fg-float">
 		                    <div class="fg-line">
-		                        {{ Form::text('cicil', null, ['class' => 'form-control fg-input money']) }}
+		                        {{ Form::text('cicil', number_format($harga->cicil), ['class' => 'form-control fg-input money']) }}
 		                        {{ Form::label('cicil', 'Harga cicil', ['class' => 'fg-label']) }}
 		                    </div>
 		                    <small id="cicil" class="help-block"></small>
