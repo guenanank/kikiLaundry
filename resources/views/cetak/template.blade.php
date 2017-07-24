@@ -5,8 +5,8 @@
         <style type="text/css">
         	hr { border-top: 3px double #8c8b8b }
         	.text-center { text-align: center }
-            .text-left { text-align: left }
-            .text-right { text-align: right }
+          .text-left { text-align: left }
+          .text-right { text-align: right }
         	.pull-right { float: right !important }
         	.pull-left { float: left !important }
 
@@ -23,14 +23,14 @@
                     <strong>Kiki Laundry</strong><br />
                     Jl. Persatuan RT 001/07 No 7B Sukabumi Selatan<br />
                     Kebon Jeruk Jakarta Barat 11560<br />
-                    Telp: 082211169756        
+                    Telp: 082211169756
                 </td>
                 <td>
 
                 </td>
                 <td>
                     <div class="pull-right">
-                        <label>Jakarta, {{ date('d F Y') }}</label><br />
+                        <!-- <label>Jakarta, {{ date('d F Y') }}</label><br /> -->
                         @stack('customer')
                     </div>
                 </td>

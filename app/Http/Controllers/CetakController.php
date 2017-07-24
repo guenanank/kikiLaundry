@@ -6,6 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 
+use kikiLaundry\Harga;
 use kikiLaundry\Order;
 use kikiLaundry\Pemasukan;
 
@@ -16,6 +17,14 @@ class CetakController extends Controller
     public function __construct(Validator $validator)
     {
         $this->validator = $validator;
+    }
+
+    public function harga($id)
+    {
+      $harga = Harga::with('pelanggan', 'barang', 'cuci')->where('id_pelanggan', $id)->get();
+      $pelanggan = $harga->pluck('pelanggan')->unique()->first();
+      $pdf = PDF::loadView('cetak.harga', compact('harga', 'pelanggan'));
+      return $pdf->download();
     }
 
     public function pemasukan($id)
@@ -41,7 +50,7 @@ class CetakController extends Controller
 
     public function po(Request $request)
     {
-        $this->validator = Validator::make($request->all(), [
+        $this->validator->make($request->all(), [
             'dikirim' => 'required|date:Y-m-d'
         ]);
 
@@ -70,7 +79,7 @@ class CetakController extends Controller
         endif;
     }
 
-    public function terbilang($i = 0) 
+    public function terbilang($i = 0)
     {
         $arrsatuan = ['Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
         $arrbelasan = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];

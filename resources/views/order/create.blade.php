@@ -49,7 +49,7 @@
 		            <div class="col-sm-offset-1 col-sm-10">
 		                <div class="form-group">
 		                    {{ Form::select('id_pelanggan', $pelanggan, null, ['class' => 'form-control selectpicker', 'title' => 'Pilih pelanggan', 'data-live-search' => 'true']) }}
-		                    <small id="pelanggan" class="help-block"></small>
+		                    <small id="id_pelanggan" class="help-block"></small>
 		                </div>
 		            </div>
 		        </div>

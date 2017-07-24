@@ -14,11 +14,15 @@
 		    	</div>
 		    	<div class="col-sm-6">
 		    		<div class="pull-right">
-		    			<a href="{{ action('PelangganController@index') }}" class="btn btn-icon bgm-orange" data-toggle="tooltip" data-placement="top" title="Kembali">
+		    				<a href="{{ action('PelangganController@index') }}" class="btn btn-icon bgm-orange" data-toggle="tooltip" data-placement="top" title="Kembali">
 				            <i class="add-new-item zmdi zmdi-arrow-left"></i>
 				        </a>
+								&nbsp;
+				        <a href="{{ route('cetak.harga', ['id' => $pelanggan->id]) }}" class="btn btn-icon bgm-gray" data-toggle="tooltip" data-placement="top" title="Cetak Daftar Harga" target="_blank">
+				            <i class="add-new-item zmdi zmdi-print"></i>
+				        </a>
 				        &nbsp;
-				        <a href="{{ url('harga/' . $pelanggan->id . '/create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="left" title="Tambah Harga Baru">
+				        <a href="{{ url('harga/' . $pelanggan->id . '/create') }}" class="btn btn-icon bgm-green" data-toggle="tooltip" data-placement="bottom" title="Tambah Harga Baru">
 				            <i class="add-new-item zmdi zmdi-plus"></i>
 				        </a>
 		    		</div>
