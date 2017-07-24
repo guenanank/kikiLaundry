@@ -82,17 +82,17 @@ class HargaController extends Controller
 			['id_barang', '=', $request->id_barang],
 			['id_cuci', '=', $request->id_cuci]
 		])->delete();
-		
+
         $update = Harga::create($request->all());
         return response()->json(['update' => $update], 200);
 	}
 
-	public function destroy(Request $request)
+	public function destroy($id_pelanggan, $id_barang, $id_cuci)
 	{
 		$delete = Harga::where([
-			['id_pelanggan', '=', $request->id_pelanggan],
-			['id_barang', '=', $request->id_barang],
-			['id_cuci', '=', $request->id_cuci]
+			['id_pelanggan', '=', $id_pelanggan],
+			['id_barang', '=', $id_barang],
+			['id_cuci', '=', $id_cuci]
 		])->delete();
 
 		return response()->json($delete, 200);

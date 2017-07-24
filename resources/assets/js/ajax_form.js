@@ -23,7 +23,7 @@
                     $('.selectpicker').selectpicker('refresh');
                     $('input:not([type="hidden"])').val(null);
                     $('.modal').modal('hide');
-                    
+
                 }
                 $('div.form-group').removeClass('has-warning');
                 $('small.help-block').text(null);
@@ -44,9 +44,9 @@
                             showConfirmButton: false,
                             timer: 2000
                         }).then(function() {
-                            $clear(data.create); 
+                            $clear(data.create);
                         }, function() {
-                            // window.location.reload(true); 
+                            // window.location.reload(true);
                         });
                     },
                     422: function (response) {
@@ -93,7 +93,7 @@
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger'
             }).then(function () {
-                $.ajax();                
+                $.ajax();
             }, function (dismiss) {
                 if (dismiss === 'cancel') {
                     swal({
