@@ -11,6 +11,7 @@
 |
 */
 
+Auth::routes();
 Route::get('/', function () {
 	$nomer = kikiLaundry\Order::nomer_urut();
 	$pelanggan = kikiLaundry\Pelanggan::pluck('nama', 'id')->all();
@@ -58,3 +59,6 @@ Route::group(['prefix' => 'gaji'], function() {
 	Route::get('/', ['uses' => 'GajiController@index', 'as' => 'gaji.index']);
 	Route::post('show', ['uses' => 'GajiController@show', 'as' => 'gaji.show']);
 });
+
+
+Route::get('/home', 'HomeController@index')->name('home');

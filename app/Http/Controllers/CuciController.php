@@ -3,6 +3,7 @@
 namespace kikiLaundry\Http\Controllers;
 
 use Validator;
+use Illuminate\Validation\Rule;
 use kikiLaundry\Jasa;
 use kikiLaundry\Cuci;
 use kikiLaundry\Cuci_jasa;
@@ -13,7 +14,7 @@ class CuciController extends Controller
     private $jasa;
     private $validator;
 
-    public function __construct(Request $request) 
+    public function __construct(Request $request)
     {
         $this->jasa = Jasa::pluck('nama', 'id')->all();
         $this->validator = Validator::make($request->all(), Cuci::rules()->toArray());
@@ -62,6 +63,13 @@ class CuciController extends Controller
 
     public function update(Request $request, Cuci $cuci)
     {
+        $this->validator = Validator::make($request->all(), $cuci->rules([
+          'nama' => [
+            'required', 'string', 'max:127',
+            Rule::unique('cuci')->ignore($cuci->id),
+          ]
+        ])->toArray());
+
         if($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;

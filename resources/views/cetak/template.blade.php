@@ -22,8 +22,7 @@
                 <td>
                     <strong>Kiki Laundry</strong><br />
                     Jl. Persatuan RT 001/07 No 7B Sukabumi Selatan<br />
-                    Kebon Jeruk Jakarta Barat 11560<br />
-                    Telp: 082211169756
+                    Kebon Jeruk Jakarta Barat 11560 Telp: 082211169756
                 </td>
                 <td>
 
@@ -41,7 +40,6 @@
 
         @yield('content')
 
-        <div class="">&nbsp;</div>
         <div class="">&nbsp;</div>
         @stack('footer')
     </body>

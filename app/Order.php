@@ -46,7 +46,7 @@ class Order extends Model
 
   public static function nomer_urut()
   {
-    $terakhir = Order::select('nomer')->where([
+    $terakhir = Order::withTrashed()->select('nomer')->where([
       [DB::raw('substring(nomer, 4, 4)'), '=', date('Y')],
       [DB::raw('substring(nomer, 9, 2)'), '=', date('m')]
     ])->orderBy('nomer', 'desc')->first();

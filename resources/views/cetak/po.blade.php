@@ -4,9 +4,9 @@
 @section('name', 'FAKTUR PENGIRIMAN')
 @push('customer')
 	<label>
+			Jakarta<br />
 	    Kepada Yth. {{ $order->pelanggan->nama }}<br />
 	    {{ $order->pelanggan->alamat }}<br />
-	    Telp: {{ $order->pelanggan->telepon }}
     </label>
 @endpush
 
@@ -15,7 +15,7 @@
         <tr>
             <td><strong>No Order : {{ $order->nomer }}</strong></td>
             <td>&nbsp;</td>
-            <td><strong class="pull-right">Tgl Order : {{ $order->tanggal }}</strong></td>
+            <td><strong class="pull-right">Tgl Kirim : {{ $order->dikirim }}</strong></td>
         </tr>
     </table>
     <div class="">&nbsp;</div>
@@ -34,7 +34,6 @@
 		@endforeach
 	</table>
 @endsection
-
 @push('footer')
 	<table class="text-center" width="100%">
         <tr>
@@ -52,4 +51,7 @@
         	</td>
         </tr>
     </table>
+    <div class="">&nbsp;</div>
+		<div class="">&nbsp;</div>
+		<small style="font-size: smaller">Catatan : Harap untuk mengecek kembali ketika barang datang, Kiki Laundry tidak bertanggung jawab atas barang yang sudah dikirim.</small>
 @endpush

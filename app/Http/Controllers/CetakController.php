@@ -12,13 +12,6 @@ use kikiLaundry\Pemasukan;
 
 class CetakController extends Controller
 {
-    private $validator;
-
-    public function __construct(Validator $validator)
-    {
-        $this->validator = $validator;
-    }
-
     public function harga($id)
     {
       $harga = Harga::with('pelanggan', 'barang', 'cuci')->where('id_pelanggan', $id)->get();
@@ -43,20 +36,19 @@ class CetakController extends Controller
         ->whereNotNull('dikirim')->whereNull('pembayaran')
         ->orderBy('tanggal', 'asc')->get();
 
-        // return view('cetak.tagihan', compact('tagihan'));
         $pdf = PDF::loadView('cetak.tagihan', compact('tagihan'));
-        return $pdf->stream();
+        return $pdf->download();
     }
 
     public function po(Request $request)
     {
-        $this->validator->make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'dikirim' => 'required|date:Y-m-d'
         ]);
 
         $order = Order::with('pelanggan', 'detil.barang', 'detil.cuci')->findOrFail($request->id);
-        if($this->validator->fails()) :
-            return response()->json($this->validator->errors(), 422);
+        if($validator->fails()) :
+            return response()->json($validator->errors(), 422);
         endif;
 
         $update = $order->update($request->all());
@@ -75,7 +67,7 @@ class CetakController extends Controller
             endif;
 
             $pdf = PDF::loadView('cetak.po', compact('order', 'orderLengkap'));
-            return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->stream();
+            return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download();
         endif;
     }
 
