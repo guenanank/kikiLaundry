@@ -15,25 +15,26 @@ class Pengeluaran extends Model
 
     public static function jenis($jenis = null)
     {
-        $collection = collect(['Harian', 'Mingguan', 'Bulanan']);
-        $lists = $collection->combine($collection->map(function($item) {
-            return camel_case($item);
+      $collection = collect(['Harian', 'Mingguan', 'Bulanan']);
+      $lists = $collection->combine($collection->map(function($item) {
+          return camel_case($item);
         }))->flip();
-        return is_null($jenis) ? $lists : $lists->get($jenis);
+
+      return is_null($jenis) ? $lists : $lists->get($jenis);
     }
 
-    public static function rules($rules = [])
+    public static function rules(Array $rules = [])
     {
     	return collect([
-    		'tanggal' => 'required|date:Y-m-d',
-    		'jenis' => 'required|string|max:7',
-    		'jumlah' => 'required|numeric',
-    		'keterangan' => 'string|nullable'
-		])->merge($rules);
-    }  
+      		'tanggal' => 'required|date:Y-m-d',
+      		'jenis' => 'required|string|max:7',
+      		'jumlah' => 'required|numeric',
+      		'keterangan' => 'string|nullable'
+	      ])->merge($rules);
+    }
 
     public function getJenisAttribute($value)
     {
-        return self::jenis($value);
+      return self::jenis($value);
     }
 }

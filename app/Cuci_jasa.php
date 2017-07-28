@@ -13,11 +13,11 @@ class Cuci_jasa extends Model
 	protected $fillable = ['id_cuci', 'id_jasa'];
 	protected $dates = ['deleted_at'];
 
-	public static function rules($rules = [])
+	public static function rules(Array $rules = [])
 	{
 		return collect([
-			'id_cuci' => 'exists:cuci,id',
-			'id_jasa' => 'exists:jasa,id'
-		])->merge($rules);
+				'id_cuci' => 'exists:cuci,id',
+				'id_jasa' => 'exists:jasa,id'
+			])->merge($rules);
 	}
 }

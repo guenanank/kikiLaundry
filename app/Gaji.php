@@ -16,18 +16,19 @@ class Gaji extends Model
   public static function bagian($bagian = null)
   {
     $lists = Jasa::pluck('nama', 'nama_kunci')->reject(function($item, $key) {
-      return starts_with($key, 'distro-');
-    })->put('harian', 'Harian');
+        return starts_with($key, 'distro-');
+      })->put('harian', 'Harian');
+
     return is_null($bagian) ? $lists : $lists->get($bagian);
   }
 
-  public static function rules($rules = [])
+  public static function rules(Array $rules = [])
   {
     return collect([
-      'bagian' => 'required|string|max:127',
-      'awal' => 'required|date_format:Y-m-d',
-      'akhir' => 'required|date_format:Y-m-d',
-      'total' => 'required|numeric'
-    ])->merge($rules);
+        'bagian' => 'required|string|max:127',
+        'awal' => 'required|date_format:Y-m-d',
+        'akhir' => 'required|date_format:Y-m-d',
+        'total' => 'required|numeric'
+      ])->merge($rules);
   }
 }

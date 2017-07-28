@@ -13,12 +13,12 @@ class Jasa_barang extends Model
   protected $fillable = ['id_jasa', 'id_barang', 'ongkos', 'klaim', 'open'];
   protected $dates = ['deleted_at'];
 
-  public static function rules($rules = [])
+  public static function rules(Array $rules = [])
   {
     return collect([
-      'id_jasa' => 'exists:jasa,id',
-      'id_barang' => 'exists:barang,id'
-    ])->merge($rules);
+        'id_jasa' => 'exists:jasa,id',
+        'id_barang' => 'exists:barang,id'
+      ])->merge($rules);
   }
 
   public function jasa()

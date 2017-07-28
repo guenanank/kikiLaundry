@@ -31,14 +31,14 @@ class JasaController extends Controller
 
     public function index()
     {
-        $jasa = Jasa::all();
-        return view('cuci.jasa.index', compact('jasa'));
+      $jasa = Jasa::all();
+      return view('cuci.jasa.index', compact('jasa'));
     }
 
     public function create()
     {
-        $barang = $this->barang;
-        return view('cuci.jasa.create', compact('barang'));
+      $barang = Barang::pluck('nama', 'id')->all();
+      return view('cuci.jasa.create', compact('barang'));
     }
 
     public function store(Request $request)

@@ -13,11 +13,11 @@ class Cuci extends Model
 	protected $fillable = ['nama'];
 	protected $dates = ['deleted_at'];
 
-	public static function rules($rules = [])
+	public static function rules(Array $rules = [])
 	{
 		return collect([
-			'nama' => 'required|string|max:127|unique:cuci,nama'
-		])->merge($rules);
+				'nama' => 'required|string|max:127|unique:cuci,nama'
+			])->merge($rules);
 	}
 
 	public function jasa()

@@ -55,7 +55,6 @@ Route::group(['prefix' => 'cetak'], function() {
 });
 
 Route::group(['prefix' => 'gaji'], function() {
-
 	Route::get('/', ['uses' => 'GajiController@index', 'as' => 'gaji.index']);
 	Route::post('show', ['uses' => 'GajiController@show', 'as' => 'gaji.show']);
 });

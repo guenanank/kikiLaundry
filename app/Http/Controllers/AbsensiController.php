@@ -10,18 +10,9 @@ use kikiLaundry\Karyawan;
 
 class AbsensiController extends Controller
 {
-	  private $Validator;
-    private $karyawan;
-
-    public function __construct(Request $request)
-    {
-    	$this->validator = Validator::make($request->all(), Absensi::rules()->toArray());
-    	$this->karyawan = Karyawan::orderBy('bagian')->pluck('nama', 'id')->all();
-    }
-
 		public function find(Request $request)
 		{
-			$karyawan = $this->karyawan;
+			$karyawan = Karyawan::orderBy('bagian')->pluck('nama', 'id')->all();
 			$absensi = Absensi::where('tanggal', $request->tanggal)->get();
 			$tanggal = $absensi->isEmpty() ? $request->tanggal : $absensi->pluck('tanggal')->unique()->first();
 			return view('karyawan.absensi', compact('karyawan', 'tanggal', 'absensi'));
@@ -29,12 +20,14 @@ class AbsensiController extends Controller
 
 		public function submit(Request $request)
 		{
-			if($this->validator->fails()) :
-            return response()->json($this->validator->errors(), 422);
+			$karyawan = Karyawan::orderBy('bagian')->pluck('nama', 'id')->all();
+			$validator = Validator::make($request->all(), Absensi::rules()->toArray());
+			if($validator->fails()) :
+        return response()->json($validator->errors(), 422);
       endif;
 
 			$data = [];
-			foreach(collect($this->karyawan)->only($request->karyawan) as $k => $v) :
+			foreach(collect($karyawan)->only($request->karyawan) as $k => $v) :
 				$data[] = [
 					'id_karyawan' => $k,
 					'tanggal' => $request->tanggal,

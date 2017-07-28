@@ -13,13 +13,13 @@ class Absensi extends Model
   protected $fillable = ['id_karyawan', 'tanggal', 'masuk', 'libur', 'libur_keterangan'];
   protected $dates = ['deleted_at'];
 
-  public static function rules($rules = [])
+  public static function rules(Array $rules = [])
   {
     return collect([
-      'tanggal' => 'required|date:Y-m-d',
-      'masuk' => 'boolean',
-      'libur_keterangan' => 'string|nullable'
-    ])->merge($rules);
+        'tanggal' => 'required|date:Y-m-d',
+        'masuk' => 'boolean',
+        'libur_keterangan' => 'string|nullable'
+      ])->merge($rules);
   }
 
   public function karyawan()

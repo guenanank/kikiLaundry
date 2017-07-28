@@ -13,12 +13,12 @@ class Jasa extends Model
   protected $fillable = ['nama', 'nama_kunci', 'tergantung_barang','ongkos', 'klaim', 'open'];
   protected $dates = ['deleted_at'];
 
-  public static function rules($rules = [])
+  public static function rules(Array $rules = [])
   {
     return collect([
-      'nama' => 'required|string|max:127|unique:jasa,nama',
-      'tergantung_barang' => 'boolean'
-    ])->merge($rules);
+        'nama' => 'required|string|max:127|unique:jasa,nama',
+        'tergantung_barang' => 'boolean'
+      ])->merge($rules);
   }
 
   public function setNamaAttribute($value)

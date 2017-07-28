@@ -13,15 +13,16 @@ class Barang extends Model
   protected $fillable = ['nama'];
   protected $dates = ['deleted_at'];
 
-  public static function rules($rules = [])
+  public static function rules(Array $rules = [])
   {
     return collect([
-      'nama' => 'required|string|max:127|unique:barang,nama'
-    ])->merge($rules);
+        'nama' => 'required|string|max:127|unique:barang,nama'
+      ])->merge($rules);
   }
 
   public function jasa()
   {
-    return $this->belongsToMany('kikiLaundry\Jasa', 'jasa_barang', 'id_barang', 'id_jasa')->withPivot('id_jasa', 'id_barang', 'ongkos', 'klaim', 'open');
+    return $this->belongsToMany('kikiLaundry\Jasa', 'jasa_barang', 'id_barang', 'id_jasa')
+        ->withPivot('id_jasa', 'id_barang', 'ongkos', 'klaim', 'open');
   }
 }
