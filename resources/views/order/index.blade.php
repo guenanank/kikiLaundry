@@ -144,7 +144,7 @@
 		$('.data_table').DataTable();
 
 		(function($) {
-			$('a#lunas, a#detil').on('click', function(e) {
+			$('body').on('click', 'a#lunas, a#detil', function(e) {
 				e.preventDefault();
 				$.get($(this).attr('href'), function(data) {
 					$(data).modal().on('shown.bs.modal', function(e) {

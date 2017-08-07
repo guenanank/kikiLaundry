@@ -13,9 +13,9 @@
 @section('content')
 	<table border="0" width="100%">
         <tr>
-            <td><strong>No Order : {{ $order->nomer }}</strong></td>
+            <td>No Order : {{ $order->nomer }}</td>
             <td>&nbsp;</td>
-            <td><strong class="pull-right">Tgl Kirim : {{ $order->dikirim }}</strong></td>
+            <td><span class="pull-right">Tgl Kirim : {{ $order->dikirim }}</span></td>
         </tr>
     </table>
     <div class="">&nbsp;</div>
@@ -52,6 +52,9 @@
         </tr>
     </table>
     <div class="">&nbsp;</div>
-		<div class="">&nbsp;</div>
-		<small style="font-size: smaller">Catatan : Harap untuk mengecek kembali ketika barang datang, Kiki Laundry tidak bertanggung jawab atas barang yang sudah dikirim.</small>
+
+		<div style="border:1px solid; margin: 0 20%">
+			<p style="font-size: small; margin: 1px; text-align: center">Harap untuk mengecek kembali ketika barang datang, Kiki Laundry tidak bertanggung jawab atas barang yang sudah dikirim.</p>
+		</div>
+
 @endpush

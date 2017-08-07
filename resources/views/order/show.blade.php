@@ -54,13 +54,15 @@
                                     <th class="text-center">Barang</th>
                                     <th class="text-center">Cuci</th>
                                     <th class="text-center">Banyaknya</th>
+                                    <th class="text-center">Tunai</th>
+                                    <th class="text-center">Cicil</th>
                                     <th class="text-center">Subtotal Tunai</th>
                                     <th class="text-center">Subtotal Cicil</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="4" class="text-right">
+                                    <td colspan="6" class="text-right">
                                         <strong class="text-primary">Total</strong>
                                     </td>
                                     <td class="text-right">
@@ -85,6 +87,8 @@
                                         <td>{{ $barang[$detil->id_barang] }}</td>
                                         <td>{{ $cuci[$detil->id_cuci] }}</td>
                                         <td class="text-center">{{ (int) $detil->banyaknya }}</td>
+                                        <td class="text-right">Rp. {{ number_format($detil->harga_tunai) }}</td>
+                                        <td class="text-right">Rp. {{ number_format($detil->harga_cicil) }}</td>
                                         <td class="text-right">Rp. {{ number_format($detil->banyaknya * $detil->harga_tunai) }}</td>
                                         <td class="text-right">{{ number_format($detil->banyaknya * $detil->harga_cicil) }}</td>
                                     </tr>

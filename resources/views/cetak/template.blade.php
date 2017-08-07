@@ -3,6 +3,7 @@
     <head>
         <title>Kiki Laundry :: @yield('title')</title>
         <style type="text/css">
+          * { font-size: 110% }
         	hr { border-top: 3px double #8c8b8b }
         	.text-center { text-align: center }
           .text-left { text-align: left }
@@ -17,30 +18,28 @@
         </style>
     </head>
     <body>
-        <table width="100%">
-            <tr>
-                <td>
-                    <strong>Kiki Laundry</strong><br />
-                    Jl. Persatuan RT 001/07 No 7B Sukabumi Selatan<br />
-                    Kebon Jeruk Jakarta Barat 11560 Telp: 082211169756
-                </td>
-                <td>
+      <table width="100%" style="top: 0">
+          <tr>
+              <td>
+                  <strong>Kiki Laundry</strong><br />
+                  Jl. Persatuan RT 001/07 No 7B Sukabumi Selatan<br />
+                  Kebon Jeruk Jakarta Barat 11560 Telp: 082211169756
+              </td>
+              <td>
 
-                </td>
-                <td>
-                    <div class="pull-right">
-                        <!-- <label>Jakarta, {{ date('d F Y') }}</label><br /> -->
-                        @stack('customer')
-                    </div>
-                </td>
-            </tr>
-        </table>
-		<hr />
-		<h4 class="text-center">@yield('name')</h4>
-
-        @yield('content')
-
-        <div class="">&nbsp;</div>
-        @stack('footer')
+              </td>
+              <td>
+                  <div class="pull-right">
+                      <!-- <label>Jakarta, {{ date('d F Y') }}</label><br /> -->
+                      @stack('customer')
+                  </div>
+              </td>
+          </tr>
+      </table>
+  		<hr />
+      <p class="text-center">@yield('name')</p>
+      @yield('content')
+      <div class="">&nbsp;</div>
+      @stack('footer')
     </body>
 </html>

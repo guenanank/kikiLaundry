@@ -17,14 +17,14 @@ class CetakController extends Controller
       $harga = Harga::with('pelanggan', 'barang', 'cuci')->where('id_pelanggan', $id)->get();
       $pelanggan = $harga->pluck('pelanggan')->unique()->first();
       $pdf = PDF::loadView('cetak.harga', compact('harga', 'pelanggan'));
-      return $pdf->download();
+      return $pdf->download('harga_' . $pelanggan . '.pdf');
     }
 
     public function pemasukan($id)
     {
       $pemasukan = Pemasukan::with('pelanggan')->findOrFail($id);
       $pdf = PDF::loadView('cetak.pemasukan', compact('pemasukan'));
-      return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download();
+      return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download($pemasukan->nomer . '.pdf');
     }
 
     public function tagihan(Request $request)
@@ -37,7 +37,7 @@ class CetakController extends Controller
         ->orderBy('tanggal', 'asc')->get();
 
       $pdf = PDF::loadView('cetak.tagihan', compact('tagihan'));
-      return $pdf->download();
+      return $pdf->download('kontra_bon.pdf');
     }
 
     public function po(Request $request)
@@ -67,7 +67,7 @@ class CetakController extends Controller
         endif;
 
         $pdf = PDF::loadView('cetak.po', compact('order', 'orderLengkap'));
-        return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download();
+        return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download($order->nomer . '.pdf');
       endif;
     }
 
