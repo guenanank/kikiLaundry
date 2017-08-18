@@ -82,8 +82,8 @@ class HargaController extends Controller
 	public function check_price($id_pelanggan)
 	{
     $collect = [];
-    $barang = $this->barang->pluck('nama', 'id')->all();
-    $cuci = $this->cuci->pluck('nama', 'id')->all();
+    $barang = Barang::pluck('nama', 'id')->all();
+    $cuci = Cuci::pluck('nama', 'id')->all();
     foreach(Harga::where('id_pelanggan', $id_pelanggan)->get() as $harga) :
       $collect['barang'][$harga['id_barang']] = $barang[$harga['id_barang']];
       $collect['cuci'][$harga['id_barang']][$harga['id_cuci']] = [

@@ -3,8 +3,8 @@
 @section('name', 'DAFTAR HARGA ' . strtoupper($pelanggan->nama))
 
 @section('content')
-<table class="text-center" cellpadding="0" cellspacing="0" border="1" width="100%">
-  <tr>
+<table border="1" width="100%">
+  <tr class="text-center">
     <th>Barang</th>
     <th>Cuci/Jasa</th>
     <th>Tunai</th>
@@ -14,8 +14,8 @@
     <tr>
       <td>{{ $h->barang->nama }}</td>
       <td>{{ $h->cuci->nama }}</td>
-      <td>Rp. {{ number_format($h->tunai) }}</td>
-      <td>Rp. {{ number_format($h->cicil) }}</td>
+      <td class="text-right">Rp. {{ number_format($h->tunai) }}</td>
+      <td class="text-right">Rp. {{ number_format($h->cicil) }}</td>
     </tr>
   @endforeach
 </table>

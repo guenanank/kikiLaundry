@@ -6,7 +6,7 @@
 @section('content')
 	<div style="margin-left: 10%">
 		<div>Telah diterima pembayaran {{ $pemasukan->cara_bayar }} pada tanggal {{ $pemasukan->tanggal }} dengan : </div>
-		
+
 		<table style="margin-left: 30%" width="100%">
 			<tr>
 				<td width="20%">Nomer</td>
@@ -37,16 +37,16 @@
 
 @push('footer')
 	<table class="text-center" width="100%">
-        <tr>
-            <td width="33%">
-            	Yang Menerima<br /><br /><br />
-            	(..............................)
-        	</td>
-            <td width="34%">&nbsp;</td>
-            <td width="33%">
-            	Hormat Kami<br /><br /><br />
-            	Kiki Laundry
-        	</td>
-        </tr>
-    </table>
+    <tr>
+      <td width="33%">
+      	Yang Menerima<br /><br /><br />
+      	(..............................)
+    	</td>
+      <td width="34%">&nbsp;</td>
+      <td width="33%">
+      	Hormat Kami<br /><br /><br />
+      	Kiki Laundry
+    	</td>
+    </tr>
+  </table>
 @endpush

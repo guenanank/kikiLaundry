@@ -9,26 +9,30 @@ use Barryvdh\DomPDF\Facade as PDF;
 use kikiLaundry\Harga;
 use kikiLaundry\Order;
 use kikiLaundry\Pemasukan;
+use kikiLaundry\Pelanggan;
 
 class CetakController extends Controller
 {
+    private $half_paper_size = [0, 0, 685.98, 396.85];
+
     public function harga($id)
     {
       $harga = Harga::with('pelanggan', 'barang', 'cuci')->where('id_pelanggan', $id)->get();
-      $pelanggan = $harga->pluck('pelanggan')->unique()->first();
+      $pelanggan = Pelanggan::findOrFail($id);
       $pdf = PDF::loadView('cetak.harga', compact('harga', 'pelanggan'));
-      return $pdf->download('harga_' . $pelanggan . '.pdf');
+      return $pdf->stream('harga_' . snake_case($pelanggan->nama) . '.pdf');
     }
 
     public function pemasukan($id)
     {
       $pemasukan = Pemasukan::with('pelanggan')->findOrFail($id);
       $pdf = PDF::loadView('cetak.pemasukan', compact('pemasukan'));
-      return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download($pemasukan->nomer . '.pdf');
+      return $pdf->setPaper($this->half_paper_size, 'portrait')->download($pemasukan->nomer . '.pdf');
     }
 
     public function tagihan(Request $request)
     {
+      $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
       $tagihan = Order::with('pelanggan', 'detil.barang', 'detil.cuci')
         ->where('id_pelanggan', $request->id_pelanggan)
         ->where('dicetak', true)
@@ -36,8 +40,8 @@ class CetakController extends Controller
         ->whereNotNull('dikirim')->whereNull('pembayaran')
         ->orderBy('tanggal', 'asc')->get();
 
-      $pdf = PDF::loadView('cetak.tagihan', compact('tagihan'));
-      return $pdf->download('kontra_bon.pdf');
+      $pdf = PDF::loadView('cetak.tagihan', compact('tagihan', 'pelanggan'));
+      return $pdf->stream('kontra_bon_' . snake_case($pelanggan->nama) . '.pdf');
     }
 
     public function po(Request $request)
@@ -67,7 +71,7 @@ class CetakController extends Controller
         endif;
 
         $pdf = PDF::loadView('cetak.po', compact('order', 'orderLengkap'));
-        return $pdf->setPaper([0, 0, 685.98, 396.85], 'portrait')->download($order->nomer . '.pdf');
+        return $pdf->setPaper($this->half_paper_size, 'portrait')->stream($order->nomer . '.pdf');
       endif;
     }
 

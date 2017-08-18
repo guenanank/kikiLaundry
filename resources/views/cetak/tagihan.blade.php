@@ -5,16 +5,15 @@
 
 @push('customer')
 	<label>
-	    Kepada Yth. {{ $tagihan->pluck('pelanggan')->first()->nama }}<br />
-	    {{ $tagihan->pluck('pelanggan')->first()->alamat }}<br />
-	    Telp: {{ $tagihan->pluck('pelanggan')->first()->telepon }}
-    </label>
+	  Kepada Yth. {{ $pelanggan->nama }}<br />
+	  {{ $pelanggan->alamat }}
+	</label>
 @endpush
 
 @section('content')
-	<table width="100%" border="1" style="font-size: 12px">
+	<table width="100%" border="1">
 		<thead>
-			<tr class="text-center">
+			<tr>
 				<th>No</th>
 				<th>Tanggal</th>
 				<th>No Order</th>
@@ -26,22 +25,26 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($tagihan as $k => $t)
-				<tr class="text-center">
-					<td rowspan="{{ $t->detil->count() + 1 }}">{{ ++$k }}</td>
-					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->tanggal }}</td>
-					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->nomer }}</td>
-				</tr>
-				@foreach($t->detil as $d)
-					<tr>
-						<td class="text-center">{{ $d->barang->nama }}</td>
-						<td class="text-center">{{ $d->cuci->nama }}</td>
-						<td class="text-center">{{ $d->banyaknya }}</td>
-						<td class="text-right">{{ number_format($d->harga_cicil) }}</td>
-						<td class="text-right">{{ number_format($d->harga_cicil * $d->banyaknya) }}</td>
+			@if($tagihan->isEmpty())
+				<tr><td colspan="8" class="text-center">data kosong</td></tr>
+			@else
+				@foreach($tagihan as $k => $t)
+					<tr class="text-center">
+						<td rowspan="{{ $t->detil->count() + 1 }}">{{ ++$k }}</td>
+						<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->tanggal }}</td>
+						<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->nomer }}</td>
 					</tr>
+					@foreach($t->detil as $d)
+						<tr>
+							<td class="text-center">{{ $d->barang->nama }}</td>
+							<td class="text-center">{{ $d->cuci->nama }}</td>
+							<td class="text-center">{{ $d->banyaknya }}</td>
+							<td class="text-right">{{ number_format($d->harga_cicil) }}</td>
+							<td class="text-right">{{ number_format($d->harga_cicil * $d->banyaknya) }}</td>
+						</tr>
+					@endforeach
 				@endforeach
-			@endforeach
+			@endif
 		</tbody>
 		<tfoot>
 			<tr>
@@ -54,16 +57,16 @@
 
 @push('footer')
 	<table class="text-center" width="100%">
-        <tr>
-            <td width="33%">
-            	Yang Menerima<br /><br /><br />
-            	(..............................)
-        	</td>
-            <td width="34%">&nbsp;</td>
-            <td width="33%">
-            	Hormat Kami<br /><br /><br />
-            	Kiki Laundry
-        	</td>
-        </tr>
-    </table>
+    <tr>
+      <td width="33%">
+      	Yang Menerima<br /><br /><br />
+      	(..............................)
+    	</td>
+      <td width="34%">&nbsp;</td>
+      <td width="33%">
+      	Hormat Kami<br /><br /><br />
+      	Kiki Laundry
+    	</td>
+    </tr>
+  </table>
 @endpush

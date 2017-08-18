@@ -19,7 +19,7 @@
 		$('input[name="jumlah_cicil"]').val(0);
 
 		$('table#daftar tbody > tr').hide(function() {
-			$(this).remove();	
+			$(this).remove();
 		});
 	};
 
@@ -35,9 +35,12 @@
 
 	} else {
 		$('select[name="id_pelanggan"]').on('change', function() {
-			clear();				
+			$('.page-loader').show();
+			clear();
 			$.getJSON(base_url + '/harga/' + $(this).val() + '/check', function(data) {
 				harga(data);
+			}).done(function() {
+				$('.page-loader').hide();
 			});
 		});
 	}
@@ -61,7 +64,7 @@
 
 		$('.selectpicker').selectpicker('refresh');
 	};
-	
+
 	$('div.detil').on('click', 'button#tambah', function() {
 		var obj = {};
 		$(this).parents('div.detil').find(':input').each(function() {
@@ -82,14 +85,14 @@
         	}
 		});
 
-		if($.isEmptyObject(obj) == false) 
+		if($.isEmptyObject(obj) == false)
         	data = $.makeArray(obj);
 
         if(data.length !== 0) {
         	$('div.form-group').removeClass('has-warning');
             $('small.help-block').text(null);
         }
-        
+
     	tbody(data);
     	tunai.push($('input[name="_banyaknya"]').val() * $('select[name="_cuci"]').find(':selected').data('tunai'));
 		cicil.push($('input[name="_banyaknya"]').val() * $('select[name="_cuci"]').find(':selected').data('cicil'));
@@ -100,7 +103,7 @@
 		$('select[name="_barang"], select[name="_cuci"]').selectpicker('val', null);
 		$('input[name="_banyaknya"]').val(null).blur();
 	});
-	
+
 	var tbody = function(data) {
 		var tbody;
 		$.each(data, function(k, v) {
@@ -108,7 +111,7 @@
 			var jumlah_cicil = v._banyaknya * v._cicil;
 			i += 1;
 			tbody += '<tr>';
-			
+
 			tbody += '<td>' + v._nama_barang;
 			tbody += '<input type="hidden" name="order_lengkap[' + i + '][id_barang]" value="' + v._barang + '" />';
 			tbody += '</td>';
@@ -135,7 +138,7 @@
 			tbody += '</td>';
 			tbody += '</tr>';
 			$('table#daftar tbody').append(tbody);
-		});			
+		});
 	};
 
 	$('table#daftar').on('click', '.hapus', function() {
@@ -152,7 +155,7 @@
 	});
 
 	// var index = 0,
-	// 	id_barang, 
+	// 	id_barang,
 	// 	nama_barang,
 	// 	id_jasa,
 	// 	nama_jasa,
@@ -185,7 +188,7 @@
 	// 	$('strong#jumlah_harga_tunai_teks, strong#jumlah_harga_cicil_teks').text(null);
 	// 	$('input[name="jumlah_tunai"], input[name="jumlah_cicil"]').val(null);
 	// 	$('table#daftar tbody > tr').hide(function() {
-	// 		$(this).remove();	
+	// 		$(this).remove();
 	// 	});
 
 	// 	index = 0;
@@ -207,7 +210,7 @@
 	// 			jasa_barang(data);
 	// 		});
 	// 	});
-	// }		
+	// }
 
 	// var jasa_barang = function(data) {
 	// 	$.each(data.barang, function(k, v) {
@@ -219,7 +222,7 @@
 	// 		id_barang = $('select[name="barang_"] option:selected').val();
 	// 		nama_barang = $('select[name="barang_"] option:selected').text();
 	// 		$.each(data.cuci[id_barang], function(index, row) {
-	// 			$('select[name="jasa_"]').append('<option data-tunai="' + row.tunai + '" data-cicil="' + row.cicil + '" value="' + index + '">' + row.nama + '</option>');	
+	// 			$('select[name="jasa_"]').append('<option data-tunai="' + row.tunai + '" data-cicil="' + row.cicil + '" value="' + index + '">' + row.nama + '</option>');
 	// 			$('select[name="jasa_"]').selectpicker('refresh');
 	// 		});
 	// 	});
