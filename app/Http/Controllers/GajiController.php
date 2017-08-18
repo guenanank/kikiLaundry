@@ -4,8 +4,10 @@ namespace kikiLaundry\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 use kikiLaundry\Gaji;
+use kikiLaundry\Karyawan;
 use kikiLaundry\Absensi;
 use kikiLaundry\Jasa;
 use kikiLaundry\Order;
@@ -31,7 +33,10 @@ class GajiController extends Controller
         $bagian = null;
         switch ($request->bagian) {
             case 'harian':
-              $bagian = self::harian($request->awal, $request->akhir);
+              $karyawan = Karyawan::orderBy('nama', 'asc')->get();
+              $harian = Absensi::whereBetween('tanggal', [$request->awal, $request->akhir])->get();
+              $pdf = PDF::loadView('gaji.harian', compact('karyawan', 'harian'));
+              return $pdf->stream();
               break;
 
             case 'borongan':
@@ -55,27 +60,19 @@ class GajiController extends Controller
               break;
         }
 
-        $gaji = new Gaji;
-        $gaji->where([
-            ['bagian', '=', $request->bagian],
-            ['awal', '=', $request->awal],
-            ['akhir', '=', $request->akhir],
-        ])->delete();
-
-        $gaji->create([
-            'bagian' => $request->bagian,
-            'awal' => $request->awal,
-            'akhir' => $request->akhir,
-            'jumlah' => $bagian['total']
-        ]);
-    }
-
-    private function harian()
-    {
-        list($awal, $akhir) = func_get_args();
-        $harian = Absensi::with('karyawan')->whereBetween('tanggal', [$awal, $akhir])->get();
-        dd($harian->pluck('karyawan')->unique());
-        return $parameter;
+        // $gaji = new Gaji;
+        // $gaji->where([
+        //     ['bagian', '=', $request->bagian],
+        //     ['awal', '=', $request->awal],
+        //     ['akhir', '=', $request->akhir],
+        // ])->delete();
+        //
+        // $gaji->create([
+        //     'bagian' => $request->bagian,
+        //     'awal' => $request->awal,
+        //     'akhir' => $request->akhir,
+        //     'jumlah' => $bagian['total']
+        // ]);
     }
 
     private function borongan()
@@ -212,9 +209,9 @@ class GajiController extends Controller
     private function cari_order($awal, $akhir)
     {
         return Order::with('detil.barang', 'detil.cuci')
-      ->whereNotNull('dikirim')
-      ->whereBetween('tanggal', [$awal, $akhir])
-      ->get();
+            ->whereNotNull('dikirim')
+            ->whereBetween('tanggal', [$awal, $akhir])
+            ->get();
     }
 
     private function hasil($data = [], $bagian)

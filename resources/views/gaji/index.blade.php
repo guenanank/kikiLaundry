@@ -12,7 +12,7 @@
     </div>
   <div class="clearfix">&nbsp;</div>
   <div class="card-body card-padding">
-    {{ Form::open(['route' => 'gaji.show'])}}
+    {{ Form::open(['route' => 'gaji.show', 'target' => '_blank'])}}
       <div class="row">
         <div class="col-sm-offset-1 col-sm-10">
           <div class="form-group">
