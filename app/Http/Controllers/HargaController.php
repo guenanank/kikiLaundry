@@ -29,9 +29,9 @@ class HargaController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), Harga::rules()->toArray());
-        if ($validator->fails()) :
-      return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $create = Harga::create($request->all());
         return response()->json(['create' => $create], 200);
@@ -54,9 +54,9 @@ class HargaController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), Harga::rules()->toArray());
-        if ($validator->fails()) :
-      return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         Harga::where([
                 ['id_pelanggan', '=', $request->id_pelanggan],
@@ -84,14 +84,14 @@ class HargaController extends Controller
         $collect = [];
         $barang = Barang::pluck('nama', 'id')->all();
         $cuci = Cuci::pluck('nama', 'id')->all();
-        foreach (Harga::where('id_pelanggan', $id_pelanggan)->get() as $harga) :
-      $collect['barang'][$harga['id_barang']] = $barang[$harga['id_barang']];
-        $collect['cuci'][$harga['id_barang']][$harga['id_cuci']] = [
-        'nama' => $cuci[$harga['id_cuci']],
-        'tunai' => $harga['tunai'],
-        'cicil' => $harga['cicil']
-      ];
-        endforeach;
+        foreach (Harga::where('id_pelanggan', $id_pelanggan)->get() as $harga) {
+            $collect['barang'][$harga['id_barang']] = $barang[$harga['id_barang']];
+            $collect['cuci'][$harga['id_barang']][$harga['id_cuci']] = [
+            'nama' => $cuci[$harga['id_cuci']],
+            'tunai' => $harga['tunai'],
+            'cicil' => $harga['cicil']
+          ];
+        }
 
         $collect = collect($collect);
         return $collect->toJson();

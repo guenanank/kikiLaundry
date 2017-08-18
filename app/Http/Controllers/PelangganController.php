@@ -28,9 +28,9 @@ class PelangganController extends Controller
 
     public function store(Request $request)
     {
-        if ($this->validator->fails()) :
+        if ($this->validator->fails()) {
             return response()->json($this->validator->errors(), 422);
-        endif;
+        }
 
         $create = Pelanggan::create($request->all());
         return response()->json(['create' => $create], 200);
@@ -43,9 +43,9 @@ class PelangganController extends Controller
 
     public function update(Request $request, Pelanggan $pelanggan)
     {
-        if ($this->validator->fails()) :
+        if ($this->validator->fails()) {
             return response()->json($this->validator->errors(), 422);
-        endif;
+        }
 
         $update = $pelanggan->update($request->all());
         return response()->json(['update' => $update], 200);

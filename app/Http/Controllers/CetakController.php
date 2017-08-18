@@ -52,36 +52,37 @@ class CetakController extends Controller
       ]);
 
         $order = Order::with('pelanggan', 'detil.barang', 'detil.cuci')->findOrFail($request->id);
-        if ($validator->fails()) :
-        return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $update = $order->update($request->all());
-        if ($update) :
-        if (is_null($request->detil)) :
-          $orderLengkap = $order->detil; else :
-          $barang = [];
-        $cuci = [];
-        foreach ($request->detil as $detil) :
-            list($id_barang, $id_cuci) = explode(',', $detil);
-        $barang[] = $id_barang;
-        $cuci[] = $id_cuci;
-        endforeach;
-        $orderLengkap = $order->detil->whereIn('id_barang', $barang)->whereIn('id_cuci', $cuci)->all();
-        endif;
+        if ($update) {
+            if (is_null($request->detil)) {
+                $orderLengkap = $order->detil;
+            } else {
+                $barang = [];
+                $cuci = [];
+                foreach ($request->detil as $detil) {
+                    list($id_barang, $id_cuci) = explode(',', $detil);
+                    $barang[] = $id_barang;
+                    $cuci[] = $id_cuci;
+                }
+                $orderLengkap = $order->detil->whereIn('id_barang', $barang)->whereIn('id_cuci', $cuci)->all();
+            }
 
-        $pdf = PDF::loadView('cetak.po', compact('order', 'orderLengkap'));
-        return $pdf->setPaper($this->half_paper_size, 'portrait')->download($order->nomer . '.pdf');
-        endif;
+            $pdf = PDF::loadView('cetak.po', compact('order', 'orderLengkap'));
+            return $pdf->setPaper($this->half_paper_size, 'portrait')->download($order->nomer . '.pdf');
+        }
     }
 
     public function terbilang($i = 0)
     {
         $arrsatuan = ['Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
         $arrbelasan = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
-        if (empty($i)) :
-        return;
-        endif;
+        if (empty($i)) {
+            return;
+        }
 
         if ($i <= 9) {
             $return = $arrsatuan[$i - 1];

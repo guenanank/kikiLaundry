@@ -23,9 +23,9 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), Barang::rules()->toArray());
-        if ($validator->fails()) :
-        return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $create = Barang::create($request->all());
         return response()->json(['create' => $create], 200);
@@ -47,9 +47,9 @@ class BarangController extends Controller
           ]
         ])->toArray());
 
-        if ($validator->fails()) :
-        return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $update = $barang->update($request->all());
         return response()->json(['update' => $update], 200);

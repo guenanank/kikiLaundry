@@ -23,22 +23,22 @@ class AbsensiController extends Controller
     {
         $karyawan = Karyawan::orderBy('bagian')->pluck('nama', 'id')->all();
         $validator = Validator::make($request->all(), Absensi::rules()->toArray());
-        if ($validator->fails()) :
-        return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $data = [];
-        foreach (collect($karyawan)->only($request->karyawan) as $k => $v) :
-                $data[] = [
-                    'id_karyawan' => $k,
-                    'tanggal' => $request->tanggal,
-                    'masuk' => true,
-                    'libur' => $request->libur,
-                    'libur_keterangan' => $request->libur_keterangan,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                ];
-        endforeach;
+        foreach (collect($karyawan)->only($request->karyawan) as $k => $v) {
+            $data[] = [
+            'id_karyawan' => $k,
+            'tanggal' => $request->tanggal,
+            'masuk' => true,
+            'libur' => $request->libur,
+            'libur_keterangan' => $request->libur_keterangan,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+          ];
+        }
 
         Absensi::where('tanggal', $request->tanggal)->delete();
         $submit = Absensi::insert($data);

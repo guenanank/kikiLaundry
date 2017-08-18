@@ -18,13 +18,13 @@ class JasaController extends Controller
     {
         $this->barang = Barang::pluck('nama', 'id')->all();
 
-        if ($request->has('ongkos') || $request->has('klaim') || $request->has('open')) :
+        if ($request->has('ongkos') || $request->has('klaim') || $request->has('open')) {
             $request->merge([
-                'ongkos' => is_null($request->ongkos) ? 0 : str_replace(',', null, $request->ongkos),
-                'klaim' => is_null($request->klaim) ? 0 : str_replace(',', null, $request->klaim),
-                'open' => is_null($request->open) ? 0 : str_replace(',', null, $request->open)
-            ]);
-        endif;
+            'ongkos' => is_null($request->ongkos) ? 0 : str_replace(',', null, $request->ongkos),
+            'klaim' => is_null($request->klaim) ? 0 : str_replace(',', null, $request->klaim),
+            'open' => is_null($request->open) ? 0 : str_replace(',', null, $request->open)
+          ]);
+        }
 
         $this->validator = Validator::make($request->all(), Jasa::rules()->toArray());
     }
@@ -43,14 +43,14 @@ class JasaController extends Controller
 
     public function store(Request $request)
     {
-        if ($this->validator->fails()) :
+        if ($this->validator->fails()) {
             return response()->json($this->validator->errors(), 422);
-        endif;
+        }
 
         $create = Jasa::create($request->all());
-        if ($request->tergantung_barang) :
+        if ($request->tergantung_barang) {
             $this->store_jasa_barang($request->barang, $create->id);
-        endif;
+        }
         return response()->json(['create' => $create], 200);
     }
 
@@ -72,15 +72,15 @@ class JasaController extends Controller
             ]
         ])->toArray());
 
-        if ($this->validator->fails()) :
+        if ($this->validator->fails()) {
             return response()->json($this->validator->errors(), 422);
-        endif;
+        }
 
         $update = $jasa->update($request->all());
         Jb::where('id_jasa', $jasa->id)->delete();
-        if ($request->tergantung_barang) :
+        if ($request->tergantung_barang) {
             $this->store_jasa_barang($request->barang, $jasa->id);
-        endif;
+        }
         return response()->json(['update' => $update], 200);
     }
 

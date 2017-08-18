@@ -13,7 +13,6 @@ class PemasukanController extends Controller
     private $validator;
     private $jenis;
     private $cara_bayar;
-    private $pelanggan;
 
     public function __construct(Request $request)
     {
@@ -21,13 +20,12 @@ class PemasukanController extends Controller
         $jenis->pop();
         $this->jenis = $jenis->all();
         $this->cara_bayar = Pemasukan::cara_bayar()->toArray();
-        $this->pelanggan = Pelanggan::pluck('nama', 'id')->all();
 
-        if ($request->has('jumlah')) :
+        if ($request->has('jumlah')) {
             $request->merge([
-                'jumlah' => str_replace(',', null, $request->jumlah)
-            ]);
-        endif;
+            'jumlah' => str_replace(',', null, $request->jumlah)
+          ]);
+        }
 
         $this->validator = Validator::make($request->all(), Pemasukan::rules()->toArray());
     }
@@ -42,16 +40,16 @@ class PemasukanController extends Controller
     {
         $jenis = $this->jenis;
         $bayar = $this->cara_bayar;
-        $pelanggan = $this->pelanggan;
+        $pelanggan = Pelanggan::pluck('nama', 'id')->all();
         $nomer = Pemasukan::nomer();
         return view('pemasukan.create', compact('jenis', 'bayar', 'pelanggan', 'nomer'));
     }
 
     public function store(Request $request)
     {
-        if ($this->validator->fails()) :
+        if ($this->validator->fails()) {
             return response()->json($this->validator->errors(), 422);
-        endif;
+        }
 
         $create = Pemasukan::create($request->all());
         return response()->json(['create' => $create], 200);
@@ -61,7 +59,7 @@ class PemasukanController extends Controller
     {
         $jenis = $this->jenis;
         $bayar = $this->cara_bayar;
-        $pelanggan = $this->pelanggan;
+        $pelanggan = Pelanggan::pluck('nama', 'id')->all();
         return view('pemasukan.edit', compact('pemasukan', 'jenis', 'bayar', 'pelanggan'));
     }
 
@@ -76,9 +74,9 @@ class PemasukanController extends Controller
             ]
         ])->toArray());
 
-        if ($this->validator->fails()) :
+        if ($this->validator->fails()) {
             return response()->json($this->validator->errors(), 422);
-        endif;
+        }
 
         $update = $pemasukan->update($request->all());
         return response()->json(['update' => $update], 200);

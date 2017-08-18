@@ -26,23 +26,23 @@ class CuciController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), Cuci::rules()->toArray());
-        if ($validator->fails()) :
-        return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $create = Cuci::create($request->all());
         $id_cuci = $create->id;
-        if ($create) :
-        $cuci_jasa = collect($request->jasa)->map(function ($item) use ($id_cuci) {
-            return [
+        if ($create) {
+            $cuci_jasa = collect($request->jasa)->map(function ($item) use ($id_cuci) {
+                return [
               'id_cuci' => $id_cuci,
               'id_jasa' => $item,
               'created_at' => date('Y-m-d H:i:s'),
               'updated_at' => date('Y-m-d H:i:s')
             ];
-        })->toArray();
-        Cuci_jasa::insert($cuci_jasa);
-        endif;
+            })->toArray();
+            Cuci_jasa::insert($cuci_jasa);
+        }
 
         return response()->json(['create' => $create], 200);
     }
@@ -64,9 +64,9 @@ class CuciController extends Controller
           ]
         ])->toArray());
 
-        if ($validator->fails()) :
-        return response()->json($validator->errors(), 422);
-        endif;
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $update = $cuci->update($request->all());
         Cuci_jasa::where('id_cuci', $cuci->id)->delete();
