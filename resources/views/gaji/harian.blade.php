@@ -3,7 +3,7 @@
 @section('name', 'Gaji Karyawan Harian')
 
 @section('content')
-<table border="1" width="100%">
+<table border="1" width="100%" cellpadding="0" cellspacing="0">
   <tr class="text-center">
     <th rowspan="2">Nama</th>
     <th colspan="{{ $harian->pluck('tanggal')->unique()->count() }}">
@@ -17,19 +17,26 @@
   </tr>
   <tr class="text-center">
     @foreach($harian->pluck('tanggal')->unique() as $tgl)
-    <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $tgl)->day }}</td>
+      <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $tgl)->day }}</td>
     @endforeach
   </tr>
+
+
   @foreach($karyawan as $kry)
     <tr>
       <td>{{ $kry->nama }}</td>
-      @foreach($harian->where('id_karyawan',  $kry->id)->keyBy('tanggal') as $abs)
-        @if($abs->masuk)
-          <td class="text-center">y</td>
-        @else
+      @if(is_null($harian->groupBy('id_karyawan')->get($kry->id)))
+        @foreach($harian->pluck('tanggal')->unique() as $tgl)
           <td class="text-center">x</td>
-        @endif
-      @endforeach
+        @endforeach
+      @else
+        @foreach($harian->pluck('tanggal')->unique() as $tgl)
+          <td class="text-center">
+            {{ $harian->groupBy('id_karyawan')->get($kry->id)->where('tanggal', $tgl)->isEmpty() ? 'x' : 'y' }}
+          </td>
+        @endforeach
+      @endif
+
       <td class="text-right">
         Rp. {{ number_format($harian->where('id_karyawan', $kry->id)->pluck('masuk')->count() * $kry->gaji_harian) }}
       </td>
