@@ -12,8 +12,8 @@
   </tr>
   @foreach($harga as $h)
     <tr>
-      <td>{{ $h->barang->nama }}</td>
-      <td>{{ $h->cuci->nama }}</td>
+      <td class="text-center">{{ $h->barang->nama }}</td>
+      <td class="text-center">{{ $h->cuci->nama }}</td>
       <td class="text-right">Rp. {{ number_format($h->tunai) }}</td>
       <td class="text-right">Rp. {{ number_format($h->cicil) }}</td>
     </tr>

@@ -17,110 +17,108 @@ class CetakController extends Controller
 
     public function harga($id)
     {
-      $harga = Harga::with('pelanggan', 'barang', 'cuci')->where('id_pelanggan', $id)->get();
-      $pelanggan = Pelanggan::findOrFail($id);
-      $pdf = PDF::loadView('cetak.harga', compact('harga', 'pelanggan'));
-      return $pdf->stream('harga_' . snake_case($pelanggan->nama) . '.pdf');
+        $harga = Harga::with('pelanggan', 'barang', 'cuci')->where('id_pelanggan', $id)->get();
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pdf = PDF::loadView('cetak.harga', compact('harga', 'pelanggan'));
+        return $pdf->download('harga_' . snake_case($pelanggan->nama) . '.pdf');
     }
 
     public function pemasukan($id)
     {
-      $pemasukan = Pemasukan::with('pelanggan')->findOrFail($id);
-      $pdf = PDF::loadView('cetak.pemasukan', compact('pemasukan'));
-      return $pdf->setPaper($this->half_paper_size, 'portrait')->download($pemasukan->nomer . '.pdf');
+        $pemasukan = Pemasukan::with('pelanggan')->findOrFail($id);
+        $pemasukan->terbilang = self::terbilang($pemasukan->jumlah);
+        $pdf = PDF::loadView('cetak.pemasukan', compact('pemasukan'));
+        return $pdf->setPaper($this->half_paper_size, 'portrait')->download($pemasukan->nomer . '.pdf');
     }
 
     public function tagihan(Request $request)
     {
-      $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
-      $tagihan = Order::with('pelanggan', 'detil.barang', 'detil.cuci')
+        $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
+        $tagihan = Order::with('pelanggan', 'detil.barang', 'detil.cuci')
         ->where('id_pelanggan', $request->id_pelanggan)
         ->where('dicetak', true)
         ->whereBetween('tanggal', [$request->awal, $request->akhir])
         ->whereNotNull('dikirim')->whereNull('pembayaran')
         ->orderBy('tanggal', 'asc')->get();
 
-      $pdf = PDF::loadView('cetak.tagihan', compact('tagihan', 'pelanggan'));
-      return $pdf->stream('kontra_bon_' . snake_case($pelanggan->nama) . '.pdf');
+        $pdf = PDF::loadView('cetak.tagihan', compact('tagihan', 'pelanggan'));
+        return $pdf->download('kontra_bon_' . snake_case($pelanggan->nama) . '.pdf');
     }
 
     public function po(Request $request)
     {
-      $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
         'dikirim' => 'required|date:Y-m-d'
       ]);
 
-      $order = Order::with('pelanggan', 'detil.barang', 'detil.cuci')->findOrFail($request->id);
-      if($validator->fails()) :
+        $order = Order::with('pelanggan', 'detil.barang', 'detil.cuci')->findOrFail($request->id);
+        if ($validator->fails()) :
         return response()->json($validator->errors(), 422);
-      endif;
+        endif;
 
-      $update = $order->update($request->all());
-      if($update) :
-        if(is_null($request->detil)) :
-          $orderLengkap = $order->detil;
-        else :
+        $update = $order->update($request->all());
+        if ($update) :
+        if (is_null($request->detil)) :
+          $orderLengkap = $order->detil; else :
           $barang = [];
-          $cuci = [];
-          foreach ($request->detil as $detil) :
+        $cuci = [];
+        foreach ($request->detil as $detil) :
             list($id_barang, $id_cuci) = explode(',', $detil);
-            $barang[] = $id_barang;
-            $cuci[] = $id_cuci;
-          endforeach;
-          $orderLengkap = $order->detil->whereIn('id_barang', $barang)->whereIn('id_cuci', $cuci)->all();
+        $barang[] = $id_barang;
+        $cuci[] = $id_cuci;
+        endforeach;
+        $orderLengkap = $order->detil->whereIn('id_barang', $barang)->whereIn('id_cuci', $cuci)->all();
         endif;
 
         $pdf = PDF::loadView('cetak.po', compact('order', 'orderLengkap'));
-        return $pdf->setPaper($this->half_paper_size, 'portrait')->stream($order->nomer . '.pdf');
-      endif;
+        return $pdf->setPaper($this->half_paper_size, 'portrait')->download($order->nomer . '.pdf');
+        endif;
     }
 
     public function terbilang($i = 0)
     {
-      $arrsatuan = ['Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
-      $arrbelasan = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
-      if (empty($i)) :
+        $arrsatuan = ['Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan'];
+        $arrbelasan = ['Sepuluh', 'Sebelas', 'Dua Belas', 'Tiga Belas', 'Empat Belas', 'Lima Belas', 'Enam Belas', 'Tujuh Belas', 'Delapan Belas', 'Sembilan Belas'];
+        if (empty($i)) :
         return;
-      endif;
+        endif;
 
-      if ($i <= 9) {
-        $return = $arrsatuan[$i - 1];
-      } else if ($i <= 19) {
-        $return = $arrbelasan[$i - 10];
-      } else if ($i <= 99) {
-        $div = floor($i / 10);
-        $mod = bcmod($i, 10);
-        $return = $arrsatuan[$div - 1] . " Puluh " . $this->terbilang($mod);
-      } else if ($i <= 999) {
-        $div = floor($i / 100);
-        $mod = bcmod($i, 100);
-        if ($div == 1) :
-          $return = "Seratus " . $this->terbilang($mod);
-        else :
+        if ($i <= 9) {
+            $return = $arrsatuan[$i - 1];
+        } elseif ($i <= 19) {
+            $return = $arrbelasan[$i - 10];
+        } elseif ($i <= 99) {
+            $div = floor($i / 10);
+            $mod = bcmod($i, 10);
+            $return = $arrsatuan[$div - 1] . " Puluh " . $this->terbilang($mod);
+        } elseif ($i <= 999) {
+            $div = floor($i / 100);
+            $mod = bcmod($i, 100);
+            if ($div == 1) :
+          $return = "Seratus " . $this->terbilang($mod); else :
           $return = $arrsatuan[$div - 1] . " Ratus " . $this->terbilang($mod);
-        endif;
-      } else if ($i <= 999999) {
-        $div = floor($i / 1000);
-        $mod = bcmod($i, 1000);
-        if ($div == 1) :
-          $return = "Seribu " . $this->terbilang($mod);
-        else :
+            endif;
+        } elseif ($i <= 999999) {
+            $div = floor($i / 1000);
+            $mod = bcmod($i, 1000);
+            if ($div == 1) :
+          $return = "Seribu " . $this->terbilang($mod); else :
           $return = $this->terbilang($div) . " Ribu " . $this->terbilang($mod);
-        endif;
-      } else if ($i <= 999999999) {
-        $div = floor($i / 1000000);
-        $mod = bcmod($i, 1000000);
-        $return = $this->terbilang($div) . " Juta " . $this->terbilang($mod);
-      } else if ($i <= 999999999999) {
-        $div = floor($i / 1000000000);
-        $mod = bcmod($i, 1000000000);
-        $return = $this->terbilang($div) . " Miliar " . $this->terbilang($mod);
-      } else if ($i <= 999999999999999) {
-        $div = floor($i / 1000000000000);
-        $mod = bcmod($i, 1000000000000);
-        $return = $this->terbilang($div) . " Triliun " . $this->terbilang($mod);
-      }
+            endif;
+        } elseif ($i <= 999999999) {
+            $div = floor($i / 1000000);
+            $mod = bcmod($i, 1000000);
+            $return = $this->terbilang($div) . " Juta " . $this->terbilang($mod);
+        } elseif ($i <= 999999999999) {
+            $div = floor($i / 1000000000);
+            $mod = bcmod($i, 1000000000);
+            $return = $this->terbilang($div) . " Miliar " . $this->terbilang($mod);
+        } elseif ($i <= 999999999999999) {
+            $div = floor($i / 1000000000000);
+            $mod = bcmod($i, 1000000000000);
+            $return = $this->terbilang($div) . " Triliun " . $this->terbilang($mod);
+        }
 
-      return trim($return);
+        return trim($return);
     }
 }

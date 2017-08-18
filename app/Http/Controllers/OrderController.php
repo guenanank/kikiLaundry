@@ -24,7 +24,8 @@ class OrderController extends Controller
     public function __construct(Request $request)
     {
         $this->pelanggan = Pelanggan::pluck('nama', 'id')->all();
-        $this->barang = Barang::pluck('nama', 'id')->all();;
+        $this->barang = Barang::pluck('nama', 'id')->all();
+        ;
         $this->cuci = Cuci::pluck('nama', 'id')->all();
 
         $this->validator = Validator::make($request->all(), Order::rules()->toArray());
@@ -52,15 +53,15 @@ class OrderController extends Controller
             'catatan_pembayaran' => 'string|nullable'
         ]);
 
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
         $order = Order::findOrFail($id);
         $update = $order->update($request->all());
-        if($update) :
+        if ($update) :
             $catatan = 'Pembayaran ' . Pemasukan::cara_bayar($request->pembayaran) . ' ' . strtoupper($order->pelanggan->nama) . ' untuk order dengan nomer ' . $order->nomer;
-            Pemasukan::create([
+        Pemasukan::create([
                 'nomer' => Pemasukan::nomer(),
                 'jenis' => camelCase(Pemasukan::jenis()->pop()),
                 'id_pelanggan' => $order->pelanggan->id,
@@ -71,7 +72,7 @@ class OrderController extends Controller
             ]);
         endif;
         return response()->json(['update' => $update], 200);
-    } 
+    }
 
     public function create()
     {
@@ -82,17 +83,17 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
         $create = Order::create($request->all());
-        if($create) :
-            foreach($request->order_lengkap as $ol) :
+        if ($create) :
+            foreach ($request->order_lengkap as $ol) :
                 $ol['id_order'] = $create->id;
-                Ol::create($ol);
-            endforeach;
-            return response()->json($create, 200);
+        Ol::create($ol);
+        endforeach;
+        return response()->json($create, 200);
         endif;
     }
 
@@ -123,18 +124,18 @@ class OrderController extends Controller
             ]
         ])->toArray());
 
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
         $update = $order->update($request->all());
-        if($update) :
+        if ($update) :
             Ol::where('id_order', $order->id)->delete();
-            foreach($request->order_lengkap as $ol) :
+        foreach ($request->order_lengkap as $ol) :
                 $ol['id_order'] = $order->id;
-                Ol::create($ol);
-            endforeach;
-            return response()->json(['update' => $update], 200);
+        Ol::create($ol);
+        endforeach;
+        return response()->json(['update' => $update], 200);
         endif;
     }
 

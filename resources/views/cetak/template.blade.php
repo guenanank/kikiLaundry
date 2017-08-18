@@ -4,18 +4,21 @@
         <title>Kiki Laundry :: @yield('title')</title>
         <style type="text/css">
           /** { font-size: 110% }*/
-          * { margin: 0 }
-        	hr { border-top: 3px double #8c8b8b; margin: 0 10px; }
-        	.text-center { text-align: center }
-          .text-left { text-align: left }
-          .text-right { text-align: right }
-        	.pull-right { float: right !important }
-        	.pull-left { float: left !important }
+            * { margin: 0 }
+          	hr { border-top: 3px double #8c8b8b; margin: 0 10px; }
+          	.text-center { text-align: center }
+            .text-left { text-align: left }
+            .text-right { text-align: right }
+          	.pull-right { float: right !important }
+          	.pull-left { float: left !important }
 
-          table {
-            border-collapse: collapse;
-            border-spacing: 0;
-          }
+            table {
+              padding: 0;
+              margin: 0;
+              border-collapse: collapse;
+              border-spacing: 0;
+              vertical-align: middle;
+            }
         </style>
     </head>
     <body>

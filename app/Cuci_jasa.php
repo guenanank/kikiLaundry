@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cuci_jasa extends Model
 {
-	use SoftDeletes;
+    use SoftDeletes;
 
-	protected $table = 'cuci_jasa';
-	protected $fillable = ['id_cuci', 'id_jasa'];
-	protected $dates = ['deleted_at'];
+    protected $table = 'cuci_jasa';
+    protected $fillable = ['id_cuci', 'id_jasa'];
+    protected $dates = ['deleted_at'];
 
-	public static function rules(Array $rules = [])
-	{
-		return collect([
-				'id_cuci' => 'exists:cuci,id',
-				'id_jasa' => 'exists:jasa,id'
-			])->merge($rules);
-	}
+    public static function rules(array $rules = [])
+    {
+        return collect([
+                'id_cuci' => 'exists:cuci,id',
+                'id_jasa' => 'exists:jasa,id'
+            ])->merge($rules);
+    }
 }

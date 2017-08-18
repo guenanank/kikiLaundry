@@ -39,6 +39,7 @@
 	</table>
 @endsection
 @push('footer')
+	<br />
 	<table class="text-center" width="100%">
     <tr>
       <td width="33%">

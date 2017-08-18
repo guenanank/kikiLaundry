@@ -4,9 +4,10 @@
 @section('name', 'KWITANSI PEMBAYARAN')
 
 @section('content')
+	<br />
 	<div style="margin-left: 10%">
 		<div>Telah diterima pembayaran {{ $pemasukan->cara_bayar }} pada tanggal {{ $pemasukan->tanggal }} dengan : </div>
-
+		<br />
 		<table style="margin-left: 30%" width="100%">
 			<tr>
 				<td width="20%">Nomer</td>
@@ -23,7 +24,7 @@
 				<td>:</td>
 				<td>
 					Rp. {{ number_format($pemasukan->jumlah) }}<br />
-					<!-- (<em>{{ $pemasukan->terbilang }} Rupiah</em>) -->
+					(<em>{{ $pemasukan->terbilang }} Rupiah</em>)
 				</td>
 			</tr>
 			<tr>
@@ -36,6 +37,7 @@
 @endsection
 
 @push('footer')
+	<br />
 	<table class="text-center" width="100%">
     <tr>
       <td width="33%">

@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class PemasukanController extends Controller
 {
-
     private $validator;
     private $jenis;
     private $cara_bayar;
@@ -24,7 +23,7 @@ class PemasukanController extends Controller
         $this->cara_bayar = Pemasukan::cara_bayar()->toArray();
         $this->pelanggan = Pelanggan::pluck('nama', 'id')->all();
 
-        if($request->has('jumlah')) :
+        if ($request->has('jumlah')) :
             $request->merge([
                 'jumlah' => str_replace(',', null, $request->jumlah)
             ]);
@@ -50,7 +49,7 @@ class PemasukanController extends Controller
 
     public function store(Request $request)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
@@ -77,7 +76,7 @@ class PemasukanController extends Controller
             ]
         ])->toArray());
 
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 

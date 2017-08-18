@@ -10,7 +10,7 @@ class PelangganController extends Controller
 {
     private $validator;
 
-    public function __construct(Request $request) 
+    public function __construct(Request $request)
     {
         $this->validator = Validator::make($request->all(), Pelanggan::rules()->toArray());
     }
@@ -28,7 +28,7 @@ class PelangganController extends Controller
 
     public function store(Request $request)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
@@ -43,7 +43,7 @@ class PelangganController extends Controller
 
     public function update(Request $request, Pelanggan $pelanggan)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 

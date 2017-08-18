@@ -15,7 +15,7 @@ class PengeluaranController extends Controller
     {
         $this->jenis = Pengeluaran::jenis()->toArray();
 
-        if($request->has('jumlah')) :
+        if ($request->has('jumlah')) :
             $request->merge([
                 'jumlah' => str_replace(',', null, $request->jumlah)
             ]);
@@ -24,7 +24,7 @@ class PengeluaranController extends Controller
         $this->validator = Validator::make($request->all(), Pengeluaran::rules()->toArray());
     }
 
-    public function index() 
+    public function index()
     {
         $pengeluaran = Pengeluaran::all();
         return view('pengeluaran.index', compact('pengeluaran'));
@@ -38,7 +38,7 @@ class PengeluaranController extends Controller
 
     public function store(Request $request)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
@@ -54,10 +54,10 @@ class PengeluaranController extends Controller
 
     public function update(Request $request, Pengeluaran $pengeluaran)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
-        
+
         $update = $pengeluaran->update($request->all());
         return response()->json(['update' => $update], 200);
     }

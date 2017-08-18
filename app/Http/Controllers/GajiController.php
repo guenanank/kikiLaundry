@@ -6,32 +6,32 @@ use Validator;
 use Illuminate\Http\Request;
 
 use kikiLaundry\Gaji;
+use kikiLaundry\Absensi;
 use kikiLaundry\Jasa;
 use kikiLaundry\Order;
 
 class GajiController extends Controller
 {
+    public function index()
+    {
+        $bagian = Gaji::bagian();
+        return view('gaji.index', compact('bagian'));
+    }
 
-  public function index()
-  {
-    $bagian = Gaji::bagian();
-    return view('gaji.index', compact('bagian'));
-  }
+    public function show(Request $request)
+    {
+        $rules = Gaji::rules();
+        $rules->pop();
+        $validator = Validator::make($request->all(), $rules->toArray());
 
-  public function show(Request $request)
-  {
-    $rules = Gaji::rules();
-    $rules->pop();
-    $validator = Validator::make($request->all(), $rules->toArray());
-
-    if($validator->fails()) :
+        if ($validator->fails()) :
         return response()->json($validator->errors(), 422);
-    endif;
+        endif;
 
-    $bagian = null;
-    switch ($request->bagian) {
+        $bagian = null;
+        switch ($request->bagian) {
       case 'harian':
-        $bagian = self::harian($request->awal, $request->akhir, $request->prosentase);
+        $bagian = self::harian($request->awal, $request->akhir);
         break;
 
       case 'borongan':
@@ -55,48 +55,50 @@ class GajiController extends Controller
         break;
     }
 
-    $gaji = new Gaji;
-    $gaji->where([
+        $gaji = new Gaji;
+        $gaji->where([
       ['bagian', '=', $request->bagian],
       ['awal', '=', $request->awal],
       ['akhir', '=', $request->akhir],
     ])->delete();
 
-    $gaji->create([
+        $gaji->create([
       'bagian' => $request->bagian,
       'awal' => $request->awal,
       'akhir' => $request->akhir,
       'jumlah' => $bagian['total']
     ]);
-  }
+    }
 
-  private function harian()
-  {
-    $parameter = func_get_args();
-    return $parameter;
-  }
+    private function harian()
+    {
+        list($awal, $akhir) = func_get_args();
+        $harian = Absensi::with('karyawan')->whereBetween('tanggal', [$awal, $akhir])->get();
+        dd($harian->pluck('karyawan')->unique());
+        return $parameter;
+    }
 
-  private function borongan()
-  {
-    list($awal, $akhir) = func_get_args();
-    return;
-  }
+    private function borongan()
+    {
+        list($awal, $akhir) = func_get_args();
+        return;
+    }
 
-  private function spray()
-  {
-    list($awal, $akhir) = func_get_args();
-    $jasa = self::cari_jasa('spray');
-    $cuci = $jasa->cuci->unique()->pluck('id')->toArray();
-    $order = self::cari_order($awal, $akhir);
-    $spray = collect([]);
-    foreach($order as $o) :
-      foreach($o->detil as $d) :
-        if(in_array($d->id_cuci, $cuci) == false) :
+    private function spray()
+    {
+        list($awal, $akhir) = func_get_args();
+        $jasa = self::cari_jasa('spray');
+        $cuci = $jasa->cuci->unique()->pluck('id')->toArray();
+        $order = self::cari_order($awal, $akhir);
+        $spray = collect([]);
+        foreach ($order as $o) :
+      foreach ($o->detil as $d) :
+        if (in_array($d->id_cuci, $cuci) == false) :
           continue;
         endif;
 
         $tergantung_barang = $jasa->barang->pluck('pivot')->where('id_barang', $d->id_barang);
-        if($tergantung_barang->isEmpty()) :
+        if ($tergantung_barang->isEmpty()) :
           continue;
         endif;
 
@@ -109,21 +111,21 @@ class GajiController extends Controller
           'banyaknya' => $d->banyaknya,
           'ongkos' => $tergantung_barang->first()->ongkos
         ]));
-      endforeach;
-    endforeach;
-    return self::hasil($spray, 'spray');
-  }
+        endforeach;
+        endforeach;
+        return self::hasil($spray, 'spray');
+    }
 
-  private function snow()
-  {
-    list($awal, $akhir) = func_get_args();
-    $jasa = self::cari_jasa('snow');
-    $cuci = $jasa->cuci->pluck('id')->toArray();
-    $order = self::cari_order($awal, $akhir);
-    $snow = collect([]);
-    foreach($order as $o) :
-      foreach($o->detil as $d) :
-        if(in_array($d->id_cuci, $cuci) == false) :
+    private function snow()
+    {
+        list($awal, $akhir) = func_get_args();
+        $jasa = self::cari_jasa('snow');
+        $cuci = $jasa->cuci->pluck('id')->toArray();
+        $order = self::cari_order($awal, $akhir);
+        $snow = collect([]);
+        foreach ($order as $o) :
+      foreach ($o->detil as $d) :
+        if (in_array($d->id_cuci, $cuci) == false) :
           continue;
         endif;
 
@@ -136,26 +138,26 @@ class GajiController extends Controller
           'banyaknya' => $d->banyaknya,
           'ongkos' => $jasa->ongkos
         ]));
-      endforeach;
-    endforeach;
-    return self::hasil($snow, 'snow');
-  }
+        endforeach;
+        endforeach;
+        return self::hasil($snow, 'snow');
+    }
 
-  private function mannequeen()
-  {
-    list($awal, $akhir) = func_get_args();
-    $jasa = self::cari_jasa('mannequeen');
-    $cuci = $jasa->cuci->unique()->pluck('id')->toArray();
-    $order = self::cari_order($awal, $akhir);
-    $mannequeen = collect([]);
-    foreach($order as $o) :
-      foreach($o->detil as $d) :
-        if(in_array($d->id_cuci, $cuci) == false) :
+    private function mannequeen()
+    {
+        list($awal, $akhir) = func_get_args();
+        $jasa = self::cari_jasa('mannequeen');
+        $cuci = $jasa->cuci->unique()->pluck('id')->toArray();
+        $order = self::cari_order($awal, $akhir);
+        $mannequeen = collect([]);
+        foreach ($order as $o) :
+      foreach ($o->detil as $d) :
+        if (in_array($d->id_cuci, $cuci) == false) :
           continue;
         endif;
 
         $tergantung_barang = $jasa->barang->pluck('pivot')->where('id_barang', $d->id_barang);
-        if($tergantung_barang->isEmpty()) :
+        if ($tergantung_barang->isEmpty()) :
           continue;
         endif;
 
@@ -168,21 +170,21 @@ class GajiController extends Controller
           'banyaknya' => $d->banyaknya,
           'ongkos' => $tergantung_barang->first()->ongkos
         ]));
-      endforeach;
-    endforeach;
-    return self::hasil($mannequeen, 'mannequeen');
-  }
+        endforeach;
+        endforeach;
+        return self::hasil($mannequeen, 'mannequeen');
+    }
 
-  private function setrika()
-  {
-    list($awal, $akhir) = func_get_args();
-    $jasa = self::cari_jasa('setrika/-gosok');
-    $cuci = $jasa->cuci->unique()->pluck('id')->toArray();
-    $order = self::cari_order($awal, $akhir);
-    $setrika = collect([]);
-    foreach($order as $o) :
-      foreach($o->detil as $d) :
-        if(in_array($d->id_cuci, $cuci) == false) :
+    private function setrika()
+    {
+        list($awal, $akhir) = func_get_args();
+        $jasa = self::cari_jasa('setrika/-gosok');
+        $cuci = $jasa->cuci->unique()->pluck('id')->toArray();
+        $order = self::cari_order($awal, $akhir);
+        $setrika = collect([]);
+        foreach ($order as $o) :
+      foreach ($o->detil as $d) :
+        if (in_array($d->id_cuci, $cuci) == false) :
           continue;
         endif;
 
@@ -197,29 +199,29 @@ class GajiController extends Controller
           'banyaknya' => $d->banyaknya,
           'ongkos' => $ongkos
         ]));
-      endforeach;
-    endforeach;
-    return self::hasil($setrika, 'setrika');
-  }
+        endforeach;
+        endforeach;
+        return self::hasil($setrika, 'setrika');
+    }
 
-  private function cari_jasa($bagian = null)
-  {
-    return Jasa::with('barang', 'cuci')->where('nama_kunci', $bagian)->first();
-  }
+    private function cari_jasa($bagian = null)
+    {
+        return Jasa::with('barang', 'cuci')->where('nama_kunci', $bagian)->first();
+    }
 
-  private function cari_order($awal, $akhir)
-  {
-    return Order::with('detil.barang', 'detil.cuci')
+    private function cari_order($awal, $akhir)
+    {
+        return Order::with('detil.barang', 'detil.cuci')
       ->whereNotNull('dikirim')
       ->whereBetween('tanggal', [$awal, $akhir])
       ->get();
-  }
+    }
 
-  private function hasil($data = [], $bagian)
-  {
-    $total = $data->sum(function($item) {
-      return $item['banyaknya'] * $item['ongkos'];
-    });
-    return collect([$bagian => $data, 'total' => $total]);
-  }
+    private function hasil($data = [], $bagian)
+    {
+        $total = $data->sum(function ($item) {
+            return $item['banyaknya'] * $item['ongkos'];
+        });
+        return collect([$bagian => $data, 'total' => $total]);
+    }
 }

@@ -15,10 +15,10 @@ class Pelanggan extends Model
 
     public static function rules($rules = [])
     {
-    	return collect([
-      		'nama' => 'required|string|max:127',
-      		'alamat' => 'string|nullable',
-      		'telepon' => 'numeric|nullable'
+        return collect([
+              'nama' => 'required|string|max:127',
+              'alamat' => 'string|nullable',
+              'telepon' => 'numeric|nullable'
         ])->merge($rules);
     }
 }

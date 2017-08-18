@@ -11,9 +11,9 @@
 @endpush
 
 @section('content')
-	<table width="100%" border="1">
+	<table width="100%" border="1" style="font-size: smaller">
 		<thead>
-			<tr>
+			<tr class="text-center">
 				<th>No</th>
 				<th>Tanggal</th>
 				<th>No Order</th>

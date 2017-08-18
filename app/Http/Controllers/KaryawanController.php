@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class KaryawanController extends Controller
 {
-
     private $validator;
     private $bagian;
 
@@ -32,7 +31,7 @@ class KaryawanController extends Controller
 
     public function store(Request $request)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
@@ -48,7 +47,7 @@ class KaryawanController extends Controller
 
     public function update(Request $request, Karyawan $karyawan)
     {
-        if($this->validator->fails()) :
+        if ($this->validator->fails()) :
             return response()->json($this->validator->errors(), 422);
         endif;
 
