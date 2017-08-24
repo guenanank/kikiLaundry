@@ -26,12 +26,12 @@ class Karyawan extends Model
     public static function rules(array $rules = [])
     {
         return collect([
-              'nama' => 'required|string|max:127',
-              'kontak' => 'numeric|nullable',
-              'bagian' => 'required|string',
-              'mulai_kerja' => 'required|date_format:Y-m-d',
-              'gaji_harian' => 'required',
-              'gaji_bulanan' => 'nullable'
+          'nama' => 'required|string|max:127',
+          'kontak' => 'numeric|nullable',
+          'bagian' => 'required|string',
+          'mulai_kerja' => 'required|date_format:Y-m-d',
+          'gaji_harian' => 'required',
+          'gaji_bulanan' => 'nullable'
         ])->merge($rules);
     }
 
@@ -53,5 +53,16 @@ class Karyawan extends Model
     public function absen()
     {
         return $this->hasMany('\kikiLaundry\Absensi', 'id_karyawan', 'id');
+    }
+
+    public static function gaji()
+    {
+      list($awal, $akhir) = func_get_args();
+      return self::with(['absen' => function($query) use($awal, $akhir) {
+        $query->whereBetween('tanggal', [
+          $awal->format('Y-m-d'),
+          $akhir->format('Y-m-d')
+        ]);
+      }])->orderBy('nama', 'asc')->get();
     }
 }

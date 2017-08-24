@@ -33,7 +33,7 @@ class AbsensiController extends Controller
             'id_karyawan' => $k,
             'tanggal' => $request->tanggal,
             'masuk' => true,
-            'libur' => $request->libur,
+            'libur' => $request->has('libur') ? true : false,
             'libur_keterangan' => $request->libur_keterangan,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),

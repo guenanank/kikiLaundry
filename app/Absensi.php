@@ -13,6 +13,8 @@ class Absensi extends Model
     protected $fillable = ['id_karyawan', 'tanggal', 'masuk', 'libur', 'libur_keterangan'];
     protected $dates = ['deleted_at'];
 
+    protected $appends = ['gaji'];
+
     public static function rules(array $rules = [])
     {
         return collect([
@@ -25,5 +27,11 @@ class Absensi extends Model
     public function karyawan()
     {
         return $this->hasOne('\kikiLaundry\Karyawan', 'id', 'id_karyawan');
+    }
+
+    public function getGajiAttribute()
+    {
+      $karyawan = Karyawan::findOrFail($this->attributes['id_karyawan']);
+      return $this->attributes['libur'] ? ($karyawan->gaji_harian * 0.5) + $karyawan->gaji_harian : $karyawan->gaji_harian;
     }
 }

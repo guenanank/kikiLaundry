@@ -16,8 +16,8 @@ class Cuci extends Model
     public static function rules(array $rules = [])
     {
         return collect([
-                'nama' => 'required|string|max:127|unique:cuci,nama'
-            ])->merge($rules);
+              'nama' => 'required|string|max:127|unique:cuci,nama'
+          ])->merge($rules);
     }
 
     public function jasa()
@@ -28,5 +28,10 @@ class Cuci extends Model
     public function cuci_jasa()
     {
         return $this->hasMany('\kikiLaundry\Cuci_jasa', 'id_cuci', 'id');
+    }
+
+    public function order()
+    {
+        return $this->belongsToMany('\kikiLaundry\Order', 'order_lengkap', 'id_order', 'id_cuci');
     }
 }

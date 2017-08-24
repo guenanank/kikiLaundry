@@ -17,6 +17,8 @@ class Gaji extends Model
     {
         $lists = Jasa::pluck('nama', 'nama_kunci')->reject(function ($item, $key) {
             return starts_with($key, 'distro-');
+        })->reject(function($item, $key) {
+          return starts_with($key, 'whiskert-');
         })->put('harian', 'Harian');
 
         return is_null($bagian) ? $lists : $lists->get($bagian);

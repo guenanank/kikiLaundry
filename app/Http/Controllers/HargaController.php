@@ -33,6 +33,7 @@ class HargaController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        // dd($request->all());
         $create = Harga::create($request->all());
         return response()->json(['create' => $create], 200);
     }

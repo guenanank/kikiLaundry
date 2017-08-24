@@ -30,17 +30,23 @@ class Jasa extends Model
     public function cuci()
     {
         return $this->belongsToMany('kikiLaundry\Cuci', 'cuci_jasa', 'id_jasa', 'id_cuci')
-      ->wherePivot('deleted_at');
+          ->wherePivot('deleted_at');
     }
 
     public function barang()
     {
         return $this->belongsToMany('kikiLaundry\Barang', 'jasa_barang', 'id_jasa', 'id_barang')
-      ->withPivot('id_jasa', 'id_barang', 'ongkos', 'klaim', 'open');
+          ->withPivot('id_jasa', 'id_barang', 'ongkos', 'klaim', 'open');
     }
 
     public function jasa_barang()
     {
         return $this->hasMany('kikiLaundry\Jasa_barang', 'id_jasa', 'id');
+    }
+
+    public static function gaji()
+    {
+        list($nama_kunci, $awal, $akhir) = func_get_args();
+        return self::with('cuci.order')->where('nama_kunci', $nama_kunci)->firstOrFail();
     }
 }

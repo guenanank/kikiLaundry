@@ -70,6 +70,6 @@ class Pemasukan extends Model
 
     public function pelanggan()
     {
-        return $this->hasOne('kikiLaundry\pelanggan', 'id', 'id_pelanggan');
+        return $this->hasOne('kikiLaundry\Pelanggan', 'id', 'id_pelanggan');
     }
 }

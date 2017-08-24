@@ -4,20 +4,38 @@ namespace kikiLaundry\Http\Controllers;
 
 use Validator;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as PDF;
 
 use kikiLaundry\Gaji;
 use kikiLaundry\Karyawan;
 use kikiLaundry\Absensi;
+use kikiLaundry\Cuci;
 use kikiLaundry\Jasa;
 use kikiLaundry\Order;
 
 class GajiController extends Controller
 {
+
+    public function __construct()
+    {
+        Carbon::setLocale('id');
+    }
+
     public function index()
     {
         $bagian = Gaji::bagian();
         return view('gaji.index', compact('bagian'));
+    }
+
+    private static function date_range(Carbon $start, Carbon $end)
+    {
+      $dates = [];
+      for($date = $start; $date->lte($end); $date->addDay()) {
+        $dates[] = $date->format('Y-m-d');
+      }
+
+      return collect($dates);
     }
 
     public function show(Request $request)
@@ -31,12 +49,14 @@ class GajiController extends Controller
         }
 
         $bagian = null;
+        $awal = Carbon::createFromFormat('Y-m-d', $request->awal);
+        $akhir = Carbon::createFromFormat('Y-m-d', $request->akhir);
         switch ($request->bagian) {
             case 'harian':
-              $karyawan = Karyawan::orderBy('nama', 'asc')->get();
-              $harian = Absensi::whereBetween('tanggal', [$request->awal, $request->akhir])->get();
-              $pdf = PDF::loadView('gaji.harian', compact('karyawan', 'harian'));
-              return $pdf->stream();
+              $gaji = Karyawan::gaji($awal, $akhir);
+              $hari = self::date_range($awal, $akhir);
+              $pdf = PDF::loadView('gaji.harian', compact('gaji', 'awal', 'akhir', 'hari'));
+              return $pdf->download('gaji_harian_' . $awal->format('Y-m-d') . '_' . $akhir->format('Y-m-d') . '.pdf');
               break;
 
             case 'borongan':
@@ -51,12 +71,16 @@ class GajiController extends Controller
               $bagian = self::snow($request->awal, $request->akhir);
               break;
 
-            case 'mannequeen':
-              $bagian = self::mannequeen($request->awal, $request->akhir);
+            case 'minnequeen':
+              // $bagian = self::mannequeen($request->awal, $request->akhir);
+              $order = Jasa::gaji('minnequeen', $awal, $akhir);
+              dd($order);
               break;
 
             case 'setrika/-gosok':
-              $bagian = self::setrika($request->awal, $request->akhir);
+              // $bagian = self::setrika($request->awal, $request->akhir);
+              $order = Jasa::gaji('setrika/-gosok', $awal, $akhir);
+              dd($order);
               break;
         }
 

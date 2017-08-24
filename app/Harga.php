@@ -19,9 +19,9 @@ class Harga extends Model
               'id_pelanggan' => 'required|int|max:999|exists:pelanggan,id',
               'id_barang' => 'required|int|max:999|exists:barang,id',
               'id_cuci' => 'required|int|max:999|exists:cuci,id',
-          'tunai' => 'nullable',
-          'cicil' => 'nullable'
-        ])->merge($rules);
+              'tunai' => 'nullable',
+              'cicil' => 'nullable'
+          ])->merge($rules);
     }
 
     public function pelanggan()
@@ -41,11 +41,11 @@ class Harga extends Model
 
     public function setTunaiAttribute($value)
     {
-        $this->attributes['tunai'] = str_replace(',', null, $value);
+        $this->attributes['tunai'] = is_null($value) ? 0 : str_replace(',', null, $value);
     }
 
     public function setCicilAttribute($value)
     {
-        $this->attributes['cicil'] = str_replace(',', null, $value);
+        $this->attributes['cicil'] = is_null($value) ? 0 : str_replace(',', null, $value);
     }
 }

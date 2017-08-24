@@ -1,46 +1,38 @@
 @extends('layouts.cetak')
 @section('title', 'Gaji Karyawan Harian')
-@section('name', 'Gaji Karyawan Harian')
+@section('name', 'Gaji Karyawan Harian Periode ' . $hari->min() . ' s/d ' . $hari->max())
 
 @section('content')
 <table border="1" width="100%" cellpadding="0" cellspacing="0">
   <tr class="text-center">
     <th rowspan="2">Nama</th>
-    <th colspan="{{ $harian->pluck('tanggal')->unique()->count() }}">
-      Periode {{ \Carbon\Carbon::createFromFormat('Y-m-d', $harian->pluck('tanggal')->unique()->min())->day }}
-      {{ \Carbon\Carbon::createFromFormat('Y-m-d', $harian->pluck('tanggal')->unique()->min())->format('M') }}
-      s/d {{ \Carbon\Carbon::createFromFormat('Y-m-d', $harian->pluck('tanggal')->unique()->max())->day }}
-      {{ \Carbon\Carbon::createFromFormat('Y-m-d', $harian->pluck('tanggal')->unique()->max())->format('M') }}
-      {{ \Carbon\Carbon::createFromFormat('Y-m-d', $harian->pluck('tanggal')->unique()->max())->format('Y') }}
-    </th>
+    <th colspan="{{ $hari->count() }}">Tanggal</th>
     <th rowspan="2">Total</th>
   </tr>
-  <tr class="text-center">
-    @foreach($harian->pluck('tanggal')->unique() as $tgl)
-      <td>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $tgl)->day }}</td>
+  <tr>
+    @foreach($hari as $h)
+      <td class="text-center">{{ $h }}</td>
     @endforeach
   </tr>
-
-
-  @foreach($karyawan as $kry)
+  {{--*/ $total = 0 /*--}}
+  <?php $total = 0 ?>
+  @foreach($gaji as $karyawan)
     <tr>
-      <td>{{ $kry->nama }}</td>
-      @if(is_null($harian->groupBy('id_karyawan')->get($kry->id)))
-        @foreach($harian->pluck('tanggal')->unique() as $tgl)
-          <td class="text-center">x</td>
-        @endforeach
-      @else
-        @foreach($harian->pluck('tanggal')->unique() as $tgl)
-          <td class="text-center">
-            {{ $harian->groupBy('id_karyawan')->get($kry->id)->where('tanggal', $tgl)->isEmpty() ? 'x' : 'y' }}
-          </td>
-        @endforeach
-      @endif
-
+      <td>{{ $karyawan->nama }}</td>
+      @foreach($hari as $h)
+        <td class="text-center">{{ $karyawan->absen->where('tanggal', $h)->isNotEmpty() ? 'y' : 'x' }}</td>
+      @endforeach
       <td class="text-right">
-        Rp. {{ number_format($harian->where('id_karyawan', $kry->id)->pluck('masuk')->count() * $kry->gaji_harian) }}
+        @unless($karyawan->absen->isEmpty())
+          Rp. {{ number_format($karyawan->absen->pluck('gaji')->sum()) }}
+        @endunless
       </td>
     </tr>
+    <?php $total += $karyawan->absen->pluck('gaji')->sum() ?>
   @endforeach
+  <tr>
+    <td  class="text-right" colspan="{{ $hari->count() + 1 }}">Total&nbsp;</td>
+    <td class="text-right">Rp. {{ number_format($total) }}</td>
+  </tr>
 </table>
 @endsection
