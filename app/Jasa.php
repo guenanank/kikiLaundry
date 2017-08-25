@@ -47,6 +47,6 @@ class Jasa extends Model
     public static function gaji()
     {
         list($nama_kunci, $awal, $akhir) = func_get_args();
-        return self::with('cuci.order')->where('nama_kunci', $nama_kunci)->firstOrFail();
+        return self::with('barang', 'cuci.order.detil')->where('nama_kunci', $nama_kunci)->firstOrFail();
     }
 }

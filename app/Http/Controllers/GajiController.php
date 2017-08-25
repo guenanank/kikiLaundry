@@ -72,15 +72,25 @@ class GajiController extends Controller
               break;
 
             case 'minnequeen':
-              // $bagian = self::mannequeen($request->awal, $request->akhir);
               $order = Jasa::gaji('minnequeen', $awal, $akhir);
-              dd($order);
+              $hari = self::date_range($awal, $akhir);
+              $barang = $order->barang;
+              $cuci = $order->cuci;
+              $gaji = $order->cuci->pluck('order')->flatten();
+              // dd($gaji);
+              $pdf = PDF::loadView('gaji.minnequeen', compact('gaji', 'awal', 'akhir', 'hari'));
+              return $pdf->download('gaji_minnequeen_' . $awal->format('Y-m-d') . '_' . $akhir->format('Y-m-d') . '.pdf');
               break;
 
             case 'setrika/-gosok':
-              // $bagian = self::setrika($request->awal, $request->akhir);
               $order = Jasa::gaji('setrika/-gosok', $awal, $akhir);
-              dd($order);
+              $hari = self::date_range($awal, $akhir);
+              $barang = $order->barang;
+              $cuci = $order->cuci;
+              $gaji = $order->cuci->pluck('order')->flatten();
+              // dd($gaji);
+              $pdf = PDF::loadView('gaji.setrika', compact('gaji', 'awal', 'akhir', 'hari'));
+              return $pdf->download('gaji_setrika/-gosok_' . $awal->format('Y-m-d') . '_' . $akhir->format('Y-m-d') . '.pdf');
               break;
         }
 
