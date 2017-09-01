@@ -59,10 +59,7 @@ class Karyawan extends Model
     {
       list($awal, $akhir) = func_get_args();
       return self::with(['absen' => function($query) use($awal, $akhir) {
-        $query->whereBetween('tanggal', [
-          $awal->format('Y-m-d'),
-          $akhir->format('Y-m-d')
-        ]);
+        $query->whereBetween('tanggal', [$awal, $akhir]);
       }])->orderBy('nama', 'asc')->get();
     }
 }
