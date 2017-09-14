@@ -1,4 +1,3 @@
-
 @extends('cetak.template')
 @section('title', 'Cetak Faktur Pengiriman')
 @section('name', 'FAKTUR PENGIRIMAN')

@@ -11,47 +11,41 @@
 @endpush
 
 @section('content')
-	<table width="100%" border="1" style="font-size: smaller">
-		<thead>
-			<tr class="text-center">
-				<th>No</th>
-				<th>Tanggal</th>
-				<th>No Order</th>
-				<th>Barang</th>
-				<th>Cuci/Jasa</th>
-				<th>Banyaknya</th>
-				<th>Harga</th>
-				<th>Subtotal</th>
-			</tr>
-		</thead>
-		<tbody>
-			@if($tagihan->isEmpty())
-				<tr><td colspan="8" class="text-center">data kosong</td></tr>
-			@else
-				@foreach($tagihan as $k => $t)
-					<tr class="text-center">
-						<td rowspan="{{ $t->detil->count() + 1 }}">{{ ++$k }}</td>
-						<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->tanggal }}</td>
-						<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->nomer }}</td>
+	<table border="1" style="font-size: small; width: 100%; height: 0; border-collapse: collapse;">
+		<tr class="text-center">
+			<th width="3%">No</th>
+			<th width="10%">Tanggal</th>
+			<th width="17%">No Order</th>
+			<th width="23%">Barang</th>
+			<th width="20%">Cuci/Jasa</th>
+			<th width="7%">Jumlah</th>
+			<th width="7%">Harga</th>
+			<th width="13%">Subtotal</th>
+		</tr>
+		@if($tagihan->isEmpty())
+			<tr><td colspan="8" class="text-center">data kosong</td></tr>
+		@else
+			@foreach($tagihan as $k => $t)
+				<tr class="text-center" style="height: 0; border-spacing: 0; border-collapse: 0;">
+					<td rowspan="{{ $t->detil->count() + 1 }}">{{ ++$k }}</td>
+					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->tanggal }}</td>
+					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->nomer }}</td>
+				</tr>
+				@foreach($t->detil as $d)
+					<tr style="height: 1; border-spacing: 1; border-collapse: 1;">
+						<td class="text-center">{{ $d->barang->nama }}</td>
+						<td class="text-center">{{ $d->cuci->nama }}</td>
+						<td class="text-center">{{ $d->banyaknya }}</td>
+						<td class="text-right">{{ number_format($d->{$bayar}) }}</td>
+						<td class="text-right">{{ number_format($d->{$bayar} * $d->banyaknya) }}</td>
 					</tr>
-					@foreach($t->detil as $d)
-						<tr>
-							<td class="text-center">{{ $d->barang->nama }}</td>
-							<td class="text-center">{{ $d->cuci->nama }}</td>
-							<td class="text-center">{{ $d->banyaknya }}</td>
-							<td class="text-right">{{ number_format($d->harga_cicil) }}</td>
-							<td class="text-right">{{ number_format($d->harga_cicil * $d->banyaknya) }}</td>
-						</tr>
-					@endforeach
 				@endforeach
-			@endif
-		</tbody>
-		<tfoot>
-			<tr>
-				<th colspan="7" class="text-right">Jumlah Total</th>
-				<th class="text-right">Rp. {{ number_format($tagihan->sum('jumlah_cicil')) }}</th>
-			</tr>
-		</tfoot>
+			@endforeach
+		@endif
+		<tr>
+			<th colspan="7" class="text-right">Jumlah Total   </th>
+			<th class="text-right">Rp. {{ number_format($tagihan->sum($jumlah)) }}</th>
+		</tr>
 	</table>
 @endsection
 

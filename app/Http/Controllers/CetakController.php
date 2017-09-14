@@ -41,8 +41,10 @@ class CetakController extends Controller
         ->whereNotNull('dikirim')->whereNull('pembayaran')
         ->orderBy('tanggal', 'asc')->get();
 
-        $pdf = PDF::loadView('cetak.tagihan', compact('tagihan', 'pelanggan'));
-        return $pdf->download('kontra_bon_' . snake_case($pelanggan->nama) . '.pdf');
+        $bayar = sprintf('harga_%s', $request->has('bayar') ? $request->bayar : 'cicil');
+        $jumlah = sprintf('jumlah_%s', $request->has('bayar') ? $request->bayar : 'cicil');
+        $pdf = PDF::loadView('cetak.tagihan', compact('tagihan', 'pelanggan', 'bayar', 'jumlah'));
+        return $pdf->stream('kontra_bon_' . snake_case($pelanggan->nama) . '.pdf');
     }
 
     public function po(Request $request)

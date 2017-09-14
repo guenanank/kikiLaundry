@@ -1,4 +1,3 @@
-
 @extends('cetak.template')
 @section('title', 'Cetak Kwitansi Pembayaran')
 @section('name', 'KWITANSI PEMBAYARAN')

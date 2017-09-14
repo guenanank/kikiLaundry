@@ -107,6 +107,15 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="row">
+					<div class="col-sm-offset-1 col-sm-10">
+						<div class="form-group">
+							{{ Form::select('bayar', ['tunai' => 'Tunai', 'cicil' => 'Cicil'], null, ['class' => 'form-control selectpicker', 'title' => 'Pilih pembayaran']) }}
+							<small id="pelanggan" class="help-block"></small>
+						</div>
+					</div>
+				</div>
 				<br />
 			</div>
 			<div class="modal-footer">

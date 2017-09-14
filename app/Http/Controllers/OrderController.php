@@ -48,7 +48,7 @@ class OrderController extends Controller
             $catatan = 'Pembayaran ' . Pemasukan::cara_bayar($request->pembayaran) . ' ' . strtoupper($order->pelanggan->nama) . ' untuk order dengan nomer ' . $order->nomer;
             Pemasukan::create([
             'nomer' => Pemasukan::nomer(),
-            'jenis' => camelCase(Pemasukan::jenis()->pop()),
+            'jenis' => camel_case(Pemasukan::jenis()->pop()),
             'id_pelanggan' => $order->pelanggan->id,
             'tanggal' => $request->tanggal_pembayaran,
             'jumlah' => $request->jumlah_tunai,
