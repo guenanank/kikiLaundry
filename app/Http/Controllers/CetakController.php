@@ -35,11 +35,10 @@ class CetakController extends Controller
     {
         $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
         $tagihan = Order::with('pelanggan', 'detil.barang', 'detil.cuci')
-        ->where('id_pelanggan', $request->id_pelanggan)
-        ->where('dicetak', true)
-        ->whereBetween('tanggal', [$request->awal, $request->akhir])
-        ->whereNotNull('dikirim')->whereNull('pembayaran')
-        ->orderBy('tanggal', 'asc')->get();
+              ->where('id_pelanggan', $request->id_pelanggan)
+              ->where('dicetak', true)->whereNull('pembayaran')
+              ->whereBetween('dikirim', [$request->awal, $request->akhir])
+              ->orderBy('tanggal', 'asc')->get();
 
         $bayar = sprintf('harga_%s', $request->has('bayar') ? $request->bayar : 'cicil');
         $jumlah = sprintf('jumlah_%s', $request->has('bayar') ? $request->bayar : 'cicil');

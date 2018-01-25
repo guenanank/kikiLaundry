@@ -27,7 +27,7 @@ class Pengeluaran extends Model
     {
         return collect([
               'tanggal' => 'required|date:Y-m-d',
-              'jenis' => 'required|string|max:7',
+              'jenis' => 'required|string|max:15',
               'jumlah' => 'required|numeric',
               'keterangan' => 'string|nullable'
           ])->merge($rules);

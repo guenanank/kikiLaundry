@@ -71,6 +71,17 @@
     </div>
 
     <div class="row">
+			<div class="col-sm-offset-1 col-sm-10">
+				<div class="form-group fg-float">
+					<div class="fg-line">
+						{{ Form::text('gaji_lemburan', number_format($karyawan->gaji_lemburan), ['class' => 'form-control fg-input money']) }} {{ Form::label('gaji_lemburan', 'Gaji Lemburan Karyawan', ['class' => 'fg-label']) }}
+					</div>
+					<small id="gaji_lemburan" class="help-block"></small>
+				</div>
+			</div>
+		</div>
+
+    <div class="row">
       <div class="col-sm-offset-1 col-sm-10">
         <div class="form-group fg-float">
           <div class="fg-line">

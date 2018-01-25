@@ -10,7 +10,7 @@ class Karyawan extends Model
     use SoftDeletes;
 
     protected $table = 'karyawan';
-    protected $fillable = ['nama', 'kontak', 'bagian', 'mulai_kerja', 'gaji_harian', 'gaji_bulanan'];
+    protected $fillable = ['nama', 'kontak', 'bagian', 'mulai_kerja', 'gaji_harian', 'gaji_bulanan', 'gaji_lemburan'];
     protected $dates = ['deleted_at'];
 
     public static function bagian($bagian = null)
@@ -31,7 +31,8 @@ class Karyawan extends Model
           'bagian' => 'required|string',
           'mulai_kerja' => 'required|date_format:Y-m-d',
           'gaji_harian' => 'required',
-          'gaji_bulanan' => 'nullable'
+          'gaji_bulanan' => 'nullable',
+          'gaji_lemburan' => 'nullable'
         ])->merge($rules);
     }
 
@@ -48,6 +49,11 @@ class Karyawan extends Model
     public function setGajiBulananAttribute($value)
     {
         $this->attributes['gaji_bulanan'] = str_replace(',', null, $value);
+    }
+
+    public function setGajiLemburanAttribute($value)
+    {
+        $this->attributes['gaji_lemburan'] = str_replace(',', null, $value);
     }
 
     public function absen()
