@@ -103,9 +103,7 @@ class OrderController extends Controller
     {
         $validator = Validator::make($request->all(), Order::rules([
             'nomer' => [
-                'required',
-                'string',
-                'max:31',
+                'required', 'string', 'max:31',
                 Rule::unique('order')->ignore($order->id)
             ]
         ])->toArray());

@@ -1,12 +1,14 @@
 <div class="modal fade" data-keyboard="false">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      {{ Form::model($order, ['route' => ['cetak.po', $order->id], 'method' => 'patch']) }} {{ Form::hidden('id') }} {{ Form::hidden('dicetak', true) }}
+      {{ Form::model($order, ['route' => ['cetak.po', $order->id], 'method' => 'patch']) }}
+      {{ Form::hidden('id') }}
+      {{ Form::hidden('dicetak', true) }}
       <div class="modal-header">
         <h4 class="modal-title">No Order :
-                        <strong class="text-primary">{{ $order->nomer }}</strong>
-                        <span class="pull-right">Tgl Order&nbsp;:&nbsp;{{ $order->tanggal }}</span>
-                    </h4>
+            <strong class="text-primary">{{ $order->nomer }}</strong>
+            <span class="pull-right">Tgl Order&nbsp;:&nbsp;{{ $order->tanggal }}</span>
+        </h4>
       </div>
       <div class="modal-body">
         <br />
@@ -73,9 +75,9 @@
                 <td class="text-center">
                   <div class="checkbox">
                     <label>
-                                                    <input type="checkbox" name="detil[]" value="{{ $detil->id_barang . ',' . $detil->id_cuci }}">
-                                                    <i class="input-helper"></i>
-                                                </label>
+                        <input type="checkbox" name="detil[]" value="{{ $detil->id_barang . ',' . $detil->id_cuci }}">
+                        <i class="input-helper"></i>
+                    </label>
                   </div>
                 </td>
                 <td>{{ $barang[$detil->id_barang] }}</td>
@@ -93,15 +95,16 @@
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn bgm-gray btn-sm btn-icon-text">
-                        <i class="zmdi zmdi-print"></i>&nbsp;Cetak surat jalan
-                    </button> @if($order->dicetak == false AND is_null($order->pembayaran))
-        <a href="{{ url('order/' . $order->id . '/edit') }}" class="btn btn-primary btn-sm btn-icon-text">
-                            <i class="zmdi zmdi-edit"></i>&nbsp;Ubah
-                        </a> @endif
-
+            <i class="zmdi zmdi-print"></i>&nbsp;Cetak surat jalan
+        </button>
+        @if($order->dicetak == false AND is_null($order->pembayaran))
+          <a href="{{ url('order/' . $order->id . '/edit') }}" class="btn btn-primary btn-sm btn-icon-text">
+              <i class="zmdi zmdi-edit"></i>&nbsp;Ubah
+          </a>
+        @endif
         <button type="button" class="btn btn-default btn-sm btn-icon-text" data-dismiss="modal">
-                        <i class="zmdi zmdi-close"></i>&nbsp;Tutup
-                    </button>
+            <i class="zmdi zmdi-close"></i>&nbsp;Tutup
+        </button>
       </div>
       {{ Form::close() }}
     </div>

@@ -49,8 +49,8 @@ class CetakController extends Controller
     public function po(Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'dikirim' => 'required|date:Y-m-d'
-      ]);
+          'dikirim' => 'required|date:Y-m-d'
+        ]);
 
         $order = Order::with('pelanggan', 'detil.barang', 'detil.cuci')->findOrFail($request->id);
         if ($validator->fails()) {
