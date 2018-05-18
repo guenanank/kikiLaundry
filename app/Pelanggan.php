@@ -13,6 +13,11 @@ class Pelanggan extends Model
     protected $fillable = ['nama', 'alamat', 'telepon'];
     protected $dates = ['deleted_at'];
 
+    public function order()
+    {
+        return $this->belongsTo('kikiLaundry\Order', 'id', 'id_pelanggan');
+    }
+
     public static function rules($rules = [])
     {
         return collect([

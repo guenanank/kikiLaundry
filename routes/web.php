@@ -12,13 +12,13 @@
 */
 
 Auth::routes();
-Route::get('/', function () {
-    $nomer = kikiLaundry\Order::nomer_urut();
-    $pelanggan = kikiLaundry\Pelanggan::pluck('nama', 'id')->all();
-    return view('beranda', compact('nomer', 'pelanggan'));
-});
+// Route::get('/', function () {
+    // $nomer = kikiLaundry\Order::nomer_urut();
+    // $pelanggan = kikiLaundry\Pelanggan::pluck('nama', 'id')->all();
+    // return view('beranda', compact('nomer', 'pelanggan'));
+// });
 
-
+Route::get('/', 'BerandaController@index');
 Route::resource('karyawan', 'KaryawanController');
 Route::resource('pelanggan', 'PelangganController');
 Route::resource('barang', 'BarangController');

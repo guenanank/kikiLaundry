@@ -1,8 +1,30 @@
-/public/storage
-/public/hot
-/storage/*.key
-/vendor
-/.idea
-Homestead.json
-Homestead.yaml
+vendor/
+nbproject/
+node_modules/
+npm-debug.log
+package-lock.*
+composer.lock
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/assets
+public/mix-manifest.json
+storage/*.key
+storage/app/*
+storage/debugbar/*
+storage/framework/*
+storage/logs/laravel.log
+.env.*.php
+.env.php
 .env
+.env_dev
+.env_prod
+.env_local
+Homestead.yaml
+Homestead.json
+
+# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
+.rocketeer/

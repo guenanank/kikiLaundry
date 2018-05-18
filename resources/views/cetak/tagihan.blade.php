@@ -28,7 +28,7 @@
 			@foreach($tagihan as $k => $t)
 				<tr class="text-center" style="height: 0; border-spacing: 0; border-collapse: 0;">
 					<td rowspan="{{ $t->detil->count() + 1 }}">{{ ++$k }}</td>
-					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->tanggal }}</td>
+					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->dikirim }}</td>
 					<td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->nomer }}</td>
 				</tr>
 				@foreach($t->detil as $d)
