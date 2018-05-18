@@ -11,7 +11,7 @@ class BarangController extends Controller
 {
     public function index()
     {
-        $barang = Barang::all();
+        $barang = Barang::select('id', 'nama')->get();
         return view('barang.index', compact('barang'));
     }
 

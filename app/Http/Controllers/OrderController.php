@@ -19,7 +19,10 @@ class OrderController extends Controller
     public function index()
     {
         $pelanggan = Pelanggan::pluck('nama', 'id')->all();
-        $order = Order::with('detil', 'pelanggan')->get();
+        $order = Order::select('id', 'nomer', 'tanggal', 'dikirim', 'id_pelanggan', 'jumlah_tunai', 'jumlah_cicil')
+          ->with(['detil', 'pelanggan' => function($query) {
+            $query->select('id', 'nama');
+          }])->get();
         return view('order.index', compact('order', 'pelanggan'));
     }
 

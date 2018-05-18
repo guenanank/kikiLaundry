@@ -19,7 +19,7 @@ class KaryawanController extends Controller
 
     public function index()
     {
-        $karyawan = Karyawan::all();
+        $karyawan = Karyawan::select('id', 'nama', 'kontak', 'bagian', 'mulai_kerja')->get();
         return view('karyawan.index', compact('karyawan'));
     }
 

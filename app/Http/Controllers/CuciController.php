@@ -13,7 +13,7 @@ class CuciController extends Controller
 {
     public function index()
     {
-        $cuci = Cuci::all();
+        $cuci = Cuci::select('id', 'nama')->get();
         return view('cuci.index', compact('cuci'));
     }
 
