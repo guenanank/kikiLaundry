@@ -68,6 +68,7 @@
 							<tr>
 								<td>{{ $v }}</td>
 								<td>
+
 									<div class="checkbox">
 										<label>
                             <input type="checkbox" name="karyawan[]" value="{{ $k }}" {{ in_array($k, $absensi->pluck('id_karyawan')->all()) ? 'checked="true"' : null }} />

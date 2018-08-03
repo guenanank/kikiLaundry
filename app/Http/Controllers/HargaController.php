@@ -13,14 +13,19 @@ class HargaController extends Controller
 {
     public function index($id_pelanggan)
     {
-        $pelanggan = Pelanggan::findOrFail($id_pelanggan);
-        $harga = Harga::with('barang', 'cuci')->where('id_pelanggan', $id_pelanggan)->get();
+        $pelanggan = Pelanggan::select('id', 'nama')->findOrFail($id_pelanggan);
+        $harga = Harga::select('id_pelanggan', 'id_barang', 'id_cuci', 'tunai', 'cicil')
+          ->with(['barang' => function($query) {
+            $query->select('id', 'nama');
+          }, 'cuci' => function($query) {
+            $query->select('id', 'nama');
+          }])->where('id_pelanggan', $id_pelanggan)->get();
         return view('pelanggan.harga.index', compact('pelanggan', 'harga'));
     }
 
     public function create($id_pelanggan)
     {
-        $pelanggan = Pelanggan::findOrFail($id_pelanggan);
+        $pelanggan = Pelanggan::select('id', 'nama')->findOrFail($id_pelanggan);
         $barang = Barang::pluck('nama', 'id');
         $cuci = Cuci::pluck('nama', 'id');
         return view('pelanggan.harga.create', compact('pelanggan', 'barang', 'cuci'));
@@ -33,7 +38,6 @@ class HargaController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // dd($request->all());
         $create = Harga::create($request->all());
         return response()->json(['create' => $create], 200);
     }
@@ -46,7 +50,7 @@ class HargaController extends Controller
                 ['id_cuci', '=', $id_cuci]
             ])->firstOrFail();
 
-        $pelanggan = Pelanggan::findOrFail($id_pelanggan);
+        $pelanggan = Pelanggan::select('id', 'nama')->findOrFail($id_pelanggan);
         $barang = Barang::pluck('nama', 'id');
         $cuci = Cuci::pluck('nama', 'id');
         return view('pelanggan.harga.edit', compact('harga', 'pelanggan', 'barang', 'cuci'));

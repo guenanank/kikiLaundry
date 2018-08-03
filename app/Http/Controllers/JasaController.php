@@ -31,7 +31,7 @@ class JasaController extends Controller
 
     public function index()
     {
-        $jasa = Jasa::all();
+        $jasa = Jasa::select('id', 'nama')->get();
         return view('cuci.jasa.index', compact('jasa'));
     }
 

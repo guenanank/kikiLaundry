@@ -46,6 +46,20 @@ class CetakController extends Controller
         return $pdf->stream('kontra_bon_' . snake_case($pelanggan->nama) . '.pdf');
     }
 
+    public function omzet(Request $request)
+    {
+        $awal = $request->awal;
+        $akhir = $request->akhir;
+        $omzet = Order::with('pelanggan', 'detil.barang', 'detil.cuci')
+            ->where('dicetak', true)->whereNull('pembayaran')
+            ->whereBetween('dikirim', [$awal, $akhir])
+            ->orderBy('tanggal', 'asc')->get();
+
+
+        $pdf = PDF::loadView('cetak.omzet', compact('omzet', 'awal', 'akhir'));
+        return $pdf->stream('omzet-' . $awal . '-' . $akhir . '.pdf');
+    }
+
     public function po(Request $request)
     {
         $validator = Validator::make($request->all(), [

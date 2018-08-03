@@ -12,9 +12,12 @@
 			</div>
 			<div class="col-sm-6">
 				<div class="pull-right">
-					<a href="#" class="btn btn-icon bgm-pink" data-toggle="modal" data-target="#tagihan" data-placement="top" title="Tagihan">
-	            <i class="add-new-item zmdi zmdi-money"></i>
-		        </a> &nbsp;
+					<a href="#" class="btn btn-icon bgm-pink" data-toggle="modal" data-target="#omzet" data-placement="top" title="Omzet">
+						<i class="add-new-item zmdi zmdi-money"></i>
+					</a> &nbsp;
+					<a href="#" class="btn btn-icon bgm-purple" data-toggle="modal" data-target="#tagihan" data-placement="top" title="Tagihan">
+	            <i class="add-new-item zmdi zmdi-card-membership"></i>
+	        </a> &nbsp;
 					<a href="{{ action('OrderController@create') }}" class="btn btn-icon pull-right bgm-green" data-toggle="tooltip" data-placement="bottom" title="Tambah Order Baru">
 	            <i class="add-new-item zmdi zmdi-plus"></i>
 		        </a>
@@ -148,6 +151,53 @@
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="omzet" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			{{ Form::open(['route' => 'cetak.omzet', 'target' => '_blank']) }}
+			<div class="modal-header">
+				<h4 class="modal-title">Omzet Order</h4>
+			</div>
+			<div class="modal-body">
+				<br />
+
+				<div class="row">
+					<div class="col-sm-offset-1 col-sm-10">
+						<div class="form-group fg-float">
+							<div class="fg-line">
+								{{ Form::text('awal', null, ['class' => 'form-control fg-input date-picker']) }} {{ Form::label('awal', 'Tanggal awal', ['class' => 'fg-label']) }}
+							</div>
+							<small id="tanggal" class="help-block"></small>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-offset-1 col-sm-10">
+						<div class="form-group fg-float">
+							<div class="fg-line">
+								{{ Form::text('akhir', null, ['class' => 'form-control fg-input date-picker']) }} {{ Form::label('akhir', 'Tanggal akhir', ['class' => 'fg-label']) }}
+							</div>
+							<small id="tanggal" class="help-block"></small>
+						</div>
+					</div>
+				</div>
+
+				<br />
+			</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary"><i class="zmdi zmdi-print"></i>&nbsp;Cetak</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+          	<i class="zmdi zmdi-close"></i>&nbsp;Tutup
+				</button>
+				</button>
+			</div>
+			{{ Form::close() }}
+		</div>
+	</div>
+</div>
+
 @endsection
 @push('scripts')
 	{{ Html::script('js/jquery.dataTables.min.js') }}

@@ -52,6 +52,7 @@ Route::group(['prefix' => 'cetak'], function () {
     Route::get('pemasukan/{id}', ['uses' => 'CetakController@pemasukan', 'as' => 'cetak.pemasukan']);
     Route::match(['PUT', 'PATCH'], 'po', ['uses' => 'CetakController@po', 'as' => 'cetak.po']);
     Route::post('tagihan', ['uses' => 'CetakController@tagihan', 'as' => 'cetak.tagihan']);
+    Route::post('omzet', ['uses' => 'CetakController@omzet', 'as' => 'cetak.omzet']);
 });
 
 Route::group(['prefix' => 'gaji'], function () {
