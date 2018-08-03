@@ -3,7 +3,7 @@
 @section('name', 'Omzet Order')
 
 @section('content')
-	<table border="1" style="font-size: small; width: 100%; height: 0; border-collapse: collapse;">
+	<table border="1">
     <tr class="text-center">
 			<th>No</th>
 			<th>Tanggal</th>
@@ -11,28 +11,34 @@
 			<th>Barang</th>
 			<th>Cuci/Jasa</th>
 			<th>Jumlah</th>
-			<th>Harga</th>
-			<th>Subtotal</th>
+			<th>Cicil</th>
+			<th>Tunai</th>
 		</tr>
     @if($omzet->isEmpty())
 			<tr><td colspan="8" class="text-center">data kosong</td></tr>
 		@else
       @foreach($omzet as $k => $t)
-        <tr class="text-center" style="height: 0; border-spacing: 0; border-collapse: 0;">
+        <tr class="text-center">
           <td rowspan="{{ $t->detil->count() + 1 }}">{{ ++$k }}</td>
           <td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->dikirim }}</td>
           <td rowspan="{{ $t->detil->count() + 1 }}">{{ $t->nomer }}</td>
         </tr>
         @foreach($t->detil as $d)
-          <tr style="height: 1; border-spacing: 1; border-collapse: 1;">
+          <tr>
             <td class="text-center">{{ $d->barang->nama }}</td>
             <td class="text-center">{{ $d->cuci->nama }}</td>
-            <td class="text-center">{{ $d->banyaknya }}</td>
-            <td class="text-right">{{ number_format($d->{$bayar}) }}</td>
-            <td class="text-right">{{ number_format($d->{$bayar} * $d->banyaknya) }}</td>
+            <td class="text-center">{{ number_format($d->banyaknya) }}</td>
+						<td class="text-right">{{ number_format($d->harga_cicil * $d->banyaknya) }}</td>
+            <td class="text-right">{{ number_format($d->harga_tunai * $d->banyaknya) }}</td>
           </tr>
         @endforeach
       @endforeach
+			<tr>
+				<th class="text-center" colspan="5">Total</th>
+				<th class="text-center">{{ number_format($omzet->pluck('detil')->flatten()->sum('banyaknya')) }}</th>
+				<th class="text-right">{{ number_format($omzet->sum('jumlah_tunai')) }}</th>
+				<th class="text-right">{{ number_format($omzet->sum('jumlah_cicil')) }}</th>
+			</tr>
     @endif
   </table>
 @endsection

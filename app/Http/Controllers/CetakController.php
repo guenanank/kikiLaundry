@@ -48,16 +48,14 @@ class CetakController extends Controller
 
     public function omzet(Request $request)
     {
-        $awal = $request->awal;
-        $akhir = $request->akhir;
         $omzet = Order::with('pelanggan', 'detil.barang', 'detil.cuci')
             ->where('dicetak', true)->whereNull('pembayaran')
-            ->whereBetween('dikirim', [$awal, $akhir])
-            ->orderBy('tanggal', 'asc')->get();
+            ->whereBetween('dikirim', [$request->awal, $request->akhir])
+            ->orderBy('dikirim', 'asc')->get();
 
-
+        return view('cetak.omzet', compact('omzet', 'awal', 'akhir'));
         $pdf = PDF::loadView('cetak.omzet', compact('omzet', 'awal', 'akhir'));
-        return $pdf->stream('omzet-' . $awal . '-' . $akhir . '.pdf');
+        return $pdf->stream('omzet-' . $request->awal . '-' . $request->akhir . '.pdf');
     }
 
     public function po(Request $request)
